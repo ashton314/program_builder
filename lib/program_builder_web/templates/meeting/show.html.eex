@@ -47,6 +47,16 @@
     <%= @meeting.closing_hymn %>
   </li>
 
+  <li>
+    <strong>Topic:</strong>
+    <%= @meeting.topic %>
+  </li>
+
+  <li>
+    <strong>Events:</strong>
+    <%= @meeting.events %>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting) %></span>

@@ -20,6 +20,7 @@ defmodule ProgramBuilderWeb.Router do
 
     resources "/meetings", MeetingController
     resources "/announcements", AnnouncementController
+    resources "/members", MemberController
   end
 
   # Other scopes may use custom stacks.

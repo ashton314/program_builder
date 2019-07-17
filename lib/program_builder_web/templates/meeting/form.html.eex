@@ -41,6 +41,14 @@
   <%= number_input f, :closing_hymn %>
   <%= error_tag f, :closing_hymn %>
 
+  <%= label f, :topic %>
+  <%= text_input f, :topic %>
+  <%= error_tag f, :topic %>
+
+  <%= label f, :events %>
+  <%= multiple_select f, :events, ["1": 1, "2": 2] %>
+  <%= error_tag f, :events %>
+
   <div>
     <%= submit "Save" %>
   </div>

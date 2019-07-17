@@ -1,0 +1,23 @@
+<h1>Show Member</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @member.name %>
+  </li>
+
+  <li>
+    <strong>Moved in:</strong>
+    <%= @member.moved_in %>
+  </li>
+
+  <li>
+    <strong>Moved out:</strong>
+    <%= @member.moved_out %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.member_path(@conn, :edit, @member) %></span>
+<span><%= link "Back", to: Routes.member_path(@conn, :index) %></span>
