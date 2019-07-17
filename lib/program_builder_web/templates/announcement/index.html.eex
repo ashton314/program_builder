@@ -1,0 +1,28 @@
+<h1>Listing Announcements</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Show until</th>
+      <th>Body</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for announcement <- @announcements do %>
+    <tr>
+      <td><%= announcement.show_until %></td>
+      <td><%= announcement.body %></td>
+
+      <td>
+        <%= link "Show", to: Routes.announcement_path(@conn, :show, announcement) %>
+        <%= link "Edit", to: Routes.announcement_path(@conn, :edit, announcement) %>
+        <%= link "Delete", to: Routes.announcement_path(@conn, :delete, announcement), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Announcement", to: Routes.announcement_path(@conn, :new) %></span>

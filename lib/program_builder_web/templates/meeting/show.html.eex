@@ -1,0 +1,53 @@
+<h1>Show Meeting</h1>
+
+<ul>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @meeting.date %>
+  </li>
+
+  <li>
+    <strong>Presiding:</strong>
+    <%= @meeting.presiding %>
+  </li>
+
+  <li>
+    <strong>Conducting:</strong>
+    <%= @meeting.conducting %>
+  </li>
+
+  <li>
+    <strong>Visiting:</strong>
+    <%= @meeting.visiting %>
+  </li>
+
+  <li>
+    <strong>Accompanist:</strong>
+    <%= @meeting.accompanist %>
+  </li>
+
+  <li>
+    <strong>Chorester:</strong>
+    <%= @meeting.chorester %>
+  </li>
+
+  <li>
+    <strong>Opening hymn:</strong>
+    <%= @meeting.opening_hymn %>
+  </li>
+
+  <li>
+    <strong>Sacrament hymn:</strong>
+    <%= @meeting.sacrament_hymn %>
+  </li>
+
+  <li>
+    <strong>Closing hymn:</strong>
+    <%= @meeting.closing_hymn %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting) %></span>
+<span><%= link "Back", to: Routes.meeting_path(@conn, :index) %></span>

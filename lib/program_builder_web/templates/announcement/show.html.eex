@@ -1,0 +1,18 @@
+<h1>Show Announcement</h1>
+
+<ul>
+
+  <li>
+    <strong>Show until:</strong>
+    <%= @announcement.show_until %>
+  </li>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @announcement.body %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.announcement_path(@conn, :edit, @announcement) %></span>
+<span><%= link "Back", to: Routes.announcement_path(@conn, :index) %></span>

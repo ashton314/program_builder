@@ -1,0 +1,47 @@
+defmodule ProgramBuilder.Program.Meeting do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  schema "meetings" do
+    field :accompanist, :string
+    field :chorester, :string
+    field :closing_hymn, :integer
+    field :conducting, :string
+    field :date, :date
+    field :opening_hymn, :integer
+    field :presiding, :string
+    field :sacrament_hymn, :integer
+    field :visiting, :string
+    field :invocation, :id
+    field :benediction, :id
+
+    timestamps()
+  end
+
+  @doc false
+  def changeset(meeting, attrs) do
+    meeting
+    |> cast(attrs, [
+      :date,
+      :presiding,
+      :conducting,
+      :visiting,
+      :accompanist,
+      :chorester,
+      :opening_hymn,
+      :sacrament_hymn,
+      :closing_hymn
+    ])
+    |> validate_required([
+      :date,
+      :presiding,
+      :conducting,
+      :visiting,
+      :accompanist,
+      :chorester,
+      :opening_hymn,
+      :sacrament_hymn,
+      :closing_hymn
+    ])
+  end
+end
