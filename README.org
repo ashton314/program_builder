@@ -1,0 +1,21 @@
+* Program Builder
+
+** Getting Started
+
+To start a dev database, run =mix docker.db start=.
+
+** Outstanding Tasks
+
+*** TODO Add new models [0/2]
+
+ - [ ] Create a =members= model
+ - [ ] Add an =event= model, along with sub-models like =music=, =talk=, =generic=, and =note=
+
+*** TODO Modify =meeting= model [0/1]
+
+ - [ ] Add an =events= attribute: an array of =Event= id's
+   Consider just blowing it all away/trying to overwrite. Original command was:
+
+       mix phx.gen.html Program Meeting meetings date:date presiding:string conducting:string visiting:string invocation:references:members benediction:references:members accompanist:string chorester:string opening_hymn:integer sacrament_hymn:integer closing_hymn:integer
+
+ - [ ] Add a =topic= attribute
