@@ -6,12 +6,12 @@ To start a dev database, run =mix docker.db start=.
 
 ** Outstanding Tasks
 
-*** TODO Add new models [0/2]
+*** TODO Add new models [2/2]
 
- - [ ] Create a =members= model
- - [ ] Add an =event= model, along with sub-models like =music=, =talk=, =generic=, and =note=
+ - [X] Create a =members= model
+ - [X] Add an =event= model, along with sub-models like =music=, =talk=, =generic=, and =note=
 
-*** TODO Modify =meeting= model [2/2]
+*** DONE Modify =meeting= model [2/2]
 
  - [X] Add an =events= attribute: an array of =Event= id's
    Consider just blowing it all away/trying to overwrite. Original command was:
