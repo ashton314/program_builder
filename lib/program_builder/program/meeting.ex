@@ -23,7 +23,19 @@ defmodule ProgramBuilder.Program.Meeting do
   @doc false
   def changeset(meeting, attrs) do
     meeting
-    |> cast(attrs, [:date, :presiding, :conducting, :visiting, :accompanist, :chorester, :opening_hymn, :sacrament_hymn, :closing_hymn, :topic, :events])
-    |> validate_required([:date, :presiding, :conducting, :visiting, :accompanist, :chorester, :opening_hymn, :sacrament_hymn, :closing_hymn, :topic, :events])
+    |> cast(attrs, [
+      :date,
+      :presiding,
+      :conducting,
+      :visiting,
+      :accompanist,
+      :chorester,
+      :opening_hymn,
+      :sacrament_hymn,
+      :closing_hymn,
+      :topic,
+      :events
+    ])
+    |> validate_required([:date])
   end
 end

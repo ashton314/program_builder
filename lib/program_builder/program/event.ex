@@ -1,6 +1,7 @@
 defmodule ProgramBuilder.Program.Event do
   use Ecto.Schema
   import Ecto.Changeset
+  alias ProgramBuilder.Repo
 
   @subtypes ~w(music talk generic note)
 
