@@ -52,7 +52,8 @@ config :program_builder, ProgramBuilderWeb.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/program_builder_web/views/.*(ex)$},
-      ~r{lib/program_builder_web/templates/.*(eex)$}
+      ~r{lib/program_builder_web/templates/.*(eex)$},
+      ~r{lib/program_builder_web/live/.*(eex)$}
     ]
   ]
 

@@ -54,7 +54,7 @@
 
   <li>
     <strong>Events:</strong>
-    <%= @meeting.events %>
+    <%= @meeting.event_ids %>
   </li>
 
 </ul>

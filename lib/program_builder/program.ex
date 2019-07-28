@@ -40,6 +40,8 @@ defmodule ProgramBuilder.Program do
   @doc """
   Creates a meeting.
 
+  This will also create any events passed in the `events` field.
+
   ## Examples
 
       iex> create_meeting(%{field: value})
@@ -50,9 +52,16 @@ defmodule ProgramBuilder.Program do
 
   """
   def create_meeting(attrs \\ %{}) do
+    build_meeting(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Builds a meeting. Essentially like `create_meeting`, but doesn't insert into the database.
+  """
+  def build_meeting(attrs \\ %{}) do
     %Meeting{}
     |> Meeting.changeset(attrs)
-    |> Repo.insert()
   end
 
   @doc """

@@ -6,11 +6,9 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMusic do
       add :number, :integer
       add :title, :string
       add :performer, :text
-      add :"C-c", :string
-      add :"C-c", :string
+      add :note, :text
 
       timestamps()
     end
-
   end
 end

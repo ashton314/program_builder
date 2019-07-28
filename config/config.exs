@@ -12,6 +12,9 @@ config :program_builder,
 
 # Configures the endpoint
 config :program_builder, ProgramBuilderWeb.Endpoint,
+  live_view: [
+    signing_salt: "a3uwTb8IcWP1Xdbuehnr1PUVTQs0365r"
+  ],
   url: [host: "localhost"],
   secret_key_base: "sbyYSDRde5LWDLBqnfcTjjMsJUB88VMwf0MEtTp6v9wRo7CJ+ZJ6DEYr+vi7Lr5F",
   render_errors: [view: ProgramBuilderWeb.ErrorView, accepts: ~w(html json)],

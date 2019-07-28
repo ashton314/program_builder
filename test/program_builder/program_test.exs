@@ -79,7 +79,7 @@ defmodule ProgramBuilder.ProgramTest do
       closing_hymn: 42,
       conducting: "some conducting",
       date: ~D[2010-04-17],
-      events: [],
+      event_ids: [],
       opening_hymn: 42,
       presiding: "some presiding",
       sacrament_hymn: 42,
@@ -92,7 +92,7 @@ defmodule ProgramBuilder.ProgramTest do
       closing_hymn: 43,
       conducting: "some updated conducting",
       date: ~D[2011-05-18],
-      events: [],
+      event_ids: [],
       opening_hymn: 43,
       presiding: "some updated presiding",
       sacrament_hymn: 43,
@@ -105,7 +105,7 @@ defmodule ProgramBuilder.ProgramTest do
       closing_hymn: nil,
       conducting: nil,
       date: nil,
-      events: nil,
+      event_ids: nil,
       opening_hymn: nil,
       presiding: nil,
       sacrament_hymn: nil,
@@ -139,7 +139,7 @@ defmodule ProgramBuilder.ProgramTest do
       assert meeting.closing_hymn == 42
       assert meeting.conducting == "some conducting"
       assert meeting.date == ~D[2010-04-17]
-      assert meeting.events == []
+      assert meeting.event_ids == []
       assert meeting.opening_hymn == 42
       assert meeting.presiding == "some presiding"
       assert meeting.sacrament_hymn == 42
@@ -159,7 +159,7 @@ defmodule ProgramBuilder.ProgramTest do
       assert meeting.closing_hymn == 43
       assert meeting.conducting == "some updated conducting"
       assert meeting.date == ~D[2011-05-18]
-      assert meeting.events == []
+      assert meeting.event_ids == []
       assert meeting.opening_hymn == 43
       assert meeting.presiding == "some updated presiding"
       assert meeting.sacrament_hymn == 43
@@ -185,7 +185,7 @@ defmodule ProgramBuilder.ProgramTest do
     end
   end
 
-  describe "events" do
+  describe "event_ids" do
     alias ProgramBuilder.Program.Event
 
     @valid_attrs %{foreign_key: 42, type: "some type"}

@@ -5,6 +5,7 @@ defmodule ProgramBuilderWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
+    plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -17,6 +18,8 @@ defmodule ProgramBuilderWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    live "/new-meeting", MeetingEditorLive
 
     resources "/meetings", MeetingController
     resources "/announcements", AnnouncementController

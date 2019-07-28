@@ -13,7 +13,7 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMeetings do
       add :sacrament_hymn, :integer
       add :closing_hymn, :integer
       add :topic, :string
-      add :events, {:array, :integer}
+      add :event_ids, {:array, :integer}
       add :invocation, references(:members, on_delete: :nothing)
       add :benediction, references(:members, on_delete: :nothing)
 

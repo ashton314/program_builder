@@ -6,7 +6,7 @@ To start a dev database, run =mix docker.db start=.
 
 ** Outstanding Tasks
 
-*** TODO Add new models [2/2]
+*** DONE Add new models [2/2]
 
  - [X] Create a =members= model
  - [X] Add an =event= model, along with sub-models like =music=, =talk=, =generic=, and =note=
@@ -23,3 +23,5 @@ To start a dev database, run =mix docker.db start=.
        mix phx.gen.html Program Meeting meetings date:date presiding:string conducting:string visiting:string invocation:references:members benediction:references:members accompanist:string chorester:string opening_hymn:integer sacrament_hymn:integer closing_hymn:integer topic:string events:array:integer
 
  - [X] Add a =topic= attribute
+*** TODO Consider baby blessings
+I think I might have to rip out the :sacrament_hymn bit of the meeting and push that into the events. It'll have to be a default.

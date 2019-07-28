@@ -1,6 +1,8 @@
 defmodule ProgramBuilderWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :program_builder
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", ProgramBuilderWeb.UserSocket,
     websocket: true,
     longpoll: false

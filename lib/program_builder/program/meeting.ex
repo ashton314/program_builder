@@ -8,7 +8,7 @@ defmodule ProgramBuilder.Program.Meeting do
     field :closing_hymn, :integer
     field :conducting, :string
     field :date, :date
-    field :events, {:array, :integer}
+    field :event_ids, {:array, :integer}
     field :opening_hymn, :integer
     field :presiding, :string
     field :sacrament_hymn, :integer
@@ -34,7 +34,7 @@ defmodule ProgramBuilder.Program.Meeting do
       :sacrament_hymn,
       :closing_hymn,
       :topic,
-      :events
+      :event_ids
     ])
     |> validate_required([:date])
   end

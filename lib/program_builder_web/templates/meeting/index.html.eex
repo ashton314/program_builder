@@ -31,7 +31,7 @@
       <td><%= meeting.sacrament_hymn %></td>
       <td><%= meeting.closing_hymn %></td>
       <td><%= meeting.topic %></td>
-      <td><%= meeting.events %></td>
+      <td><%= meeting.event_ids %></td>
 
       <td>
         <%= link "Show", to: Routes.meeting_path(@conn, :show, meeting) %>

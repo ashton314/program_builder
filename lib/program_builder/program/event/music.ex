@@ -3,7 +3,7 @@ defmodule ProgramBuilder.Program.Event.Music do
   import Ecto.Changeset
 
   schema "music" do
-    field :"C-c", :string
+    field :note, :string
     field :number, :integer
     field :performer, :string
     field :title, :string
@@ -14,7 +14,7 @@ defmodule ProgramBuilder.Program.Event.Music do
   @doc false
   def changeset(music, attrs) do
     music
-    |> cast(attrs, [:number, :title, :performer, :"C-c", :"C-c"])
-    |> validate_required([:number, :title, :performer, :"C-c", :"C-c"])
+    |> cast(attrs, [:number, :title, :performer, :note])
+    |> validate_required([:number, :title, :performer, :note])
   end
 end

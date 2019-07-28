@@ -6,9 +6,19 @@ defmodule ProgramBuilder.Program.EventTest do
   describe "music" do
     alias ProgramBuilder.Program.Event.Music
 
-    @valid_attrs %{"C-c": "some C-c", number: 42, performer: "some performer", title: "some title"}
-    @update_attrs %{"C-c": "some updated C-c", number: 43, performer: "some updated performer", title: "some updated title"}
-    @invalid_attrs %{"C-c": nil, number: nil, performer: nil, title: nil}
+    @valid_attrs %{
+      note: "some note",
+      number: 42,
+      performer: "some performer",
+      title: "some title"
+    }
+    @update_attrs %{
+      note: "some updated note",
+      number: 43,
+      performer: "some updated performer",
+      title: "some updated title"
+    }
+    @invalid_attrs %{note: nil, number: nil, performer: nil, title: nil}
 
     def music_fixture(attrs \\ %{}) do
       {:ok, music} =
@@ -31,7 +41,7 @@ defmodule ProgramBuilder.Program.EventTest do
 
     test "create_music/1 with valid data creates a music" do
       assert {:ok, %Music{} = music} = Event.create_music(@valid_attrs)
-      assert music.C-c == "some C-c"
+      assert music.note == "some note"
       assert music.number == 42
       assert music.performer == "some performer"
       assert music.title == "some title"
@@ -44,7 +54,7 @@ defmodule ProgramBuilder.Program.EventTest do
     test "update_music/2 with valid data updates the music" do
       music = music_fixture()
       assert {:ok, %Music{} = music} = Event.update_music(music, @update_attrs)
-      assert music.C-c == "some updated C-c"
+      assert music.note == "some updated note"
       assert music.number == 43
       assert music.performer == "some updated performer"
       assert music.title == "some updated title"

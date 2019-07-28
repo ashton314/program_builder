@@ -8,6 +8,5 @@ defmodule ProgramBuilder.Repo.Migrations.CreateEvents do
 
       timestamps()
     end
-
   end
 end
