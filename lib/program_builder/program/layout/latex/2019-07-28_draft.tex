@@ -1,0 +1,83 @@
+\documentclass[11pt,letterpaper]{article}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1em}
+\pagenumbering{gobble}
+
+\usepackage{fullpage,tabularx,graphicx,type1cm,hyperref,ulem}
+\usepackage[inner=2cm,outer=2cm,top=1.7cm,bottom=1.7cm]{geometry}
+
+%% \usepackage{fontspec}
+%% \setmainfont{Hoefler Text}
+
+%% Used for making the \uline command work
+\makeatletter
+\def\UL@putbox{\ifx\UL@start\@empty \else % not inner
+  \vrule\@width\z@ \LA@penalty\@M
+  {\UL@skip\wd\UL@box \UL@leaders \kern-\UL@skip}%
+    \phantom{\box\UL@box}%
+  \fi}
+\makeatother
+
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE \textsc{Sacrament Meeting}}\\[0.2em]
+  {\large Provo Student Married 11\textsuperscript{th} Ward}\\[0.3em]
+  {\large The Church of Jesus Christ of Latter-day Saints}\\
+  {28 July 2019}
+\end{center}
+
+Presiding{\dotfill}Bishop Janic\\
+Conducting{\dotfill}Ashton Wiersdorf\\
+Visiting{\dotfill}\uline{Brother Generic Lastname}
+
+Chorister{\dotfill}Raetchel Hanselmann \\
+Organist{\dotfill}Devin Crookshank
+
+\begin{center}
+  {\Large Announcements}
+\end{center}
+
+\begin{itemize}
+\item If you are new, please meet with a member of the bishopric in the foyer after the meeting
+\item Starting in August (next week) we will begin Sacrament Meeting at 10am
+\end{itemize}
+
+\begin{center}
+  {\Large Program}
+\end{center}
+Topic: {\it Be Perfectly Joined Together}
+
+Opening Hymn{\dotfill}117 \textit{Come Unto Jesus} \\
+Invocation{\dotfill}Allison Crookshank (PENDING)
+
+\begin{center}
+  {\Large Business}
+\end{center}
+Sustainings:
+\begin{description}
+\item[Communications Specialist] Jeana Brimley
+\end{description}
+
+Stake Business (~Y~/~N~) \uline{Brother Generic Lastname}
+
+Sacrament Hymn{\dotfill}187 \textit{God Loved Us, So He Sent His Son}
+
+\begin{center}
+  \textsc{Administration of the Sacrament}
+\end{center}
+
+Speaker{\dotfill}Brenner Birth \\
+Speaker{\dotfill}Sister Broderick \\
+
+Musical Number{\dotfill}\textit{Come Thou Fount}{\dotfill}Choir \\
+
+Speaker{\dotfill}Brother Broderick \\
+
+Closing Hymn{\dotfill}301 \textit{I am a Child of God} \\
+Benediction{\dotfill}Ryan Scott
+
+\end{document}

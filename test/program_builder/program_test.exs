@@ -188,9 +188,9 @@ defmodule ProgramBuilder.ProgramTest do
   describe "event_ids" do
     alias ProgramBuilder.Program.Event
 
-    @valid_attrs %{foreign_key: 42, type: "some type"}
-    @update_attrs %{foreign_key: 43, type: "some updated type"}
-    @invalid_attrs %{foreign_key: nil, type: nil}
+    @valid_attrs %{foreign_key: 42, type: "music"}
+    @update_attrs %{foreign_key: 43, type: "generic"}
+    @invalid_attrs %{foreign_key: nil, type: "not-a-valid-type"}
 
     def event_fixture(attrs \\ %{}) do
       {:ok, event} =
@@ -214,7 +214,7 @@ defmodule ProgramBuilder.ProgramTest do
     test "create_event/1 with valid data creates a event" do
       assert {:ok, %Event{} = event} = Program.create_event(@valid_attrs)
       assert event.foreign_key == 42
-      assert event.type == "some type"
+      assert event.type == "music"
     end
 
     test "create_event/1 with invalid data returns error changeset" do
@@ -225,7 +225,7 @@ defmodule ProgramBuilder.ProgramTest do
       event = event_fixture()
       assert {:ok, %Event{} = event} = Program.update_event(event, @update_attrs)
       assert event.foreign_key == 43
-      assert event.type == "some updated type"
+      assert event.type == "generic"
     end
 
     test "update_event/2 with invalid data returns error changeset" do
