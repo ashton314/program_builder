@@ -40,6 +40,23 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
           </div>
         <% end %>
 
+        <%= if input_value(f, :type) == "generic" do %>
+          <div class="col">
+            <%= text_input f, :title, placeholder: "Title" %>
+          </div>
+          <div class="col">
+            <%= text_input f, :subtitle, placeholder: "Subtitle" %>
+          </div>
+        <% end %>
+
+        <%= if input_value(f, :type) == "note" do %>
+          <div class="col">
+            <%= text_input f, :title, placeholder: "Title" %>
+          </div>
+          <div class="col">
+            <%= text_input f, :body, placeholder: "Body" %>
+          </div>
+        <% end %>
 
         <div class="col">
           <button class="btn btn-danger" phx-click="del_event" phx-value="<%= event_cs.data.id %>">Remove</button>
