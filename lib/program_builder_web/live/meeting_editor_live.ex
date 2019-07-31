@@ -27,12 +27,9 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
     {:noreply, assign(socket, changeset: changeset)}
   end
 
-  def handle_event("add_event", _params, socket) do
-    new_event = %{type: "talk", speaker: "So-and-so"}
-
-    socket =
-      socket
-      |> update(:events, fn events -> [new_event | events] end)
+  def handle_event("save", params, socket) do
+    IO.inspect(params, label: :params)
+    IO.inspect(socket, label: :socket)
 
     {:noreply, socket}
   end

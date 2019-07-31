@@ -67,7 +67,9 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
     """
   end
 
-  def mount(_params, socket) do
+  def mount(params, socket) do
+    IO.inspect(params, label: :params_sub_view)
+
     socket =
       socket
       |> assign(:events, [])
