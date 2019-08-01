@@ -13,6 +13,6 @@ defmodule ProgramBuilder.Program.Event.Generic do
   def changeset(generic, attrs) do
     generic
     |> cast(attrs, [:title, :subtitle])
-    |> validate_required([:title, :subtitle])
+    |> validate_required([:title])
   end
 end

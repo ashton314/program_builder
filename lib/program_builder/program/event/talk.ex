@@ -14,6 +14,5 @@ defmodule ProgramBuilder.Program.Event.Talk do
   def changeset(talk, attrs) do
     talk
     |> cast(attrs, [:visitor, :subtopic])
-    |> validate_required([:visitor, :subtopic])
   end
 end

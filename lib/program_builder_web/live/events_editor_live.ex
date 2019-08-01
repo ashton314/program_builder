@@ -8,7 +8,7 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
 
   def render(assigns) do
     ~L"""
-    <h4>Meeting Events</h4>
+    <h3>Meeting Events</h3>
     <%= for event_cs <- @events do %>
       <%= f = form_for event_cs, "#", [phx_change: :validate, class: "row", as: "event#{event_cs.data.id}"] %>
 
@@ -67,12 +67,11 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
     """
   end
 
-  def mount(params, socket) do
-    IO.inspect(params, label: :params_sub_view)
-
+  def mount(%{parent: parent_pid}, socket) do
     socket =
       socket
       |> assign(:events, [])
+      |> assign(:parent_pid, parent_pid)
 
     {:ok, socket}
   end
@@ -103,8 +102,14 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
       |> Enum.find(fn i -> Regex.match?(~r/^event(?:\d*)$/, i) end)
 
     event = params["event" <> event_id]
+    socket = update_event(socket, event)
 
-    {:noreply, update_event(socket, event)}
+    send(
+      socket.assigns.parent_pid,
+      {:update_events, self(), Enum.map(socket.assigns.events, &apply_changes/1)}
+    )
+
+    {:noreply, socket}
   end
 
   def update_event(socket, %{"id" => id} = event) do

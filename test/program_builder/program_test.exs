@@ -185,6 +185,29 @@ defmodule ProgramBuilder.ProgramTest do
     end
   end
 
+  describe "event helpers" do
+    alias ProgramBuilder.Program
+    alias ProgramBuilder.Program.Event
+
+    test "create_subtype" do
+      {event, subtype} =
+        Event.create_subtype(%{type: "music", title: "some title", performer: "foo"})
+
+      from_repo = Program.get_event!(event.id)
+      subtype_id = subtype.id
+
+      assert event == from_repo
+      assert %{type: "music", foreign_key: ^subtype_id} = event
+    end
+
+    test "create events from generic" do
+      spec = [%{type: :music, title: "foo"}, %{type: :talk, subtopic: "baz"}]
+      created = Program.create_events_from_generic(spec)
+
+      assert length(created) == 2
+    end
+  end
+
   describe "event_ids" do
     alias ProgramBuilder.Program.Event
 

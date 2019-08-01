@@ -223,6 +223,19 @@ defmodule ProgramBuilder.Program do
   end
 
   @doc """
+  Given a struct with a `type` attribute and keys for all events,
+  stores an event of that type and creates a corresponding event type
+  to point to the subtype just created.
+  """
+  @spec create_events_from_generic([%{type: String.t()}]) :: [integer()]
+  def create_events_from_generic([]), do: []
+
+  def create_events_from_generic([spec | rest]) do
+    {event, _subtype} = Event.create_subtype(spec)
+    [event.id | create_events_from_generic(rest)]
+  end
+
+  @doc """
   Gets a single event.
 
   Raises `Ecto.NoResultsError` if the Event does not exist.
@@ -237,6 +250,17 @@ defmodule ProgramBuilder.Program do
 
   """
   def get_event!(id), do: Repo.get!(Event, id)
+
+  def get_subtype_from_event!(event_id) do
+    event = Repo.get!(Event, event_id)
+
+    case event.type do
+      "generic" -> Event.get_generic!(event.foreign_key)
+      "note" -> Event.get_note!(event.foreign_key)
+      "talk" -> Event.get_talk!(event.foreign_key)
+      "music" -> Event.get_music!(event.foreign_key)
+    end
+  end
 
   @doc """
   Creates a event.

@@ -13,6 +13,6 @@ defmodule ProgramBuilder.Program.Event.Note do
   def changeset(note, attrs) do
     note
     |> cast(attrs, [:title, :body])
-    |> validate_required([:title, :body])
+    |> validate_required([:title])
   end
 end

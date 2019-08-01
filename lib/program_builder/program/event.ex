@@ -20,6 +20,31 @@ defmodule ProgramBuilder.Program.Event do
     |> validate_inclusion(:type, @subtypes)
   end
 
+  @doc """
+  Creates an event subtype by switching on the type attribute (should
+  be a string). Returns the subtype and an Event type that points to
+  it in a tuple.
+  """
+  @spec create_subtype(%{type: String.t() | atom()}) ::
+          {Event.t(), Event.Music.t() | Event.Generic.t() | Event.Talk.t() | Event.Note.t()}
+  def create_subtype(%{type: type} = spec) when type in ~w(music generic talk note),
+    do: create_subtype(%{spec | type: String.to_existing_atom(type)})
+
+  def create_subtype(%{type: type} = spec) when type in ~w(music generic talk note)a do
+    {:ok, subtype} =
+      case type do
+        :music -> create_music(Map.take(spec, [:note, :number, :performer, :title]))
+        :generic -> create_generic(Map.take(spec, [:title, :subtitle]))
+        :talk -> create_talk(Map.take(spec, [:subtopic, :visitor, :member_id]))
+        :note -> create_note(Map.take(spec, [:title, :title]))
+      end
+
+    {:ok, event} =
+      ProgramBuilder.Program.create_event(%{type: to_string(type), foreign_key: subtype.id})
+
+    {event, subtype}
+  end
+
   alias ProgramBuilder.Program.Event.Music
 
   @doc """

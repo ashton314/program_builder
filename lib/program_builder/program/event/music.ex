@@ -15,6 +15,5 @@ defmodule ProgramBuilder.Program.Event.Music do
   def changeset(music, attrs) do
     music
     |> cast(attrs, [:number, :title, :performer, :note])
-    |> validate_required([:number, :title, :performer, :note])
   end
 end

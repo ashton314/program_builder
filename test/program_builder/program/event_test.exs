@@ -18,7 +18,6 @@ defmodule ProgramBuilder.Program.EventTest do
       performer: "some updated performer",
       title: "some updated title"
     }
-    @invalid_attrs %{note: nil, number: nil, performer: nil, title: nil}
 
     def music_fixture(attrs \\ %{}) do
       {:ok, music} =
@@ -47,10 +46,6 @@ defmodule ProgramBuilder.Program.EventTest do
       assert music.title == "some title"
     end
 
-    test "create_music/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Event.create_music(@invalid_attrs)
-    end
-
     test "update_music/2 with valid data updates the music" do
       music = music_fixture()
       assert {:ok, %Music{} = music} = Event.update_music(music, @update_attrs)
@@ -58,12 +53,6 @@ defmodule ProgramBuilder.Program.EventTest do
       assert music.number == 43
       assert music.performer == "some updated performer"
       assert music.title == "some updated title"
-    end
-
-    test "update_music/2 with invalid data returns error changeset" do
-      music = music_fixture()
-      assert {:error, %Ecto.Changeset{}} = Event.update_music(music, @invalid_attrs)
-      assert music == Event.get_music!(music.id)
     end
 
     test "delete_music/1 deletes the music" do
@@ -83,7 +72,6 @@ defmodule ProgramBuilder.Program.EventTest do
 
     @valid_attrs %{subtopic: "some subtopic", visitor: "some visitor"}
     @update_attrs %{subtopic: "some updated subtopic", visitor: "some updated visitor"}
-    @invalid_attrs %{subtopic: nil, visitor: nil}
 
     def talk_fixture(attrs \\ %{}) do
       {:ok, talk} =
@@ -110,21 +98,11 @@ defmodule ProgramBuilder.Program.EventTest do
       assert talk.visitor == "some visitor"
     end
 
-    test "create_talk/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Event.create_talk(@invalid_attrs)
-    end
-
     test "update_talk/2 with valid data updates the talk" do
       talk = talk_fixture()
       assert {:ok, %Talk{} = talk} = Event.update_talk(talk, @update_attrs)
       assert talk.subtopic == "some updated subtopic"
       assert talk.visitor == "some updated visitor"
-    end
-
-    test "update_talk/2 with invalid data returns error changeset" do
-      talk = talk_fixture()
-      assert {:error, %Ecto.Changeset{}} = Event.update_talk(talk, @invalid_attrs)
-      assert talk == Event.get_talk!(talk.id)
     end
 
     test "delete_talk/1 deletes the talk" do
@@ -144,7 +122,6 @@ defmodule ProgramBuilder.Program.EventTest do
 
     @valid_attrs %{subtitle: "some subtitle", title: "some title"}
     @update_attrs %{subtitle: "some updated subtitle", title: "some updated title"}
-    @invalid_attrs %{subtitle: nil, title: nil}
 
     def generic_fixture(attrs \\ %{}) do
       {:ok, generic} =
@@ -171,21 +148,11 @@ defmodule ProgramBuilder.Program.EventTest do
       assert generic.title == "some title"
     end
 
-    test "create_generic/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Event.create_generic(@invalid_attrs)
-    end
-
     test "update_generic/2 with valid data updates the generic" do
       generic = generic_fixture()
       assert {:ok, %Generic{} = generic} = Event.update_generic(generic, @update_attrs)
       assert generic.subtitle == "some updated subtitle"
       assert generic.title == "some updated title"
-    end
-
-    test "update_generic/2 with invalid data returns error changeset" do
-      generic = generic_fixture()
-      assert {:error, %Ecto.Changeset{}} = Event.update_generic(generic, @invalid_attrs)
-      assert generic == Event.get_generic!(generic.id)
     end
 
     test "delete_generic/1 deletes the generic" do
@@ -205,7 +172,6 @@ defmodule ProgramBuilder.Program.EventTest do
 
     @valid_attrs %{body: "some body", title: "some title"}
     @update_attrs %{body: "some updated body", title: "some updated title"}
-    @invalid_attrs %{body: nil, title: nil}
 
     def note_fixture(attrs \\ %{}) do
       {:ok, note} =
@@ -232,21 +198,11 @@ defmodule ProgramBuilder.Program.EventTest do
       assert note.title == "some title"
     end
 
-    test "create_note/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Event.create_note(@invalid_attrs)
-    end
-
     test "update_note/2 with valid data updates the note" do
       note = note_fixture()
       assert {:ok, %Note{} = note} = Event.update_note(note, @update_attrs)
       assert note.body == "some updated body"
       assert note.title == "some updated title"
-    end
-
-    test "update_note/2 with invalid data returns error changeset" do
-      note = note_fixture()
-      assert {:error, %Ecto.Changeset{}} = Event.update_note(note, @invalid_attrs)
-      assert note == Event.get_note!(note.id)
     end
 
     test "delete_note/1 deletes the note" do

@@ -37,7 +37,7 @@
   <%= error_tag f, :sacrament_hymn %>
 
   <!-- Events editor here -->
-  <%= live_render(@socket, ProgramBuilderWeb.EventsEditorLive) %>
+  <%= live_render(@socket, ProgramBuilderWeb.EventsEditorLive, session: %{parent: self()}) %>
 
   <%= label f, :closing_hymn %>
   <%= number_input f, :closing_hymn %>
