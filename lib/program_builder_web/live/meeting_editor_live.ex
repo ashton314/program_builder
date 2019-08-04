@@ -37,7 +37,7 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
 
     case ProgramBuilder.Program.create_meeting(params) do
       {:ok, new_meeting} ->
-        {:stop,
+        {:noreply,
          socket
          |> put_flash(:info, "Meeting plan created")
          |> redirect(
@@ -51,10 +51,8 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
 
       {:error, err} ->
         Logger.debug("Error saving: #{inspect(err)}")
-        {:noreply, socket |> put_flash(:error, "There was a problem saving")}
+        {:noreply, socket |> put_flash(:error, "There was a problem saving: #{inspect(err)}")}
     end
-
-    {:noreply, socket}
   end
 
   def handle_info({:update_events, child, events}, state) do
