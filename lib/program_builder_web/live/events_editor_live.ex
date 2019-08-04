@@ -8,53 +8,53 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
 
   def render(assigns) do
     ~L"""
-    <h3>Meeting Events</h3>
+    <h4 class="mt-3">Meeting Events</h4>
     <%= for event_cs <- @events do %>
-      <%= f = form_for event_cs, "#", [phx_change: :validate, class: "row", as: "event#{event_cs.data.id}"] %>
+      <%= f = form_for event_cs, "#", [phx_change: :validate, class: "row my-3", as: "event#{event_cs.data.id}"] %>
 
         <%# This is here so that the :validate knows which changeset to update %>
         <%= hidden_input f, :id %>
 
         <div class="col">
-          <%= select f, :type, ["Talk": "talk", "Musical Number": "music", "Generic": "generic", "Note": "note"] %>
+          <%= select f, :type, ["Talk": "talk", "Musical Number": "music", "Generic": "generic", "Note": "note"], class: "form-control" %>
         </div>
 
         <%= if input_value(f, :type) == "talk" do %>
           <div class="col">
-            <%= text_input f, :subtopic, placeholder: "Subtopic" %>
+            <%= text_input f, :subtopic, placeholder: "Subtopic", class: "form-control" %>
           </div>
           <div class="col">
-            <%= text_input f, :visitor, placeholder: "Visitor Name" %>
+            <%= text_input f, :visitor, placeholder: "Visitor Name", class: "form-control" %>
           </div>
         <% end %>
 
         <%= if input_value(f, :type) == "music" do %>
           <div class="col">
-            <%= number_input f, :number, placeholder: "Hymn Number" %>
+            <%= number_input f, :number, placeholder: "Hymn Number", class: "form-control" %>
           </div>
           <div class="col">
-            <%= text_input f, :title, placeholder: "Title" %>
+            <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
           </div>
           <div class="col">
-            <%= text_input f, :performer, placeholder: "Performer" %>
+            <%= text_input f, :performer, placeholder: "Performer", class: "form-control" %>
           </div>
         <% end %>
 
         <%= if input_value(f, :type) == "generic" do %>
           <div class="col">
-            <%= text_input f, :title, placeholder: "Title" %>
+            <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
           </div>
           <div class="col">
-            <%= text_input f, :subtitle, placeholder: "Subtitle" %>
+            <%= text_input f, :subtitle, placeholder: "Subtitle", class: "form-control" %>
           </div>
         <% end %>
 
         <%= if input_value(f, :type) == "note" do %>
           <div class="col">
-            <%= text_input f, :title, placeholder: "Title" %>
+            <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
           </div>
           <div class="col">
-            <%= text_input f, :body, placeholder: "Body" %>
+            <%= text_input f, :body, placeholder: "Body", class: "form-control" %>
           </div>
         <% end %>
 
@@ -63,7 +63,7 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
         </div>
       </form>
     <% end %>
-    <button class="btn btn-success" phx-click="add_event">Add Event</button>
+    <button class="btn btn-success my-3" phx-click="add_event">Add Event</button>
     """
   end
 

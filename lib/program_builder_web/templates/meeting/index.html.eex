@@ -1,6 +1,6 @@
-<h1>Listing Meetings</h1>
+<h1>Meetings List</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Date</th>

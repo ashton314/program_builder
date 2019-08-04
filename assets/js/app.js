@@ -10,9 +10,10 @@ import css from "../css/app.css"
 // Import dependencies
 //
 import "phoenix_html"
+// import flatpickr from "flatpickr";
 
 // Import local files
-//
+
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
@@ -20,3 +21,5 @@ import LiveSocket from "phoenix_live_view"
 
 let liveSocket = new LiveSocket("/live")
 liveSocket.connect()
+
+// flatpickr(".date_input_field", {})

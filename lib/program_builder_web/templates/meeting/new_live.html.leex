@@ -1,49 +1,70 @@
 <!-- -*- mode: web -*- -->
-<%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save]  %>
-  <%= label f, :date %>
-  <%= date_select f, :date %>
-  <%= error_tag f, :date %>
+<%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save, class: "form"]  %>
+  <div class="form-group">
+      <%= label f, :date %>
+      <%= date_input f, :date, class: "form-control date_input_field" %>
+      <%#= date_select f, :date, class: "form-control" %>
+      <%= error_tag f, :date %><br/>
+  </div>
 
-  <%= label f, :presiding %>
-  <%= text_input f, :presiding %>
-  <%= error_tag f, :presiding %>
+  <div class="form-group">
+      <%= label f, :presiding %>
+      <%= text_input f, :presiding, class: "form-control" %>
+      <%= error_tag f, :presiding %>
+  </div>
 
-  <%= label f, :conducting %>
-  <%= text_input f, :conducting %>
-  <%= error_tag f, :conducting %>
+  <div class="form-group">
+      <%= label f, :conducting %>
+      <%= text_input f, :conducting, class: "form-control" %>
+      <%= error_tag f, :conducting %>
+  </div>
 
-  <%= label f, :visiting %>
-  <%= text_input f, :visiting %>
-  <%= error_tag f, :visiting %>
+  <div class="form-group">
+      <%= label f, :visiting %>
+      <%= text_input f, :visiting, class: "form-control" %>
+      <%= error_tag f, :visiting %>
+  </div>
 
-  <%= label f, :accompanist %>
-  <%= text_input f, :accompanist %>
-  <%= error_tag f, :accompanist %>
+  <div class="form-group">
+      <%= label f, :accompanist %>
+      <%= text_input f, :accompanist, class: "form-control" %>
+      <%= error_tag f, :accompanist %>
+  </div>
 
-  <%= label f, :chorester %>
-  <%= text_input f, :chorester %>
-  <%= error_tag f, :chorester %>
+  <div class="form-group">
+      <%= label f, :chorester %>
+      <%= text_input f, :chorester, class: "form-control" %>
+      <%= error_tag f, :chorester %>
+  </div>
 
-  <%= label f, :topic %>
-  <%= text_input f, :topic %>
-  <%= error_tag f, :topic %>
+  <div class="form-group">
+      <%= label f, :topic %>
+      <%= text_input f, :topic, class: "form-control" %>
+      <%= error_tag f, :topic %>
+  </div>
 
-  <%= label f, :opening_hymn %>
-  <%= number_input f, :opening_hymn %>
-  <%= error_tag f, :opening_hymn %>
+  <div class="form-group">
+      <%= label f, :opening_hymn %>
+      <%= number_input f, :opening_hymn, class: "form-control" %>
+      <%= error_tag f, :opening_hymn %>
+  </div>
 
-  <%= label f, :sacrament_hymn %>
-  <%= number_input f, :sacrament_hymn %>
-  <%= error_tag f, :sacrament_hymn %>
+  <div class="form-group">
+      <%= label f, :sacrament_hymn %>
+      <%= number_input f, :sacrament_hymn, class: "form-control" %>
+      <%= error_tag f, :sacrament_hymn %>
+  </div>
 
   <!-- Events editor here -->
   <%= live_render(@socket, ProgramBuilderWeb.EventsEditorLive, session: %{parent: self()}) %>
 
-  <%= label f, :closing_hymn %>
-  <%= number_input f, :closing_hymn %>
-  <%= error_tag f, :closing_hymn %>
+  <div class="form-group">
+      <%= label f, :closing_hymn %>
+      <%= number_input f, :closing_hymn, class: "form-control" %>
+      <%= error_tag f, :closing_hymn %>
+  </div>
 
   <div>
-    <%= submit "Save" %>
+    <%= submit "Save", class: "btn btn-primary mt-3 mb-5" %>
   </div>
 </form>
