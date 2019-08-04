@@ -1,58 +1,70 @@
 <!-- -*- mode: web -*- -->
 <%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save, class: "form"]  %>
-  <div class="form-group">
-      <%= label f, :date %>
-      <%= date_input f, :date, class: "form-control date_input_field" %>
-      <%#= date_select f, :date, class: "form-control" %>
-      <%= error_tag f, :date %><br/>
+  <div class="row">
+      <div class="form-group col">
+          <%= label f, :date %>
+          <%= date_input f, :date, class: "form-control date_input_field" %>
+          <%#= date_select f, :date, class: "form-control" %>
+          <%= error_tag f, :date %><br/>
+      </div>
+
+      <div class="form-group col">
+          <%= label f, :topic %>
+          <%= text_input f, :topic, class: "form-control" %>
+          <%= error_tag f, :topic %>
+      </div>
   </div>
 
-  <div class="form-group">
-      <%= label f, :presiding %>
-      <%= text_input f, :presiding, class: "form-control" %>
-      <%= error_tag f, :presiding %>
+  <h4 class="mt-3">Leadership</h4>
+  <div class="row">
+      <div class="form-group col">
+          <%= label f, :presiding %>
+          <%= text_input f, :presiding, class: "form-control" %>
+          <%= error_tag f, :presiding %>
+      </div>
+
+      <div class="form-group col">
+          <%= label f, :conducting %>
+          <%= text_input f, :conducting, class: "form-control" %>
+          <%= error_tag f, :conducting %>
+      </div>
+
+      <div class="form-group col">
+          <%= label f, :visiting %>
+          <%= text_input f, :visiting, class: "form-control" %>
+          <%= error_tag f, :visiting %>
+      </div>
   </div>
 
-  <div class="form-group">
-      <%= label f, :conducting %>
-      <%= text_input f, :conducting, class: "form-control" %>
-      <%= error_tag f, :conducting %>
+  <h4 class="mt-3">Music</h4>
+  <div class="row">
+      <div class="form-group col">
+          <%= label f, :accompanist %>
+          <%= text_input f, :accompanist, class: "form-control" %>
+          <%= error_tag f, :accompanist %>
+      </div>
+
+      <div class="form-group col">
+          <%= label f, :chorester %>
+          <%= text_input f, :chorester, class: "form-control" %>
+          <%= error_tag f, :chorester %>
+      </div>
   </div>
 
-  <div class="form-group">
-      <%= label f, :visiting %>
-      <%= text_input f, :visiting, class: "form-control" %>
-      <%= error_tag f, :visiting %>
-  </div>
+  <div class="row">
+      <div class="form-group col">
+          <%= label f, :opening_hymn %>
+          <%= number_input f, :opening_hymn, class: "form-control" %>
+          <%= error_tag f, :opening_hymn %>
+          <%= hymn_name(input_value(f, :opening_hymn)) %>
+      </div>
 
-  <div class="form-group">
-      <%= label f, :accompanist %>
-      <%= text_input f, :accompanist, class: "form-control" %>
-      <%= error_tag f, :accompanist %>
-  </div>
-
-  <div class="form-group">
-      <%= label f, :chorester %>
-      <%= text_input f, :chorester, class: "form-control" %>
-      <%= error_tag f, :chorester %>
-  </div>
-
-  <div class="form-group">
-      <%= label f, :topic %>
-      <%= text_input f, :topic, class: "form-control" %>
-      <%= error_tag f, :topic %>
-  </div>
-
-  <div class="form-group">
-      <%= label f, :opening_hymn %>
-      <%= number_input f, :opening_hymn, class: "form-control" %>
-      <%= error_tag f, :opening_hymn %>
-  </div>
-
-  <div class="form-group">
-      <%= label f, :sacrament_hymn %>
-      <%= number_input f, :sacrament_hymn, class: "form-control" %>
-      <%= error_tag f, :sacrament_hymn %>
+      <div class="form-group col">
+          <%= label f, :sacrament_hymn %>
+          <%= number_input f, :sacrament_hymn, class: "form-control" %>
+          <%= error_tag f, :sacrament_hymn %>
+          <%= hymn_name(input_value(f, :sacrament_hymn)) %>
+      </div>
   </div>
 
   <!-- Events editor here -->
@@ -62,6 +74,7 @@
       <%= label f, :closing_hymn %>
       <%= number_input f, :closing_hymn, class: "form-control" %>
       <%= error_tag f, :closing_hymn %>
+      <%= hymn_name(input_value(f, :closing_hymn)) %>
   </div>
 
   <div>

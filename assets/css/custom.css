@@ -28,9 +28,15 @@
         border-color: #777;
         color: #ddd;
     }
-
     input[type=text]:focus, input[type=number]:focus, input[type=date]:focus {
         background-color: #252525;
+        color: #eee;
+    }
+
+    th {
+        color: #ddd;
+    }
+    td {
         color: #eee;
     }
 }

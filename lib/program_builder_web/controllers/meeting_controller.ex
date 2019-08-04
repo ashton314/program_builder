@@ -6,7 +6,10 @@ defmodule ProgramBuilderWeb.MeetingController do
 
   def index(conn, _params) do
     meetings = Program.list_meetings()
-    render(conn, "index.html", meetings: meetings)
+
+    render(put_layout(conn, {ProgramBuilderWeb.LayoutView, "app_wide.html"}), "index.html",
+      meetings: meetings
+    )
   end
 
   def new(conn, _params) do
