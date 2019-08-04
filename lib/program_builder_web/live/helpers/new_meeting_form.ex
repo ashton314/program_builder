@@ -34,5 +34,8 @@ defmodule ProgramBuilderWeb.Helpers.NewMeetingForm do
       :topic
     ])
     |> validate_required([:date, :conducting])
+    |> validate_number(:opening_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
+    |> validate_number(:sacrament_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
+    |> validate_number(:closing_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
   end
 end
