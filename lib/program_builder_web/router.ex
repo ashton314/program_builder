@@ -22,6 +22,7 @@ defmodule ProgramBuilderWeb.Router do
     live "/new-meeting", MeetingEditorLive
 
     resources "/meetings", MeetingController
+    get "/meetings/:meeting_id/format", MeetingController, :formatter
     resources "/announcements", AnnouncementController
     resources "/members", MemberController
   end

@@ -51,7 +51,7 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
   describe "index" do
     test "lists all meetings", %{conn: conn} do
       conn = get(conn, Routes.meeting_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Meetings"
+      assert html_response(conn, 200) =~ "Meeting Listing"
     end
   end
 

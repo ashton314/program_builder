@@ -17,6 +17,14 @@ defmodule ProgramBuilder.Program.Meeting do
     field :invocation, :id
     field :benediction, :id
 
+    field :announcements, {:array, :string}
+    field :callings, {:array, :string}
+    field :releases, {:array, :string}
+    field :stake_business, :string
+    field :baby_blessings, {:array, :string}
+    field :confirmations, {:array, :string}
+    field :other_ordinances, {:array, :string}
+
     timestamps()
   end
 
@@ -34,7 +42,14 @@ defmodule ProgramBuilder.Program.Meeting do
       :sacrament_hymn,
       :closing_hymn,
       :topic,
-      :event_ids
+      :event_ids,
+      :announcements,
+      :callings,
+      :releases,
+      :stake_business,
+      :baby_blessings,
+      :confirmations,
+      :other_ordinances
     ])
     |> validate_required([:date])
   end

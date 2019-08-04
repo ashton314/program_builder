@@ -34,6 +34,11 @@ defmodule ProgramBuilderWeb.MeetingController do
     render(conn, "show.html", meeting: meeting)
   end
 
+  def formatter(conn, %{"meeting_id" => id}) do
+    meeting = Program.get_meeting!(id)
+    # FIXME: keep working here
+  end
+
   def edit(conn, %{"id" => id}) do
     meeting = Program.get_meeting!(id)
     changeset = Program.change_meeting(meeting)
