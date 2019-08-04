@@ -1,8 +1,18 @@
 * Program Builder
 
+Build meeting agendas for Sacrament meetings in the Church of Jesus Christ of Latter-day Saints.
+
+This project uses [[https://github.com/phoenixframework/phoenix_live_view][Phoenix LiveView]] which is currently still in alpha. Use at your own risk. :)
+
 ** Getting Started
 
+Download dependencies with =mix deps.get=.
+
 To start a dev database, run =mix docker.db start=.
+
+Setup database with =mix ecto.create && mix ecto.migrate=.
+
+Start up server with =mix phx.server=.
 
 ** Outstanding Tasks
 
@@ -25,3 +35,13 @@ To start a dev database, run =mix docker.db start=.
  - [X] Add a =topic= attribute
 *** TODO Consider baby blessings
 I think I might have to rip out the :sacrament_hymn bit of the meeting and push that into the events. It'll have to be a default.
+*** TODO Mount docker volume to persist database
+*** TODO Get rendering/exporting to work
+*** TODO Editing/Creating meeting should both use LiveView form
+*** TODO Make meeting view look better
+*** TODO Link talks/prayers with member list
+*** TODO Add member list management
+
+** Author
+
+Ashton Wiersdorf <ashton.wiersdorf@pobox.com>
