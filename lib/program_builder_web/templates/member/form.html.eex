@@ -5,19 +5,23 @@
     </div>
   <% end %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
+  <div class="form-group">
+      <%= label f, :name %>
+      <%= text_input f, :name, class: "form-control" %>
+      <%= error_tag f, :name %>
+  </div>
 
-  <%= label f, :moved_in %>
-  <%= date_select f, :moved_in %>
-  <%= error_tag f, :moved_in %>
+  <div class="d-none">
+      <%= label f, :moved_in %>
+      <%= date_select f, :moved_in, class: "form-control custom-select" %>
+      <%= error_tag f, :moved_in %>
 
-  <%= label f, :moved_out %>
-  <%= date_select f, :moved_out %>
-  <%= error_tag f, :moved_out %>
+      <%= label f, :moved_out %>
+      <%= date_select f, :moved_out, class: "form-control custom-select" %>
+      <%= error_tag f, :moved_out %>
+  </div>
 
   <div>
-    <%= submit "Save" %>
+    <%= submit "Save", class: "btn btn-primary" %>
   </div>
 <% end %>

@@ -1,14 +1,14 @@
-defmodule ProgramBuilder.Program.Meeting do
+defmodule ProgramBuilderWeb.Helpers.EditMeetingForm do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "meetings" do
+  embedded_schema do
     field :accompanist, :string
     field :chorester, :string
     field :closing_hymn, :integer
     field :conducting, :string
     field :date, :date
-    field :event_ids, {:array, :integer}
+    field :events, {:array, :map}
     field :opening_hymn, :integer
     field :presiding, :string
     field :sacrament_hymn, :integer
@@ -16,16 +16,6 @@ defmodule ProgramBuilder.Program.Meeting do
     field :visiting, :string
     field :invocation, :id
     field :benediction, :id
-
-    field :announcements, {:array, :string}
-    field :callings, {:array, :string}
-    field :releases, {:array, :string}
-    field :stake_business, :string
-    field :baby_blessings, {:array, :string}
-    field :confirmations, {:array, :string}
-    field :other_ordinances, {:array, :string}
-
-    timestamps()
   end
 
   @doc false
@@ -42,17 +32,12 @@ defmodule ProgramBuilder.Program.Meeting do
       :sacrament_hymn,
       :closing_hymn,
       :topic,
-      :event_ids,
-      :announcements,
-      :callings,
-      :releases,
-      :stake_business,
-      :baby_blessings,
-      :confirmations,
-      :other_ordinances,
       :invocation,
       :benediction
     ])
-    |> validate_required([:date])
+    |> validate_required([:date, :conducting])
+    |> validate_number(:opening_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
+    |> validate_number(:sacrament_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
+    |> validate_number(:closing_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
   end
 end

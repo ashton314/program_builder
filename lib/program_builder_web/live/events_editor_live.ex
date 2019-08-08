@@ -67,10 +67,10 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
     """
   end
 
-  def mount(%{parent: parent_pid}, socket) do
+  def mount(%{parent: parent_pid} = params, socket) do
     socket =
       socket
-      |> assign(:events, [])
+      |> assign(:events, Map.get(params, :events, []))
       |> assign(:parent_pid, parent_pid)
 
     {:ok, socket}

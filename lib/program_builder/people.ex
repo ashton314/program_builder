@@ -37,6 +37,8 @@ defmodule ProgramBuilder.People do
   """
   def get_member!(id), do: Repo.get!(Member, id)
 
+  def get_member(id), do: Repo.get(Member, id)
+
   @doc """
   Creates a member.
 

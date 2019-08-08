@@ -1,7 +1,7 @@
 <!-- -*- mode: web -*- -->
-<h1>New Meeting</h1>
+<h1>Edit Meeting <%= @meeting.date %></h1>
 
-<%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save, class: "form"]  %>
+<%= f = form_for @changeset, "#", [phx_change: :validate, class: "form"]  %>
   <div class="row">
       <div class="form-group col-12 col-md">
           <%= label f, :date %>
@@ -110,7 +110,7 @@
   </div>
 
   <!-- Events editor here -->
-  <%= live_render(@socket, ProgramBuilderWeb.EventsEditorLive, session: %{parent: self()}) %>
+  <%= live_render(@socket, ProgramBuilderWeb.EventsEditorLive, session: %{parent: self(), events: @initial_events}) %>
 
   <div class="form-group">
       <%= label f, :closing_hymn %>
@@ -126,9 +126,5 @@
       <p>
           <%= member_name(input_value(f, :benediction)) %>
       </p>
-  </div>
-
-  <div>
-    <%= submit "Save", class: "btn btn-primary mt-3 mb-5" %>
   </div>
 </form>

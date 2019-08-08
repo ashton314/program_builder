@@ -50,6 +50,8 @@ defmodule ProgramBuilderWeb.ListEditorLive do
         Enum.reject(elements, fn {id, _val} -> to_string(id) == elem_id end)
       end)
 
+    send(socket.assigns.parent_pid, {:list_update, socket.assigns.field, socket.assigns.elements})
+
     {:noreply, socket}
   end
 
@@ -63,6 +65,8 @@ defmodule ProgramBuilderWeb.ListEditorLive do
       socket
       |> update(:elements, fn elements -> elements ++ [{System.unique_integer(), new_elem}] end)
       |> assign(:changeset, elem_changeset(%{}))
+
+    send(socket.assigns.parent_pid, {:list_update, socket.assigns.field, socket.assigns.elements})
 
     {:noreply, socket}
   end

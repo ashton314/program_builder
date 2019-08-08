@@ -19,9 +19,10 @@ defmodule ProgramBuilderWeb.Router do
 
     get "/", PageController, :index
 
-    live "/new-meeting", MeetingEditorLive
+    live "/new-meeting", NewMeetingLive
+    live "/meetings/:id/edit", MeetingEditorLive
 
-    resources "/meetings", MeetingController
+    resources "/meetings", MeetingController, except: [:edit]
     get "/meetings/:meeting_id/format", MeetingController, :formatter
     resources "/announcements", AnnouncementController
     resources "/members", MemberController

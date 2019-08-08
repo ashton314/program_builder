@@ -1,7 +1,7 @@
 <h1>Meeting Listing</h1>
 
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" style="min-width: 1000px">
         <thead>
             <tr>
                 <th>Date</th>
@@ -42,7 +42,7 @@
 
                     <td>
                         <%= link "Show", to: Routes.meeting_path(@conn, :show, meeting), class: "btn btn-sm btn-outline-primary mx-1" %>
-                        <%= link "Edit", to: Routes.meeting_path(@conn, :edit, meeting), class: "btn btn-sm btn-outline-success mx-1"%>
+                        <%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, meeting.id), class: "btn btn-sm btn-outline-success mx-1"%>
                         <%= link "Delete", to: Routes.meeting_path(@conn, :delete, meeting), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-sm btn-outline-danger mx-1" %>
                     </td>
                 </tr>
@@ -50,4 +50,4 @@
         </tbody>
     </table>
 </div>
-<span><%= link "New Meeting", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive), class: "btn btn-outline-success" %></span>
+<span><%= link "New Meeting", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.NewMeetingLive), class: "btn btn-outline-success" %></span>
