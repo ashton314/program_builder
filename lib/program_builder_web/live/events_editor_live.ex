@@ -1,8 +1,6 @@
 defmodule ProgramBuilderWeb.EventsEditorLive do
   use Phoenix.LiveView
 
-  alias ProgramBuilder.Program.Meeting
-  alias ProgramBuilderWeb.Helpers.NewMeetingForm
   import Ecto.Changeset
   import Phoenix.HTML.Form
 
@@ -10,12 +8,12 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
     ~L"""
     <h4 class="mt-3">Meeting Events</h4>
     <%= for event_cs <- @events do %>
-      <%= f = form_for event_cs, "#", [phx_change: :validate, class: "row my-3", as: "event#{event_cs.data.id}"] %>
+      <%= f = form_for event_cs, "#", [phx_change: :validate, class: "row my-3 w-100", as: "event#{event_cs.data.id}"] %>
 
         <%# This is here so that the :validate knows which changeset to update %>
         <%= hidden_input f, :id %>
 
-        <div class="col">
+        <div class="col-3">
           <%= select f, :type, ["Talk": "talk", "Musical Number": "music", "Generic": "generic", "Note": "note"], class: "form-control" %>
         </div>
 
@@ -58,7 +56,7 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
           </div>
         <% end %>
 
-        <div class="col">
+        <div class="col-auto">
           <button class="btn btn-danger" phx-click="del_event" phx-value="<%= event_cs.data.id %>">Remove</button>
         </div>
       </form>
@@ -68,6 +66,8 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
   end
 
   def mount(%{parent: parent_pid} = params, socket) do
+    IO.inspect(Map.get(params, :events, []), label: :events_in_mount)
+
     socket =
       socket
       |> assign(:events, Map.get(params, :events, []))

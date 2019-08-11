@@ -105,5 +105,5 @@ Benediction: NOT IMPLEMENTED
 </p>
 
 
-<span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting) %></span>
+<span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, @meeting.id) %></span>
 

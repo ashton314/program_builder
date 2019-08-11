@@ -260,6 +260,7 @@ defmodule ProgramBuilder.Program do
       "talk" -> Event.get_talk!(event.foreign_key)
       "music" -> Event.get_music!(event.foreign_key)
     end
+    |> Map.put(:type, event.type)
   end
 
   @doc """

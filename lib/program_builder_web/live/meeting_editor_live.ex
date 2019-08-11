@@ -4,8 +4,6 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
   alias ProgramBuilder.Program
   alias ProgramBuilder.Program.Meeting
   alias ProgramBuilderWeb.Helpers.EditMeetingForm
-  alias ProgramBuilderWeb.Router.Helpers, as: Routes
-  import Ecto.Changeset
   require Logger
 
   def render(assigns) do
@@ -32,7 +30,7 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
     {:ok, socket}
   end
 
-  def handle_event("validate", %{"edit_meeting_form" => params}, socket) do
+  def handle_event("validate", %{"meeting" => params}, socket) do
     changeset =
       %EditMeetingForm{}
       |> EditMeetingForm.changeset(params)
@@ -41,7 +39,7 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
     {:noreply, assign(socket, changeset: changeset)}
   end
 
-  def handle_info({:update_events, child, events}, state) do
+  def handle_info({:update_events, _child, events}, state) do
     {:noreply, assign(state, :events, events)}
   end
 
