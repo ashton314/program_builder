@@ -31,12 +31,14 @@ defmodule ProgramBuilderWeb.MeetingController do
 
   def show(conn, %{"id" => id}) do
     meeting = Program.get_meeting!(id)
+    meeting = Map.put(meeting, :events, Program.get_subtypes_from_ids(meeting.event_ids))
     render(conn, "show.html", meeting: meeting)
   end
 
   def formatter(conn, %{"meeting_id" => id}) do
     meeting = Program.get_meeting!(id)
     # FIXME: keep working here
+    render(conn, "show.html", meeting: meeting)
   end
 
   def edit(conn, %{"id" => id}) do

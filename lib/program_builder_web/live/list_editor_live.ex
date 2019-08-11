@@ -1,8 +1,6 @@
 defmodule ProgramBuilderWeb.ListEditorLive do
   use Phoenix.LiveView
 
-  alias ProgramBuilder.Program.Meeting
-  alias ProgramBuilderWeb.Helpers.NewMeetingForm
   import Ecto.Changeset
   import Phoenix.HTML.Form
 
@@ -11,7 +9,7 @@ defmodule ProgramBuilderWeb.ListEditorLive do
     <%= for {key, elem} <- @elements do %>
         <div class="row my-1">
             <div class="col">
-                <%= key %> <%= elem %>
+                <%= elem %>
             </div>
             <div class="col-auto">
                 <button class="btn btn-sm btn-outline-danger" phx-value="<%= key %>" phx-click="del_elem">Delete</button>

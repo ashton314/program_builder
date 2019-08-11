@@ -251,6 +251,14 @@ defmodule ProgramBuilder.Program do
   """
   def get_event!(id), do: Repo.get!(Event, id)
 
+  def get_subtypes_from_ids([]), do: []
+  def get_subtypes_from_ids([id | rest]) do
+    [get_subtype_from_event!(id) | get_subtypes_from_ids(rest)]
+  end
+
+  @doc """
+  Given an event_id, finds the subtype and returns that.
+  """
   def get_subtype_from_event!(event_id) do
     event = Repo.get!(Event, event_id)
 

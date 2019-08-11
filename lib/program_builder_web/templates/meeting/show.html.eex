@@ -77,31 +77,49 @@ Opening Hymn: <%= @meeting.opening_hymn %>&nbsp;<i><%= just_hymn_name(@meeting.o
 </p>
 
 <p>
-Invocation: NOT IMPLEMENTED
+Invocation: <%= member_name(@meeting.invocation) %>
 </p>
 
-<p class="font-italic text-muted">
-    Announcements, Business, Ordinances
+<p class="font-italic my-3 text-center">
+    &mdash; Announcements, Business, Ordinances &mdash;
 </p>
 
 <p>
 Sacrament Hymn: <%= @meeting.sacrament_hymn %>&nbsp;<i><%= just_hymn_name(@meeting.sacrament_hymn) %></i>
 </p>
 
-<p class="font-italic my-3">
+<p class="my-3 text-center lead">
     &mdash; Administration of the Sacrament &mdash;
 </p>
 
-<%#= for event <- @meeting.events do %>
-TODO: add events
-<%# end %>
+<ul>
+<%= for event <- @meeting.events do %>
+    <li>
+        <%= if event.type == "talk" do %>
+            Talk: <%= if event.member_id, do: member_name(event.member_id), else: display_or_none(event.visitor) %>
+        <% end %>
+        <%= if event.type == "generic" do %>
+            <span class="lead"><%= event.title %></span> <%= event.subtitle %>
+        <% end %>
+        <%= if event.type == "music" && event.number do %>
+            Rest Hymn: <%= hymn_name(event.number) %>
+        <% end %>
+        <%= if event.type == "music" && ! event.number do %>
+            Musical Number: <span class="font-italic"><%= event.title %> by <%= event.performer %>
+        <% end %>
+        <%= if event.type == "note" do %>
+            <span class="lead"><%= event.title %></span> <%= event.body %>
+        <% end %>
+    </li>
+<% end %>
+</ul>
 
 <p class="mt-3">
 Closing Hymn: <%= @meeting.closing_hymn %>&nbsp;<i><%= just_hymn_name(@meeting.closing_hymn) %></i>
 </p>
 
 <p>
-Benediction: NOT IMPLEMENTED
+Benediction: <%= member_name(@meeting.benediction) %>
 </p>
 
 

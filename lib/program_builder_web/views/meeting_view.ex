@@ -6,6 +6,9 @@ defmodule ProgramBuilderWeb.MeetingView do
   def just_hymn_name(nil), do: "(None Given)"
   def just_hymn_name(num), do: Music.hymn_name(num)
 
+  def strip_tuple_id({_id, thing}), do: thing
+  def strip_tuple_id(thing), do: thing
+
   def hymn_name(thing) when is_nil(thing) do
     content_tag(:p, "None Given", class: "font-italic text-muted")
   end

@@ -66,8 +66,6 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
   end
 
   def mount(%{parent: parent_pid} = params, socket) do
-    IO.inspect(Map.get(params, :events, []), label: :events_in_mount)
-
     socket =
       socket
       |> assign(:events, Map.get(params, :events, []))

@@ -4,7 +4,6 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   alias ProgramBuilder.Program.Meeting
   alias ProgramBuilderWeb.Helpers.NewMeetingForm
   alias ProgramBuilderWeb.Router.Helpers, as: Routes
-  import Ecto.Changeset
   require Logger
 
   def render(assigns) do
@@ -31,6 +30,7 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   end
 
   def handle_event("save", %{"new_meeting_form" => params}, socket) do
+    IO.inspect(socket.assigns.events, label: "events on save")
     events = ProgramBuilder.Program.create_events_from_generic(socket.assigns.events)
 
     params = Map.put(params, "event_ids", events)

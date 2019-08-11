@@ -49,11 +49,11 @@
   <div class="row">
       <div class="col-12 col-md-6">
           <h5 class="mt-1">Sustainings</h5>
-          <%= live_render(@socket, ProgramBuilderWeb.ListEditorLive, child_id: :callings, session: %{parent: self(), field: :sustainings, value: []}) %>
+          <%= live_render(@socket, ProgramBuilderWeb.ListEditorLive, child_id: :callings, session: %{parent: self(), field: :callings, value: []}) %>
       </div>
       <div class="col-12 col-md-6">
-          <h5 class="mt-1">Releasings</h5>
-          <%= live_render(@socket, ProgramBuilderWeb.ListEditorLive, child_id: :releases, session: %{parent: self(), field: :releasings, value: []}) %>
+          <h5 class="mt-1">Releases</h5>
+          <%= live_render(@socket, ProgramBuilderWeb.ListEditorLive, child_id: :releases, session: %{parent: self(), field: :releases, value: []}) %>
       </div>
   </div>
 
