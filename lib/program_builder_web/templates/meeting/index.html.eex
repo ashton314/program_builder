@@ -36,7 +36,7 @@
                         <%= meeting.sacrament_hymn %>
                         <%= hymn_name(meeting.sacrament_hymn) %>
                     </td>
-                    <td><%= meeting.event_ids %></td>
+                    <td>(Preview not available)</td>
                     <td><%= meeting.closing_hymn %>
                         <%= hymn_name(meeting.closing_hymn) %></td>
 

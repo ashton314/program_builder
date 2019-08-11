@@ -13,6 +13,11 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
   def mount(%{path_params: %{"id" => id}}, socket) do
     id = String.to_integer(id)
     meeting = Program.get_meeting!(id)
+    setup_meeting(meeting, socket)
+  end
+
+  def setup_meeting(meeting, socket, code \\ :ok) do
+    id = meeting.id
 
     events =
       meeting.event_ids
@@ -30,9 +35,9 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
       |> assign(:initial_events, events)
       |> assign(:events, events)
       |> assign(meeting: meeting, meeting_id: id)
-      |> assign(IO.inspect List.flatten Enum.map(fields, &[{&1, Map.get(meeting, &1, [])}]))
+      |> assign(IO.inspect(List.flatten(Enum.map(fields, &[{&1, Map.get(meeting, &1, [])}]))))
 
-    {:ok, socket}
+    {code, socket}
   end
 
   def handle_event("validate", %{"meeting" => params}, socket) do
@@ -49,7 +54,15 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
 
     # Next, commit new events
     IO.inspect(socket.assigns.events, label: :events)
-    events = ProgramBuilder.Program.create_events_from_generic(socket.assigns.events)
+
+    events =
+      socket.assigns.events
+      |> Enum.map(fn
+        %Ecto.Changeset{} = c -> Ecto.Changeset.apply_changes(c)
+        thing -> thing
+      end)
+      |> ProgramBuilder.Program.create_events_from_generic()
+
     params = Map.put(params, "event_ids", events)
 
     fields = ~w(announcements callings releases baby_blessings confirmations other_ordinances)a
@@ -59,8 +72,10 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
         Map.put(
           acc,
           to_string(field),
-          Enum.map(socket.assigns[field] || [], fn {_key, val} -> val
-            val -> val end)
+          Enum.map(socket.assigns[field] || [], fn
+            {_key, val} -> val
+            val -> val
+          end)
         )
       end)
 
@@ -70,15 +85,25 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
       {:ok, updated} ->
         IO.inspect(updated, label: :updated_response_saved)
         {:noreply, socket}
+
       {:error, err} ->
         Logger.debug("Error saving: #{inspect(err)}")
         {:noreply, socket}
     end
-
   end
 
   def handle_info({:update_events, _child, events}, state) do
-    {:noreply, assign(state, :events, events)}
+    event_ids = ProgramBuilder.Program.create_events_from_generic(events)
+    update = %{"event_ids" => event_ids}
+
+    case ProgramBuilder.Program.update_meeting(state.assigns.meeting, update) do
+      {:ok, updated} ->
+        setup_meeting(updated, state, :noreply)
+
+      {:error, err} ->
+        Logger.debug("Error saving: #{inspect(err)}")
+        {:noreply, state}
+    end
   end
 
   def handle_info({:list_update, field, new_list}, socket) do
