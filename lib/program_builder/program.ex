@@ -223,6 +223,24 @@ defmodule ProgramBuilder.Program do
   end
 
   @doc """
+  Retrieves a meeting with all fields prepopulated.
+  """
+  def get_full_meeting!(id) do
+    base = get_meeting!(id)
+    Map.put(base, :events, Enum.map(base.event_ids, &get_subtype_from_event!/1))
+  end
+
+  @doc """
+  Update a meeting, given the entire struct
+  """
+  def update_full_meeting(%{events: events} = meeting) do
+    event_ids = create_events_from_generic(events)
+    meeting = Map.put(meeting, :event_ids, event_ids)
+    base_meeting = %Meeting{}
+    update_meeting(base_meeting, meeting)
+  end
+
+  @doc """
   Given a struct with a `type` attribute and keys for all events,
   stores an event of that type and creates a corresponding event type
   to point to the subtype just created.

@@ -70,21 +70,12 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
       assert redirected_to(conn) == Routes.meeting_path(conn, :show, id)
 
       conn = get(conn, Routes.meeting_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Meeting"
+      assert html_response(conn, 200) =~ "Meeting"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.meeting_path(conn, :create), meeting: @invalid_attrs)
       assert html_response(conn, 200) =~ "New Meeting"
-    end
-  end
-
-  describe "edit meeting" do
-    setup [:create_meeting]
-
-    test "renders form for editing chosen meeting", %{conn: conn, meeting: meeting} do
-      conn = get(conn, Routes.meeting_path(conn, :edit, meeting))
-      assert html_response(conn, 200) =~ "Edit Meeting"
     end
   end
 

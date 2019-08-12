@@ -85,13 +85,13 @@ defmodule ProgramBuilder.ProgramTest do
       sacrament_hymn: 42,
       topic: "some topic",
       visiting: "some visiting",
-      announcements: [],
-      callings: [],
-      releases: [],
+      announcements: ["foo"],
+      callings: ["bar"],
+      releases: ["baz"],
       stake_business: "",
-      baby_blessings: [],
-      confirmations: [],
-      other_ordinances: []
+      baby_blessings: ["zoop"],
+      confirmations: ["qux"],
+      other_ordinances: ["quxx"]
     }
     @update_attrs %{
       accompanist: "some updated accompanist",
@@ -129,14 +129,18 @@ defmodule ProgramBuilder.ProgramTest do
       meeting
     end
 
+    test "high-level get" do
+      
+    end
+
     test "list_meetings/0 returns all meetings" do
       meeting = meeting_fixture()
-      assert Program.list_meetings() == [%{meeting | stake_business: ""}]
+      assert Program.list_meetings() == [%{meeting | stake_business: nil}]
     end
 
     test "get_meeting!/1 returns the meeting with given id" do
       meeting = meeting_fixture()
-      assert Program.get_meeting!(meeting.id) == %{meeting | stake_business: ""}
+      assert Program.get_meeting!(meeting.id) == %{meeting | stake_business: nil}
     end
 
     test "create_meeting/1 with valid data creates a meeting" do
@@ -177,7 +181,7 @@ defmodule ProgramBuilder.ProgramTest do
     test "update_meeting/2 with invalid data returns error changeset" do
       meeting = meeting_fixture()
       assert {:error, %Ecto.Changeset{}} = Program.update_meeting(meeting, @invalid_attrs)
-      assert %{meeting | stake_business: ""} == Program.get_meeting!(meeting.id)
+      assert %{meeting | stake_business: nil} == Program.get_meeting!(meeting.id)
     end
 
     test "delete_meeting/1 deletes the meeting" do

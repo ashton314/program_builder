@@ -123,5 +123,5 @@ Benediction: <%= member_name(@meeting.benediction) %>
 </p>
 
 
-<span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, @meeting.id) %></span>
+<span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.DumbEditLive, @meeting.id) %></span>
 

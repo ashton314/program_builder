@@ -15,7 +15,7 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   describe "index" do
     test "lists all members", %{conn: conn} do
       conn = get(conn, Routes.member_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Members"
+      assert html_response(conn, 200) =~ "Member List"
     end
   end
 
