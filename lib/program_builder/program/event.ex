@@ -2,6 +2,7 @@ defmodule ProgramBuilder.Program.Event do
   use Ecto.Schema
   import Ecto.Changeset
   alias ProgramBuilder.Repo
+  alias __MODULE__
 
   @subtypes ~w(music talk generic note)
 
@@ -21,6 +22,33 @@ defmodule ProgramBuilder.Program.Event do
   end
 
   @doc """
+  Takes a struct of type Event.* and converts it into something that
+  Event.create_subtype can digest.
+  """
+  def to_spec(%type{} = thing)
+      when type in [Event.Generic, Event.Music, Event.Note, Event.Talk] do
+    atom_type =
+      type |> Module.split() |> List.last() |> String.downcase() |> String.to_existing_atom()
+
+    to_spec(Map.put(Map.from_struct(thing), :type, atom_type))
+  end
+
+  def to_spec(%{type: type} = thing) when type in ~w(music generic talk note)a do
+    %{
+      type: type,
+      note: Map.get(thing, :note, ""),
+      number: Map.get(thing, :number, ""),
+      performer: Map.get(thing, :performer, ""),
+      title: Map.get(thing, :title, ""),
+      subtitle: Map.get(thing, :subtitle, ""),
+      body: Map.get(thing, :body, ""),
+      subtopic: Map.get(thing, :subtopic, ""),
+      visitor: Map.get(thing, :visitor, ""),
+      member_id: Map.get(thing, :member_id, "")
+    }
+  end
+
+  @doc """
   Creates an event subtype by switching on the type attribute (should
   be a string). Returns the subtype and an Event type that points to
   it in a tuple.
@@ -36,7 +64,7 @@ defmodule ProgramBuilder.Program.Event do
         :music -> create_music(Map.take(spec, [:note, :number, :performer, :title]))
         :generic -> create_generic(Map.take(spec, [:title, :subtitle]))
         :talk -> create_talk(Map.take(spec, [:subtopic, :visitor, :member_id]))
-        :note -> create_note(Map.take(spec, [:title, :title]))
+        :note -> create_note(Map.take(spec, [:title, :subtitle]))
       end
 
     {:ok, event} =

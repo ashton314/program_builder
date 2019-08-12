@@ -235,9 +235,11 @@ defmodule ProgramBuilder.Program do
   """
   def update_full_meeting(%{events: events} = meeting) do
     event_ids = create_events_from_generic(events)
-    meeting = Map.put(meeting, :event_ids, event_ids)
-    base_meeting = %Meeting{}
-    update_meeting(base_meeting, meeting)
+    meeting =
+      meeting
+      |> Map.put(:event_ids, event_ids)
+      |> Map.take(~w(accompanist chorester closing_hymn conducting date event_ids opening_hymn presiding sacrament_hymn topic visiting invocation benediction announcements callings releases stake_business baby_blessings confirmations other_ordinances id inserted_at updated_at)a)
+    update_meeting(Map.put(meeting, :__struct__, Meeting), meeting)
   end
 
   @doc """
@@ -245,11 +247,11 @@ defmodule ProgramBuilder.Program do
   stores an event of that type and creates a corresponding event type
   to point to the subtype just created.
   """
-  @spec create_events_from_generic([%{type: String.t()}]) :: [integer()]
+  @spec create_events_from_generic([%{type: String.t()} | %Event.Generic{} | %Event.Music{} | %Event.Note{} | %Event.Talk{}]) :: [integer()]
   def create_events_from_generic([]), do: []
 
   def create_events_from_generic([spec | rest]) do
-    {event, _subtype} = Event.create_subtype(spec)
+    {event, _subtype} = Event.create_subtype(Event.to_spec(spec))
     [event.id | create_events_from_generic(rest)]
   end
 
