@@ -230,16 +230,22 @@ defmodule ProgramBuilder.Program do
     Map.put(base, :events, Enum.map(base.event_ids, &get_subtype_from_event!/1))
   end
 
+  def create_full_meeting(meeting) do
+    {:ok, %Meeting{id: id}} = create_meeting(%{date: ~D[1970-01-01]})
+    update_full_meeting(Map.put(meeting, "id", id))
+  end
+
   @doc """
   Update a meeting, given the entire struct
   """
-  def update_full_meeting(%{events: events} = meeting) do
+  def update_full_meeting(%{events: _events} = meeting) do
+    update_full_meeting(Map.new(Map.from_struct(meeting), fn {k, v} -> {to_string(k), v} end))
+  end
+
+  def update_full_meeting(%{"events" => events} = meeting) do
     event_ids = create_events_from_generic(events)
-    meeting =
-      meeting
-      |> Map.put(:event_ids, event_ids)
-      |> Map.take(~w(accompanist chorester closing_hymn conducting date event_ids opening_hymn presiding sacrament_hymn topic visiting invocation benediction announcements callings releases stake_business baby_blessings confirmations other_ordinances id inserted_at updated_at)a)
-    update_meeting(Map.put(meeting, :__struct__, Meeting), meeting)
+    meeting_params = Map.put(meeting, "event_ids", event_ids)
+    update_meeting(get_meeting!(meeting["id"]), meeting_params)
   end
 
   @doc """

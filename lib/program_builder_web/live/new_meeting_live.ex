@@ -30,25 +30,9 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   end
 
   def handle_event("save", %{"new_meeting_form" => params}, socket) do
-    IO.inspect(socket.assigns.events, label: "events on save")
-    events = ProgramBuilder.Program.create_events_from_generic(socket.assigns.events)
-
-    params = Map.put(params, "event_ids", events)
-
-    fields = ~w(announcements callings releases baby_blessings confirmations other_ordinances)a
-
-    params =
-      Enum.reduce(fields, params, fn field, acc ->
-        Map.put(
-          acc,
-          to_string(field),
-          Enum.map(socket.assigns[field] || [], fn {_key, val} -> val end)
-        )
-      end)
-
+    meeting = Map.put(params, "events", socket.assigns.events)
     IO.inspect(params, label: :params)
-
-    case ProgramBuilder.Program.create_meeting(params) do
+    case ProgramBuilder.Program.create_full_meeting(meeting) do
       {:ok, new_meeting} ->
         {:noreply,
          socket
@@ -68,7 +52,7 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
     end
   end
 
-  def handle_info({:update_events, child, events}, state) do
+  def handle_info({:update_events, _child, events}, state) do
     {:noreply, assign(state, :events, events)}
   end
 

@@ -1,7 +1,7 @@
 <!-- -*- mode: web -*- -->
 <h1>Edit Meeting <%= @meeting.date %></h1>
 
-<%= f = form_for @changeset, "#", [phx_change: :validate, class: "form", as: "meeting"]  %>
+<%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save, class: "form", as: "meeting"]  %>
   <div class="row">
       <div class="form-group col-12 col-md">
           <%= label f, :date %>
@@ -127,4 +127,7 @@
           <%= member_name(input_value(f, :benediction)) %>
       </p>
   </div>
+
+  <!-- FIXME: make this render only on dumb editor -->
+  <%= submit "Save", class: "btn btn-outline-primary" %>
 </form>

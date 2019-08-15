@@ -35,7 +35,7 @@ defmodule ProgramBuilderWeb.DumbEditLive do
       |> assign(:initial_events, events)
       |> assign(:events, events)
       |> assign(meeting: meeting, meeting_id: id)
-      |> assign(IO.inspect(List.flatten(Enum.map(fields, &[{&1, Map.get(meeting, &1, [])}]))))
+      |> assign(List.flatten(Enum.map(fields, &[{&1, Map.get(meeting, &1, []) || []}])))
 
     {code, socket}
   end
@@ -50,49 +50,10 @@ defmodule ProgramBuilderWeb.DumbEditLive do
   end
 
   def handle_event("save", %{"meeting" => params}, socket) do
-    # First, delete all the old events
-    # TODO: eventually it'd be nice to make this a diff so it's faster
-    # Enum.map socket.assigns.meeting.event_ids, fn event -> Program.delete_event(event) end
-
-    # Next, commit new events
     IO.inspect(socket.assigns.events, label: :events)
+    IO.inspect(params, label: :params)
 
-    events =
-      socket.assigns.events
-      |> Enum.map(fn
-      %Ecto.Changeset{} = c -> Ecto.Changeset.apply_changes(c)
-      thing -> thing
-    end)
-    |> ProgramBuilder.Program.create_events_from_generic()
-
-      params = Map.put(params, "event_ids", events)
-
-      fields = ~w(announcements callings releases baby_blessings confirmations other_ordinances)a
-
-      params =
-        Enum.reduce(fields, params, fn field, acc ->
-          Map.put(
-            acc,
-            to_string(field),
-            Enum.map(socket.assigns[field] || [], fn
-              {_key, val} -> val
-              val -> val
-            end)
-          )
-        end)
-
-      IO.inspect(params, label: :update_params)
-
-      case ProgramBuilder.Program.update_meeting(socket.assigns.meeting, params) do
-        {:ok, updated} ->
-          IO.inspect(updated, label: :updated_response_saved)
-          {:noreply, socket}
-
-        {:error, err} ->
-          Logger.debug("Error saving: #{inspect(err)}")
-          {:noreply, socket}
-      end
-
+    {:noreply, socket}
   end
 
   def handle_info({:update_events, _child, events}, state) do

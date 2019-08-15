@@ -25,12 +25,19 @@ defmodule ProgramBuilder.Program.Event do
   Takes a struct of type Event.* and converts it into something that
   Event.create_subtype can digest.
   """
-  def to_spec(%type{} = thing)
-      when type in [Event.Generic, Event.Music, Event.Note, Event.Talk] do
+  def to_spec(%type{} = thing) when type in [Event.Generic, Event.Music, Event.Note, Event.Talk] do
     atom_type =
       type |> Module.split() |> List.last() |> String.downcase() |> String.to_existing_atom()
 
     to_spec(Map.put(Map.from_struct(thing), :type, atom_type))
+  end
+
+  def to_spec(%{"type" => type} = thing) when type in ~w(music generic talk note) do
+    thing
+    |> Map.take(~w(type note number performer title subtitle body subtopic visitor member_id))
+    |> Map.new(fn {key, val} -> {String.to_existing_atom(key), val} end)
+    |> Map.put(:type, String.to_existing_atom(type))
+    |> to_spec()
   end
 
   def to_spec(%{type: type} = thing) when type in ~w(music generic talk note)a do

@@ -134,8 +134,7 @@ defmodule ProgramBuilder.ProgramTest do
       event1 = ProgramBuilder.Program.EventTest.music_fixture()
       event2 = ProgramBuilder.Program.EventTest.talk_fixture()
       updated_meeting = Map.put(meeting, :events, [event1, event2])
-      # IO.inspect(updated_meeting, label: :updated_meeting)
-      saved_meeting = Program.update_full_meeting(updated_meeting)
+      Program.update_full_meeting(updated_meeting)
 
       assert meeting = Program.get_full_meeting!(meeting.id)
     end
