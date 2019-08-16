@@ -1,19 +1,22 @@
 defmodule ProgramBuilder.Program.Meeting do
   use Ecto.Schema
+  alias ProgramBuilder.Program
   import Ecto.Changeset
 
   schema "meetings" do
+    # belongs_to :unit, ProgramBuilder.Unit
+
+    field :date, :date
+    field :topic, :string
+
+    field :presiding, :string
+    field :conducting, :string
+    field :visiting, :string
+
     field :accompanist, :string
     field :chorester, :string
-    field :closing_hymn, :integer
-    field :conducting, :string
-    field :date, :date
-    field :event_ids, {:array, :integer}
     field :opening_hymn, :integer
-    field :presiding, :string
-    field :sacrament_hymn, :integer
-    field :topic, :string
-    field :visiting, :string
+    field :closing_hymn, :integer
     field :invocation, :id
     field :benediction, :id
 
@@ -21,9 +24,8 @@ defmodule ProgramBuilder.Program.Meeting do
     field :callings, {:array, :string}
     field :releases, {:array, :string}
     field :stake_business, :string
-    field :baby_blessings, {:array, :string}
-    field :confirmations, {:array, :string}
-    field :other_ordinances, {:array, :string}
+
+    has_many :events, Program.Event
 
     timestamps()
   end
@@ -39,20 +41,16 @@ defmodule ProgramBuilder.Program.Meeting do
       :accompanist,
       :chorester,
       :opening_hymn,
-      :sacrament_hymn,
       :closing_hymn,
       :topic,
-      :event_ids,
       :announcements,
       :callings,
       :releases,
       :stake_business,
-      :baby_blessings,
-      :confirmations,
-      :other_ordinances,
       :invocation,
       :benediction
     ])
     |> validate_required([:date])
+    |> cast_assoc(:events, with: &Program.Event.changeset/2)
   end
 end

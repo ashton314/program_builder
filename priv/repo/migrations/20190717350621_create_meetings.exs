@@ -3,19 +3,26 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMeetings do
 
   def change do
     create table(:meetings) do
+      add :unit_id, :string
+
       add :date, :date
+      add :topic, :string
+
       add :presiding, :string
       add :conducting, :string
       add :visiting, :string
+
       add :accompanist, :string
       add :chorester, :string
       add :opening_hymn, :integer
-      add :sacrament_hymn, :integer
       add :closing_hymn, :integer
-      add :topic, :string
-      add :event_ids, {:array, :integer}
       add :invocation, references(:members, on_delete: :nothing)
       add :benediction, references(:members, on_delete: :nothing)
+
+      add :announcements, {:array, :string}
+      add :callings, {:array, :string}
+      add :releases, {:array, :string}
+      add :stake_business, :string
 
       timestamps()
     end

@@ -25,7 +25,6 @@ defmodule ProgramBuilderWeb.Router do
 
     resources "/meetings", MeetingController, except: [:edit]
     get "/meetings/:meeting_id/format", MeetingController, :formatter
-    resources "/announcements", AnnouncementController
     resources "/members", MemberController
   end
 

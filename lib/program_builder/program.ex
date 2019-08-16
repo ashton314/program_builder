@@ -41,15 +41,6 @@ defmodule ProgramBuilder.Program do
   Creates a meeting.
 
   This will also create any events passed in the `events` field.
-
-  ## Examples
-
-      iex> create_meeting(%{field: value})
-      {:ok, %Meeting{}}
-
-      iex> create_meeting(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_meeting(attrs \\ %{}) do
     build_meeting(attrs)
@@ -66,15 +57,6 @@ defmodule ProgramBuilder.Program do
 
   @doc """
   Updates a meeting.
-
-  ## Examples
-
-      iex> update_meeting(meeting, %{field: new_value})
-      {:ok, %Meeting{}}
-
-      iex> update_meeting(meeting, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def update_meeting(%Meeting{} = meeting, attrs) do
     meeting
@@ -84,15 +66,6 @@ defmodule ProgramBuilder.Program do
 
   @doc """
   Deletes a Meeting.
-
-  ## Examples
-
-      iex> delete_meeting(meeting)
-      {:ok, %Meeting{}}
-
-      iex> delete_meeting(meeting)
-      {:error, %Ecto.Changeset{}}
-
   """
   def delete_meeting(%Meeting{} = meeting) do
     Repo.delete(meeting)
@@ -100,202 +73,19 @@ defmodule ProgramBuilder.Program do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking meeting changes.
-
-  ## Examples
-
-      iex> change_meeting(meeting)
-      %Ecto.Changeset{source: %Meeting{}}
-
   """
   def change_meeting(%Meeting{} = meeting) do
     Meeting.changeset(meeting, %{})
   end
 
-  alias ProgramBuilder.Program.Announcement
-
-  @doc """
-  Returns the list of announcements.
-
-  ## Examples
-
-      iex> list_announcements()
-      [%Announcement{}, ...]
-
-  """
-  def list_announcements do
-    Repo.all(Announcement)
-  end
-
-  @doc """
-  Gets a single announcement.
-
-  Raises `Ecto.NoResultsError` if the Announcement does not exist.
-
-  ## Examples
-
-      iex> get_announcement!(123)
-      %Announcement{}
-
-      iex> get_announcement!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_announcement!(id), do: Repo.get!(Announcement, id)
-
-  @doc """
-  Creates a announcement.
-
-  ## Examples
-
-      iex> create_announcement(%{field: value})
-      {:ok, %Announcement{}}
-
-      iex> create_announcement(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_announcement(attrs \\ %{}) do
-    %Announcement{}
-    |> Announcement.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a announcement.
-
-  ## Examples
-
-      iex> update_announcement(announcement, %{field: new_value})
-      {:ok, %Announcement{}}
-
-      iex> update_announcement(announcement, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_announcement(%Announcement{} = announcement, attrs) do
-    announcement
-    |> Announcement.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a Announcement.
-
-  ## Examples
-
-      iex> delete_announcement(announcement)
-      {:ok, %Announcement{}}
-
-      iex> delete_announcement(announcement)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_announcement(%Announcement{} = announcement) do
-    Repo.delete(announcement)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking announcement changes.
-
-  ## Examples
-
-      iex> change_announcement(announcement)
-      %Ecto.Changeset{source: %Announcement{}}
-
-  """
-  def change_announcement(%Announcement{} = announcement) do
-    Announcement.changeset(announcement, %{})
-  end
-
   alias ProgramBuilder.Program.Event
-
-  @doc """
-  Returns the list of events.
-
-  ## Examples
-
-      iex> list_events()
-      [%Event{}, ...]
-
-  """
-  def list_events do
-    Repo.all(Event)
-  end
-
-  @doc """
-  Retrieves a meeting with all fields prepopulated.
-  """
-  def get_full_meeting!(id) do
-    base = get_meeting!(id)
-    Map.put(base, :events, Enum.map(base.event_ids, &get_subtype_from_event!/1))
-  end
-
-  def create_full_meeting(meeting) do
-    {:ok, %Meeting{id: id}} = create_meeting(%{date: ~D[1970-01-01]})
-    update_full_meeting(Map.put(meeting, "id", id))
-  end
-
-  @doc """
-  Update a meeting, given the entire struct
-  """
-  def update_full_meeting(%{events: _events} = meeting) do
-    update_full_meeting(Map.new(Map.from_struct(meeting), fn {k, v} -> {to_string(k), v} end))
-  end
-
-  def update_full_meeting(%{"events" => events} = meeting) do
-    event_ids = create_events_from_generic(events)
-    meeting_params = Map.put(meeting, "event_ids", event_ids)
-    update_meeting(get_meeting!(meeting["id"]), meeting_params)
-  end
-
-  @doc """
-  Given a struct with a `type` attribute and keys for all events,
-  stores an event of that type and creates a corresponding event type
-  to point to the subtype just created.
-  """
-  @spec create_events_from_generic([%{type: String.t()} | %Event.Generic{} | %Event.Music{} | %Event.Note{} | %Event.Talk{}]) :: [integer()]
-  def create_events_from_generic([]), do: []
-
-  def create_events_from_generic([spec | rest]) do
-    {event, _subtype} = Event.create_subtype(Event.to_spec(spec))
-    [event.id | create_events_from_generic(rest)]
-  end
 
   @doc """
   Gets a single event.
 
   Raises `Ecto.NoResultsError` if the Event does not exist.
-
-  ## Examples
-
-      iex> get_event!(123)
-      %Event{}
-
-      iex> get_event!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_event!(id), do: Repo.get!(Event, id)
-
-  def get_subtypes_from_ids([]), do: []
-  def get_subtypes_from_ids([id | rest]) do
-    [get_subtype_from_event!(id) | get_subtypes_from_ids(rest)]
-  end
-
-  @doc """
-  Given an event_id, finds the subtype and returns that.
-  """
-  def get_subtype_from_event!(event_id) do
-    event = Repo.get!(Event, event_id)
-
-    case event.type do
-      "generic" -> Event.get_generic!(event.foreign_key)
-      "note" -> Event.get_note!(event.foreign_key)
-      "talk" -> Event.get_talk!(event.foreign_key)
-      "music" -> Event.get_music!(event.foreign_key)
-    end
-    |> Map.put(:type, event.type)
-  end
 
   @doc """
   Creates a event.
@@ -317,15 +107,6 @@ defmodule ProgramBuilder.Program do
 
   @doc """
   Updates a event.
-
-  ## Examples
-
-      iex> update_event(event, %{field: new_value})
-      {:ok, %Event{}}
-
-      iex> update_event(event, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def update_event(%Event{} = event, attrs) do
     event
@@ -335,15 +116,6 @@ defmodule ProgramBuilder.Program do
 
   @doc """
   Deletes a Event.
-
-  ## Examples
-
-      iex> delete_event(event)
-      {:ok, %Event{}}
-
-      iex> delete_event(event)
-      {:error, %Ecto.Changeset{}}
-
   """
   def delete_event(%Event{} = event) do
     Repo.delete(event)
