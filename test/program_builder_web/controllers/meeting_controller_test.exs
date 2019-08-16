@@ -92,7 +92,6 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
       assert html_response(conn, 200) =~ "some updated accompanist"
     end
 
-    @tag :skip
     test "renders errors when data is invalid", %{conn: conn, meeting: meeting} do
       conn = put(conn, Routes.meeting_path(conn, :update, meeting), meeting: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Meeting"

@@ -35,7 +35,7 @@ defmodule ProgramBuilder.Program do
       ** (Ecto.NoResultsError)
 
   """
-  def get_meeting!(id), do: Repo.get!(Meeting, id)
+  def get_meeting!(id), do: Repo.get!(Meeting, id) |> Repo.preload([:events])
 
   @doc """
   Creates a meeting.
