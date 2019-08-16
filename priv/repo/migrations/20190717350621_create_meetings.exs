@@ -22,7 +22,7 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMeetings do
       add :announcements, {:array, :string}
       add :callings, {:array, :string}
       add :releases, {:array, :string}
-      add :stake_business, :string
+      add :stake_business, :string, default: ""
 
       timestamps()
     end

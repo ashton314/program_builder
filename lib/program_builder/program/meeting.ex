@@ -23,7 +23,7 @@ defmodule ProgramBuilder.Program.Meeting do
     field :announcements, {:array, :string}
     field :callings, {:array, :string}
     field :releases, {:array, :string}
-    field :stake_business, :string
+    field :stake_business, :string, default: ""
 
     has_many :events, Program.Event
 
