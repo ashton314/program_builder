@@ -51,6 +51,7 @@ defmodule ProgramBuilder.Program.Meeting do
       :benediction
     ])
     |> validate_required([:date])
+    |> validate_number(:opening_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
     |> cast_assoc(:events, with: &Program.Event.changeset/2)
   end
 end
