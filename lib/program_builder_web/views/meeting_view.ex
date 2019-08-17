@@ -33,10 +33,11 @@ defmodule ProgramBuilderWeb.MeetingView do
     content_tag(:ul, Enum.map(items, fn item -> content_tag(:li, item) end))
   end
 
+  def display_or_none(first, second \\ [])
   def display_or_none(first, second) when is_binary(second),
     do: display_or_none(first, second, [])
 
-  def display_or_none(first, second \\ []), do: display_or_none(first, "(None)", second)
+  def display_or_none(first, second), do: display_or_none(first, "(None)", second)
 
   def display_or_none(nil, empty_message, options) do
     options = Keyword.put_new(options, :class, "font-italic text-muted")
