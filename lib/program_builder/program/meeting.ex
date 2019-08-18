@@ -20,12 +20,12 @@ defmodule ProgramBuilder.Program.Meeting do
     field :invocation, :id
     field :benediction, :id
 
-    field :announcements, {:array, :string}
-    field :callings, {:array, :string}
-    field :releases, {:array, :string}
+    field :announcements, {:array, :string}, default: []
+    field :callings, {:array, :string}, default: []
+    field :releases, {:array, :string}, default: []
     field :stake_business, :string, default: ""
 
-    has_many :events, Program.Event
+    has_many :events, Program.Event, on_replace: :delete
 
     timestamps()
   end

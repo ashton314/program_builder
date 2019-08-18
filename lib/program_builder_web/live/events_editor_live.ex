@@ -23,7 +23,6 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
 
   def handle_event("del_event", event_id, socket) do
     dead = String.to_integer(event_id)
-    Program.delete_event(Program.get_event!(dead))
 
     send socket.assigns.parent_pid, {:update_events, self(), Enum.reject(socket.assigns.events, fn e -> e.id == dead end)}
 

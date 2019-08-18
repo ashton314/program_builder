@@ -19,9 +19,9 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMeetings do
       add :invocation, references(:members, on_delete: :nothing)
       add :benediction, references(:members, on_delete: :nothing)
 
-      add :announcements, {:array, :string}
-      add :callings, {:array, :string}
-      add :releases, {:array, :string}
+      add :announcements, {:array, :string}, default: []
+      add :callings, {:array, :string}, default: []
+      add :releases, {:array, :string}, default: []
       add :stake_business, :string, default: ""
 
       timestamps()

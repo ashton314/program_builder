@@ -6,6 +6,8 @@ defmodule ProgramBuilderWeb.MeetingView do
   def just_hymn_name(nil), do: "(None Given)"
   def just_hymn_name(num), do: Music.hymn_name(num)
 
+  def add_tuple_id(thing), do: {System.unique_integer(), thing}
+
   def strip_tuple_id({_id, thing}), do: thing
   def strip_tuple_id(thing), do: thing
 

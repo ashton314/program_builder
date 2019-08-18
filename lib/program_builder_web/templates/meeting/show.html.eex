@@ -68,7 +68,7 @@ Invocation: <%= member_name(@meeting.invocation) %>
 </p>
 
 <p class="font-italic my-3 text-center">
-    &mdash; Announcements, Business, Ordinances &mdash;
+    &mdash; Announcements and Business &mdash;
 </p>
 
 <ul>
@@ -102,5 +102,5 @@ Benediction: <%= member_name(@meeting.benediction) %>
 </p>
 
 
-<span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.DumbEditLive, @meeting.id) %></span>
+<span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, @meeting.id) %></span>
 

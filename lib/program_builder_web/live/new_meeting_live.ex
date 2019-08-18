@@ -2,9 +2,10 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   use Phoenix.LiveView
 
   alias ProgramBuilder.Repo
-  alias ProgramBuilder.Program  
+  alias ProgramBuilder.Program
   alias ProgramBuilder.Program.Meeting
   alias ProgramBuilderWeb.Router.Helpers, as: Routes
+  alias ProgramBuilderWeb.MeetingView
   require Logger
 
   def render(assigns) do
@@ -12,13 +13,14 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   end
 
   def mount(_params, socket) do
-    meeting = %Meeting{} |> Repo.preload([:events])
-    meeting = meeting |> Repo.preload([:events])
+    meeting = %Meeting{date: next_sunday()} |> Repo.preload([:events])
+    {:ok, sacrament_hymn} = Program.create_event(%{type: "music", title: "", order_idx: 0})
+    {:ok, sacrament} = Program.create_event(%{type: "generic", title: "Sacrament", order_idx: 1})
     socket =
       socket
       |> assign(meeting: meeting, changeset: Meeting.changeset(meeting, %{}))
-      |> assign(events: meeting.events)
-      |> assign(announcements: [], callings: [], releases: [])
+      |> assign(events: [sacrament_hymn, sacrament])
+      |> assign(announcements: meeting.announcements, callings: meeting.callings, releases: meeting.releases)
 
     {:ok, socket}
   end
@@ -33,8 +35,13 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   end
 
   def handle_event("save", %{"meeting" => params}, socket) do
-    params = Map.put(params, "events", Enum.map(socket.assigns.events, fn e -> Map.from_struct(e) end))
-    IO.inspect(params, label: :params)
+    params =
+      params
+      |> Map.put("events", Enum.map(socket.assigns.events, fn e -> Map.from_struct(e) end))
+      |> Map.put("announcements", Enum.map(socket.assigns.announcements, &MeetingView.strip_tuple_id/1))
+      |> Map.put("callings", Enum.map(socket.assigns.callings, &MeetingView.strip_tuple_id/1))
+      |> Map.put("releases", Enum.map(socket.assigns.releases, &MeetingView.strip_tuple_id/1))
+
     cs =
       socket.assigns.meeting
       |> Meeting.changeset(params)
@@ -50,6 +57,10 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
 
       {:noreply, socket}
     else
+      socket =
+        socket
+        |> put_flash(:error, "Problem saving... reload page and try again")
+      Logger.error("Problem saving event: #{inspect cs}")
       {:noreply, assign(socket, changeset: cs)}
     end
   end
@@ -60,5 +71,9 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
 
   def handle_info({:list_update, field, new_list}, socket) do
     {:noreply, assign(socket, field, new_list)}
+  end
+
+  def next_sunday() do
+    Timex.today |> Timex.beginning_of_week |> Timex.add(Timex.Duration.from_days(7))
   end
 end
