@@ -1,0 +1,56 @@
+<!-- -*- mode: web -*- -->
+<%= for event_cs <- @event_changesets do %>
+    <%= f = form_for event_cs, "#", [phx_change: :validate, class: "row my-3 w-100", as: "event#{event_cs.data.id}"] %>
+
+    <%# This is here so that the :validate knows which changeset to update %>
+    <%= hidden_input f, :id %>
+
+    <div class="col-3">
+        <%= select f, :type, ["Talk": "talk", "Musical Number": "music", "Generic": "generic", "Note": "note"], class: "form-control" %>
+    </div>
+
+    <%= if input_value(f, :type) == "talk" do %>
+        <div class="col">
+            <%= text_input f, :body, placeholder: "Subtopic", class: "form-control" %>
+        </div>
+        <div class="col">
+            <%= text_input f, :raw_name, placeholder: "Visitor Name", class: "form-control" %>
+        </div>
+    <% end %>
+
+    <%= if input_value(f, :type) == "music" do %>
+        <div class="col">
+            <%= number_input f, :hymn_number, placeholder: "Hymn Number", class: "form-control" %>
+        </div>
+        <div class="col">
+            <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+        </div>
+        <div class="col">
+            <%= text_input f, :raw_name, placeholder: "Performer", class: "form-control" %>
+        </div>
+    <% end %>
+
+    <%= if input_value(f, :type) == "generic" do %>
+        <div class="col">
+            <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+        </div>
+        <div class="col">
+            <%= text_input f, :body, placeholder: "Subtitle", class: "form-control" %>
+        </div>
+    <% end %>
+
+    <%= if input_value(f, :type) == "note" do %>
+        <div class="col">
+            <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+        </div>
+        <div class="col">
+            <%= text_input f, :body, placeholder: "Body", class: "form-control" %>
+        </div>
+    <% end %>
+
+    <div class="col-auto">
+        <button class="btn btn-danger" phx-click="del_event" phx-value="<%= event_cs.data.id %>">Remove</button>
+    </div>
+      </form>
+<% end %>
+<button class="btn btn-success my-3" phx-click="add_event">Add Event</button>
