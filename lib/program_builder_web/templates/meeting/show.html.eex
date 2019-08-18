@@ -1,3 +1,4 @@
+<!-- -*- mode: web -*- -->
 <span class="my-3"><%= link "< Back", to: Routes.meeting_path(@conn, :index) %></span>
 
 <h1 class="mt-3">Meeting on <%= @meeting.date %></h1>
@@ -46,20 +47,6 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12 col-md-6">
-        <h4 class="mt-3">Baby Blessings</h4>
-        <%= list_display(@meeting.baby_blessings) %>
-    </div>
-    <div class="col-12 col-md-6">
-        <h4 class="mt-3">Confirmations</h4>
-        <%= list_display(@meeting.confirmations) %>
-    </div>
-</div>
-
-<h4 class="mt-3">Other Ordinances</h4>
-<%= list_display(@meeting.other_ordinances) %>
-
 <h3 class="mt-3">Music</h3>
 <div class="row">
     <div class="col">
@@ -84,28 +71,20 @@ Invocation: <%= member_name(@meeting.invocation) %>
     &mdash; Announcements, Business, Ordinances &mdash;
 </p>
 
-<p>
-Sacrament Hymn: <%= @meeting.sacrament_hymn %>&nbsp;<i><%= just_hymn_name(@meeting.sacrament_hymn) %></i>
-</p>
-
-<p class="my-3 text-center lead">
-    &mdash; Administration of the Sacrament &mdash;
-</p>
-
 <ul>
 <%= for event <- @meeting.events do %>
     <li>
         <%= if event.type == "talk" do %>
-            Talk: <%= if event.member_id, do: member_name(event.member_id), else: display_or_none(event.visitor) %>
+            Talk: <%= if event.member_id, do: member_name(event.member_id), else: display_or_none(event.raw_name) %>
         <% end %>
         <%= if event.type == "generic" do %>
-            <span class="lead"><%= event.title %></span> <%= event.subtitle %>
+            <span class="lead"><%= event.title %></span> <%= event.body %>
         <% end %>
-        <%= if event.type == "music" && event.number do %>
-            Rest Hymn: <%= hymn_name(event.number) %>
+        <%= if event.type == "music" && event.hymn_number do %>
+            Rest Hymn: <%= hymn_name(event.hymn_number) %>
         <% end %>
-        <%= if event.type == "music" && ! event.number do %>
-            Musical Number: <span class="font-italic"><%= event.title %> by <%= event.performer %>
+        <%= if event.type == "music" && ! event.hymn_number do %>
+            Musical Number: <span class="font-italic"><%= event.title %> by <%= event.raw_name %>
         <% end %>
         <%= if event.type == "note" do %>
             <span class="lead"><%= event.title %></span> <%= event.body %>

@@ -12,7 +12,6 @@
                 <th>Accompanist</th>
                 <th>Chorester</th>
                 <th>Opening hymn</th>
-                <th>Sacrament hymn</th>
                 <th>Events</th>
                 <th>Closing hymn</th>
 
@@ -31,10 +30,6 @@
                     <td><%= meeting.chorester %></td>
                     <td><%= meeting.opening_hymn %>
                         <%= hymn_name(meeting.opening_hymn) %></td>
-                    </td>
-                    <td>
-                        <%= meeting.sacrament_hymn %>
-                        <%= hymn_name(meeting.sacrament_hymn) %>
                     </td>
                     <td>(Preview not available)</td>
                     <td><%= meeting.closing_hymn %>

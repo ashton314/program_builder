@@ -11,7 +11,6 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
   end
 
   def mount(%{parent: parent_pid, events: events}, socket) do
-    # IO.inspect(events, label: :incoming_events)
     changesets = Enum.map(events, fn e -> Event.changeset(e, %{}) end)
     socket =
       socket
@@ -24,7 +23,7 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
 
   def handle_event("del_event", event_id, socket) do
     dead = String.to_integer(event_id)
-    Program.delete_event(dead)
+    Program.delete_event(Program.get_event!(dead))
 
     send socket.assigns.parent_pid, {:update_events, self(), Enum.reject(socket.assigns.events, fn e -> e.id == dead end)}
 
@@ -41,7 +40,6 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
   end
 
   def handle_event("validate", params, socket) do
-    Logger.debug("in event validation handler (child)")
     "event" <> event_id =
       params
       |> Map.keys()
@@ -59,7 +57,6 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
   end
 
   def update_event(socket, %{"id" => id} = event) do
-    Logger.debug("in update_event (child)")
     update(socket, :events, fn events ->
       Enum.map(events, fn evt ->
         if to_string(evt.id) == id do

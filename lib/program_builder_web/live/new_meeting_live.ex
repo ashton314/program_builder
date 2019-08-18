@@ -4,6 +4,7 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   alias ProgramBuilder.Repo
   alias ProgramBuilder.Program  
   alias ProgramBuilder.Program.Meeting
+  alias ProgramBuilderWeb.Router.Helpers, as: Routes
   require Logger
 
   def render(assigns) do
@@ -11,8 +12,7 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   end
 
   def mount(_params, socket) do
-    # meeting = %Meeting{} |> Repo.preload([:events])
-    {:ok, meeting} = Program.create_meeting(%{date: ~D[2019-01-01]})
+    meeting = %Meeting{} |> Repo.preload([:events])
     meeting = meeting |> Repo.preload([:events])
     socket =
       socket
@@ -28,9 +28,30 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
       socket.assigns.meeting
       |> Meeting.changeset(params)
       |> Map.put(:action, :insert)
-      |> Ecto.Changeset.update_change(:events, fn e_cs -> Enum.map(e_cs, &Ecto.Changeset.apply_changes/1) end)
 
     {:noreply, assign(socket, changeset: cs)}
+  end
+
+  def handle_event("save", %{"meeting" => params}, socket) do
+    params = Map.put(params, "events", Enum.map(socket.assigns.events, fn e -> Map.from_struct(e) end))
+    IO.inspect(params, label: :params)
+    cs =
+      socket.assigns.meeting
+      |> Meeting.changeset(params)
+      |> Map.put(:action, :insert)
+
+    if cs.valid? do
+      {:ok, meeting} = Program.create_meeting(params)
+
+      socket =
+        socket
+        |> put_flash(:info, "New meeting created")
+        |> redirect(to: Routes.meeting_path(ProgramBuilderWeb.Endpoint, :show, meeting))
+
+      {:noreply, socket}
+    else
+      {:noreply, assign(socket, changeset: cs)}
+    end
   end
 
   def handle_info({:update_events, _child, events}, state) do
