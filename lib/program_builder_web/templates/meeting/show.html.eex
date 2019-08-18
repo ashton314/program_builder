@@ -72,24 +72,30 @@ Invocation: <%= member_name(@meeting.invocation) %>
 </p>
 
 <ul>
-<%= for event <- @meeting.events do %>
-    <li>
-        <%= if event.type == "talk" do %>
-            Talk: <%= if event.member_id, do: member_name(event.member_id), else: display_or_none(event.raw_name) %>
-        <% end %>
-        <%= if event.type == "generic" do %>
-            <span class="lead"><%= event.title %></span> <%= event.body %>
-        <% end %>
-        <%= if event.type == "music" && event.hymn_number do %>
-            Rest Hymn: <%= hymn_name(event.hymn_number) %>
-        <% end %>
-        <%= if event.type == "music" && ! event.hymn_number do %>
-            Musical Number: <span class="font-italic"><%= event.title %> by <%= event.raw_name %>
-        <% end %>
-        <%= if event.type == "note" do %>
-            <span class="lead"><%= event.title %></span> <%= event.body %>
-        <% end %>
-    </li>
+<%= for event <- Enum.sort @meeting.events, &(Map.get(&1, :order_idx, 99998) < Map.get(&2, :order_idx, 99999)) do %>
+    <%= if event.type == "talk" do %>
+        <li>Talk: <%= if event.member_id, do: member_name(event.member_id), else: display_or_none(event.raw_name) %></li>
+    <% end %>
+    <%= if event.type == "generic" && event.title =~ ~r/sacrament/i do %>
+</ul>
+<p class="font-italic my-3 text-center">
+    <span class="font-weight-light" style="font-size: 24px"><%= event.title %></span><br/>
+    <%= event.body %>
+</p>
+<ul>
+    <% end %>
+    <%= if event.type == "generic" && ! (event.title =~ ~r/sacrament/i) do %>
+        <li><span class="lead"><%= event.title %></span> <%= event.body %></li>
+    <% end %>
+    <%= if event.type == "music" && event.hymn_number do %>
+        <li>Hymn: <%= display_or_none(event.hymn_number)  %> <%= just_hymn_name(event.hymn_number) %></li>
+    <% end %>
+    <%= if event.type == "music" && ! event.hymn_number do %>
+        <li>Musical Number: <span class="font-italic"><%= event.title %></span> by <%= event.raw_name %></li>
+    <% end %>
+    <%= if event.type == "note" do %>
+        <li><span class="lead"><%= event.title %></span> <%= event.body %></li>
+    <% end %>
 <% end %>
 </ul>
 

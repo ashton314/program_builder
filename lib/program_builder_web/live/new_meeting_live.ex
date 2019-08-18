@@ -9,7 +9,7 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   require Logger
 
   def render(assigns) do
-    Phoenix.View.render(ProgramBuilderWeb.MeetingView, "new_live.html", assigns)
+    Phoenix.View.render(ProgramBuilderWeb.MeetingView, "meeting_editor_live.html", assigns)
   end
 
   def mount(_params, socket) do

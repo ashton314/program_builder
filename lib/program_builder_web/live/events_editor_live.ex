@@ -11,6 +11,7 @@ defmodule ProgramBuilderWeb.EventsEditorLive do
   end
 
   def mount(%{parent: parent_pid, events: events}, socket) do
+    events = Enum.sort(events, &(Map.get(&1, :order_idx, 99998) < Map.get(&2, :order_idx, 99999)))
     changesets = Enum.map(events, fn e -> Event.changeset(e, %{}) end)
     socket =
       socket
