@@ -55,49 +55,6 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
     end
   end
 
-  describe "new meeting" do
-    test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.meeting_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Meeting"
-    end
-  end
-
-  @tag :skip
-  describe "create meeting" do
-    test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.meeting_path(conn, :create), meeting: @create_attrs)
-
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.meeting_path(conn, :show, id)
-
-      conn = get(conn, Routes.meeting_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Meeting"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.meeting_path(conn, :create), meeting: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Meeting"
-    end
-  end
-
-  describe "update meeting" do
-    setup [:create_meeting]
-
-    @tag :skip
-    test "redirects when data is valid", %{conn: conn, meeting: meeting} do
-      conn = put(conn, Routes.meeting_path(conn, :update, meeting), meeting: @update_attrs)
-      assert redirected_to(conn) == Routes.meeting_path(conn, :show, meeting)
-
-      conn = get(conn, Routes.meeting_path(conn, :show, meeting))
-      assert html_response(conn, 200) =~ "some updated accompanist"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, meeting: meeting} do
-      conn = put(conn, Routes.meeting_path(conn, :update, meeting), meeting: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Meeting"
-    end
-  end
-
   describe "delete meeting" do
     setup [:create_meeting]
 
