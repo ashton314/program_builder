@@ -59,13 +59,10 @@
 
 <h2 class="mt-5">Program Outline</h2>
 
-<p>
-Opening Hymn: <%= @meeting.opening_hymn %>&nbsp;<i><%= just_hymn_name(@meeting.opening_hymn) %></i>
-</p>
-
-<p>
-Invocation: <%= member_name(@meeting.invocation) %>
-</p>
+<ul>
+    <li>Opening Hymn: (<%= display_or_none(@meeting.opening_hymn) %>)&nbsp;<i><%= just_hymn_name(@meeting.opening_hymn) %></i></li>
+    <li>Invocation: <%= member_name(@meeting.invocation) %></li>
+</ul>
 
 <p class="font-italic my-3 text-center">
     &mdash; Announcements and Business &mdash;
@@ -79,7 +76,7 @@ Invocation: <%= member_name(@meeting.invocation) %>
     <%= if event.type == "generic" && event.title =~ ~r/sacrament/i do %>
 </ul>
 <p class="font-italic my-3 text-center">
-    <span class="font-weight-light" style="font-size: 24px"><%= event.title %></span><br/>
+    <span class="font-weight-light" style="font-size: 24px">&mdash; <%= event.title %> &mdash;</span><br/>
     <%= event.body %>
 </p>
 <ul>
@@ -88,7 +85,7 @@ Invocation: <%= member_name(@meeting.invocation) %>
         <li><span class="lead"><%= event.title %></span> <%= event.body %></li>
     <% end %>
     <%= if event.type == "music" && event.hymn_number do %>
-        <li>Hymn: <%= display_or_none(event.hymn_number)  %> <%= just_hymn_name(event.hymn_number) %></li>
+        <li>Hymn: (<%= display_or_none(event.hymn_number) %>)&nbsp;<i><%= just_hymn_name(event.hymn_number) %></i></li>
     <% end %>
     <%= if event.type == "music" && ! event.hymn_number do %>
         <li>Musical Number: <span class="font-italic"><%= event.title %></span> by <%= event.raw_name %></li>
@@ -97,16 +94,9 @@ Invocation: <%= member_name(@meeting.invocation) %>
         <li><span class="lead"><%= event.title %></span> <%= event.body %></li>
     <% end %>
 <% end %>
-</ul>
 
-<p class="mt-3">
-Closing Hymn: <%= @meeting.closing_hymn %>&nbsp;<i><%= just_hymn_name(@meeting.closing_hymn) %></i>
-</p>
+<li class="mt-3">Closing Hymn: (<%= display_or_none(@meeting.closing_hymn) %>)&nbsp;<i><%= just_hymn_name(@meeting.closing_hymn) %></i></li>
+<li>Benediction: <%= member_name(@meeting.benediction) %></li>
 
-<p>
-Benediction: <%= member_name(@meeting.benediction) %>
-</p>
-
-
-<span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, @meeting.id) %></span>
+<span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, @meeting.id), class: "mt-3 btn btn-outline-success" %></span>
 

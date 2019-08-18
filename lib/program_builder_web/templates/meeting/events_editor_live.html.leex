@@ -21,6 +21,7 @@
     <%= if input_value(f, :type) == "music" do %>
         <div class="col">
             <%= number_input f, :hymn_number, placeholder: "Hymn Number", class: "form-control" %>
+            <small class="form-text"><%= just_hymn_name(input_value(f, :hymn_number)) %></small>
         </div>
         <div class="col">
             <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
