@@ -3,11 +3,11 @@
 
 <h1 class="mt-3">Meeting on <%= @meeting.date %></h1>
 
-<p>
+<p class="text-muted">
     <%= if @meeting.topic do %>
         <i>"<%= @meeting.topic %>"</i>
     <% else %>
-        <i class="text-muted">(No topic specified)</i>
+        <i>(No topic specified)</i>
     <% end %>
 </p>
 
@@ -23,27 +23,7 @@
         Visiting: <%= display_or_none(@meeting.visiting, "(No one)") %>
     </div>
     <div class="col-6 col-md-3">
-        Stake Business: <%= display_or_none(@meeting.stake_business) %>
-    </div>
-</div>
-
-<h3 class="mt-3">Announcements</h3>
-<%= list_display(@meeting.announcements) %>
-
-<div class="row">
-    <div class="col-12 col-md-6">
-        <h4 class="mt-3">Releases</h4>
-        <p class="font-italic">
-            The following have been released from their callings and we propose they be given a vote of thanks.
-        </p>
-        <%= list_display(@meeting.releases) %>
-    </div>
-    <div class="col-12 col-md-6">
-        <h4 class="mt-3">Sustainings</h4>
-        <p class="font-italic">
-            We have called the following to a position in the ward and propose they be sustained. As you are called, please stand and remain standing until the vote is taken.
-        </p>
-        <%= list_display(@meeting.callings) %>
+        Stake Business: <%= display_or_none(@meeting.stake_business, "(No one)") %>
     </div>
 </div>
 
@@ -57,11 +37,15 @@
     </div>
 </div>
 
+<h3 class="mt-3">Announcements</h3>
+<%= list_display(@meeting.announcements) %>
+
 <h2 class="mt-5">Program Outline</h2>
 
 <ul>
-    <li>Opening Hymn: (<%= display_or_none(@meeting.opening_hymn) %>)&nbsp;<i><%= just_hymn_name(@meeting.opening_hymn) %></i></li>
-    <li>Invocation: <%= member_name(@meeting.invocation) %></li>
+    <li class="note-block">Welcome to the Church of Jesus Christ of Latter-day Saints</li>
+    <li class="music-line">Opening Hymn: (<%= display_or_none(@meeting.opening_hymn) %>)&nbsp;<i><%= just_hymn_name(@meeting.opening_hymn) %></i></li>
+    <li class="prayer-line">Invocation: <%= member_name(@meeting.invocation) %></li>
 </ul>
 
 <p class="font-italic my-3 text-center">
@@ -71,7 +55,7 @@
 <ul>
 <%= for event <- Enum.sort @meeting.events, &(Map.get(&1, :order_idx, 99998) <= Map.get(&2, :order_idx, 99999)) do %>
     <%= if event.type == "talk" do %>
-        <li>Talk: <%= if event.member_id, do: member_name(event.member_id), else: display_or_none(event.raw_name) %></li>
+        <li class="talk-line">Talk: <%= if event.member_id, do: member_name(event.member_id), else: display_or_none(event.raw_name) %></li>
     <% end %>
     <%= if event.type == "generic" && event.title =~ ~r/sacrament/i do %>
 </ul>
@@ -85,18 +69,46 @@
         <li><span class="lead"><%= event.title %></span> <%= event.body %></li>
     <% end %>
     <%= if event.type == "music" && event.hymn_number do %>
-        <li>Hymn: (<%= display_or_none(event.hymn_number) %>)&nbsp;<i><%= just_hymn_name(event.hymn_number) %></i></li>
+        <li class="music-line">Hymn: (<%= display_or_none(event.hymn_number) %>)&nbsp;<i><%= just_hymn_name(event.hymn_number) %></i></li>
     <% end %>
     <%= if event.type == "music" && ! event.hymn_number do %>
-        <li>Musical Number: <span class="font-italic"><%= event.title %></span> by <%= event.raw_name %></li>
+        <li class="music-line">Musical Number: <span class="font-italic"><%= event.title %></span> by <%= event.raw_name %></li>
     <% end %>
     <%= if event.type == "note" do %>
         <li><span class="lead"><%= event.title %></span> <%= event.body %></li>
     <% end %>
 <% end %>
 
-<li class="mt-3">Closing Hymn: (<%= display_or_none(@meeting.closing_hymn) %>)&nbsp;<i><%= just_hymn_name(@meeting.closing_hymn) %></i></li>
-<li>Benediction: <%= member_name(@meeting.benediction) %></li>
+<li class="mt-3 music-line">Closing Hymn: (<%= display_or_none(@meeting.closing_hymn) %>)&nbsp;<i><%= just_hymn_name(@meeting.closing_hymn) %></i></li>
+<li class="prayer-line">Benediction: <%= member_name(@meeting.benediction) %></li>
+</ul>
+
+<hr>
+
+<h3>Business</h3>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <h4 class="mt-3">Releases</h4>
+        <p class="font-italic note-block">
+            The following have been released from their callings and we propose they be given a vote of thanks.
+        </p>
+        <p class="font-italic note-block">
+            All those who would like to thank these individuals for their service, please do so by raising the right hand.
+        </p>
+        <%= list_display(@meeting.releases) %>
+    </div>
+    <div class="col-12 col-md-6">
+        <h4 class="mt-3">Sustainings</h4>
+        <p class="font-italic note-block">
+            We have called the following to a position in the ward and propose they be sustained. As you are called, please stand and remain standing until the vote is taken.
+        </p>
+        <p class="font-italic note-block">
+            All in favor, please manifest. All opposed, if any, by the same sign.
+        </p>
+        <%= list_display(@meeting.callings) %>
+    </div>
+</div>
+
 
 <span><%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, @meeting.id), class: "mt-3 btn btn-outline-success" %></span>
 

@@ -41,6 +41,8 @@ defmodule ProgramBuilderWeb.MeetingView do
 
   def display_or_none(first, second), do: display_or_none(first, "(None)", second)
 
+  def display_or_none("", empty_message, options), do: display_or_none(nil, empty_message, options)
+
   def display_or_none(nil, empty_message, options) do
     options = Keyword.put_new(options, :class, "font-italic text-muted")
     content_tag(:span, empty_message, options)

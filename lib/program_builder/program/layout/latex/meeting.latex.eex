@@ -1,0 +1,150 @@
+\documentclass[12pt,letterpaper]{article}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1em}
+\pagenumbering{gobble}
+
+\usepackage{fullpage,tabularx,graphicx,type1cm,hyperref,ulem,multicol}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=1cm]{geometry}
+
+%% FORMAT ME WITH xelatex!!!
+\usepackage{fontspec}
+%\setmainfont{Hoefler Text}
+%\setmainfont{Cormorant Garamond}
+%\setmainfont{Baskerville}
+\defaultfontfeatures{Ligatures=TeX}
+
+%% Pretty section break
+\newcommand{\PRLsep}{\noindent\makebox[\linewidth]{\resizebox{0.3333\linewidth}{1pt}{$\bullet$}}\bigskip}
+
+%% Used for making the \uline command work
+\makeatletter
+\def\UL@putbox{\ifx\UL@start\@empty \else % not inner
+  \vrule\@width\z@ \LA@penalty\@M
+  {\UL@skip\wd\UL@box \UL@leaders \kern-\UL@skip}%
+    \phantom{\box\UL@box}%
+  \fi}
+\makeatother
+
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE \textsc{Sacrament Meeting}}\\[1em]
+  {\large The Church of Jesus Christ of Latter-day Saints}\\
+  {\large Provo Student Married 11\textsuperscript{th} Ward}\\[1em]
+  {<%= disp(meeting.date) %>}
+\end{center}
+
+Presiding: <%= disp(meeting.presiding) %>{\hfill}Conducting: <%= disp(meeting.conducting) %>{\hfill}Visiting: <%= disp(meeting.visiting, underline: true) %>
+
+{\hfill}Chorister: <%= disp(meeting.chorester, underline: true) %>{\hspace{\stretch{2}}Accompanist: <%= disp(meeting.accompanist, underline: true) %>{\hfill}
+
+\begin{center}
+  {\Large Announcements}
+\end{center}
+
+\begin{itemize}
+<%= for item <- meeting.announcements do %>
+\item <%= disp(item) %>
+<% end %>
+\end{itemize}
+
+\begin{center}
+  {\Large Program}\\[1em]
+  {\it <%= disp(meeting.topic) %>}
+\end{center}
+
+Opening Hymn{\dotfill}<%= disp_hymn(meeting.opening_hymn) %>\\
+Invocation{\dotfill}<%= disp(meeting.invocation, underline: true) %>
+
+\vspace{\fill}
+
+\begin{center}
+  {\it Business} (see back)
+\end{center}
+
+<%= for event <- Enum.sort meeting.events, &(Map.get(&1, :order_idx, 99998) <= Map.get(&2, :order_idx, 99999)) do %>
+    <%= cond do %>
+    <% event.type == "talk" -> %>
+        Speaker{\dotfill}<%= if event.member_id, do: disp(member_name(event.member_id)), else: disp(event.raw_name) %>
+    <% event.type == "generic" && event.title =~ ~r/sacrament/i -> %>
+    \begin{center}
+      \textsc{<%= disp(event.title) %>}\\
+        <%= event.body %>
+    \end{center}
+    <% event.type == "generic" && ! (event.title =~ ~r/sacrament/i) -> %>
+    \begin{center}
+      <%= disp(event.title) %>\\
+      <%= event.body %>
+    \end{center}
+    <% event.type == "music" && event.hymn_number -> %>
+        Hymn{\dotfill}<%= disp_hymn(event.hymn_number) %>
+    <% event.type == "music" && ! event.hymn_number -> %>
+        Musical Number{\dotfill}<%= italic(event.title) %>{\dotfill}by <%= disp(event.raw_name) %>
+    <% event.type == "note" -> %>
+        <%= disp(event.title, filler_text: "Note") %>: <%= disp(event.body) %>
+    <% end %>
+<% end %>
+
+\vspace{\fill}
+
+Closing Hymn{\dotfill}<%= disp_hymn(meeting.closing_hymn) %>\\
+Benediction{\dotfill}<%= disp(meeting.benediction, underline: true) %>
+
+\vspace{\fill}
+
+\pagebreak
+
+\begin{center}
+  {\Large Business}
+\end{center}
+
+\begin{center}
+  {\large Releases}
+\end{center}
+
+<%= if length(meeting.releases) > 0 do %>
+The following have been released from their callings and we propose they be given a vote of thanks.
+
+\begin{itemize}
+  <%= for i <- meeting.releases do %>
+  \item <%= disp(i) %>
+  <% end %>
+\end{itemize}
+
+All those who would like to thank these individuals for their service, please do so by raising the right hand.
+<% else %>
+\begin{center}
+  (No Releases)
+\end{center}
+<% end %>
+
+\begin{center}
+  {\large Sustainings}
+\end{center}
+
+<%= if length(meeting.callings) > 0 do %>
+We have called the following to a position in the ward and propose they be sustained. As you are called, please stand and remain standing until the vote is taken.
+
+\begin{itemize}
+  <%= for i <- meeting.callings do %>
+  \item <%= disp(i) %>
+  <% end %>
+\end{itemize}
+
+All in favor, please manifest. All opposed, if any, by the same sign.
+<% else %>
+\begin{center}
+  (No Sustainings)
+\end{center}
+<% end %>
+
+\PRLsep
+
+\begin{center}
+  Stake Business (~Y~/~N~) <%= disp(meeting.stake_business, underline: true) %>
+\end{center}
+
+\end{document}

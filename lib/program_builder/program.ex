@@ -78,6 +78,10 @@ defmodule ProgramBuilder.Program do
     Meeting.changeset(meeting, %{})
   end
 
+  def format_meeting(%Meeting{} = meeting, kind \\ :latex) when kind in ~w(latex markdown)a do
+    ProgramBuilder.Meeting.Layout.latex(meeting)
+  end
+
   alias ProgramBuilder.Program.Event
 
   @doc """

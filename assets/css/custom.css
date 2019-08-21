@@ -6,10 +6,35 @@
     color: red;
 }
 
+.note-block {
+    color: #2a4;
+}
+
+.music-line {
+    color: #24c;
+}
+
+.prayer-line {
+    color: #c50;
+}
+
+.talk-line {
+    color: #000;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #333;
         color: #eee;
+    }
+    .music-line {
+        color: #07f;
+    }
+    .prayer-line {
+        color: #e50;
+    }
+    .talk-line {
+        color: #fff;
     }
     .navbar {
         background-color: #222;
