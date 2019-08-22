@@ -5,10 +5,11 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 config :program_builder,
-  ecto_repos: [ProgramBuilder.Repo]
+  ecto_repos: [ProgramBuilder.Repo],
+  format_dir: Path.absname("/tmp/program_builder")
 
 # Configures the endpoint
 config :program_builder, ProgramBuilderWeb.Endpoint,
