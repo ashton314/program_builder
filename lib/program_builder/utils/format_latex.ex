@@ -1,44 +1,88 @@
 defmodule ProgramBuilder.Utils.FormatLatex do
+  require Logger
+
+  @filename_base "program"
+
+  @doc """
+  Given a token (really, just the first 32 characters of the hash of
+  the latex string) return the path to the file.
+  """
+  def retrieve_from_token(token, suffix \\ "pdf") do
+    base_dir = Application.fetch_env!(:program_builder, :format_dir)
+
+    if token =~ ~r/^[a-z0-9]+$/ && suffix =~ ~r/^[a-z]+$/ do
+      {:ok, Path.join([base_dir, token, "#{@filename_base}.#{suffix}"])}
+    else
+      {:error, :bad_token}
+    end
+  end
 
   @doc """
   Given a string, formats the LaTeX, and returns a Path to the
   formatted PDF file.
   """
-  @spec format_string(str :: String.t()) :: {:ok, Path.t()} | {:error, String.t()}
+  @spec format_string(str :: String.t()) :: {:ok, String.t()} | {:error, String.t()}
   def format_string(str) do
-    with {:ok, tmp} <- create_tmp(str),
-         file <- Path.join(tmp, "program.tex"),
+    Logger.debug("format_string called; this is process #{inspect self()}")
+    with {:ok, tmp, token} <- create_tmp(str),
+         file <- Path.join(tmp, "#{@filename_base}.tex"),
          :ok <- File.write(file, str) do
-      run_latex(file)
+      Logger.debug("format_string finished; returning token #{token}")
+      run_latex(file, token)
+    else
+      {:eexist, token} ->
+        Logger.debug("Already exists, token #{token}")
+        {:ok, token}
+      err -> err
     end
   end
 
   def create_tmp(data) do
     # Ensure we have a directory
     base_dir = Application.fetch_env!(:program_builder, :format_dir)
+
     unless File.dir?(base_dir) do
       File.mkdir!(base_dir)
     end
 
     # Generate a new unique path
-    name = :crypto.hash(:sha512, data) |> Base.hex_encode32(case: :lower, padding: false) |> String.to_charlist() |> Enum.take(20) |> to_string()
-    full_name = Path.join(base_dir, name)
-    File.mkdir!(full_name)
+    name =
+      :crypto.hash(:sha512, data)
+      |> Base.hex_encode32(case: :lower, padding: false)
+      |> String.to_charlist()
+      |> Enum.take(32)
+      |> to_string()
 
-    {:ok, full_name}
+    full_name = Path.join(base_dir, name)
+
+    with :ok <- File.mkdir(full_name) do
+      {:ok, full_name, name}
+    else
+      {:error, :eexist} -> {:eexist, name}
+      err -> err
+    end
   end
 
-  def run_latex(path) do
+  @doc """
+  Run XeLaTeX on a file given the path. Returns `{:ok, "retrieval_token"}` on success.
+  Return `{:error, "Reason"}` otherwise.
+  """
+  def run_latex(path, token) do
     {dir, file} = split_at_file(path)
     base_file = Path.basename(file, ".tex")
-    IO.inspect(dir, label: :path_dir)
-    with {_logs, 0} <- System.cmd("xelatex", ["-output-directory=#{dir}", path]) do
+    Logger.debug("Running xelatex on #{path}")
+
+    with {_logs, 0} <- System.cmd("xelatex", ["-halt-on-error", "-output-directory=#{dir}", path]) do
       # Cleanup
       for ext <- ~w(aux log out) do
         File.rm(Path.join(dir, "#{base_file}.#{ext}"))
       end
 
-      {:ok, Path.join(dir, "#{base_file}.pdf")}
+      {:ok, token}
+    else
+      {reason, err} when is_integer(err) ->
+        Logger.error("Couldn't format #{path}: Exit status #{err}: #{inspect(reason)}")
+        {:error, reason}
     end
   end
 

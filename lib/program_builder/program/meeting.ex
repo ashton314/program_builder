@@ -3,6 +3,8 @@ defmodule ProgramBuilder.Program.Meeting do
   alias ProgramBuilder.Program
   import Ecto.Changeset
 
+  @type t :: __MODULE__
+
   schema "meetings" do
     # belongs_to :unit, ProgramBuilder.Unit
 

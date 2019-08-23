@@ -78,8 +78,27 @@ defmodule ProgramBuilder.Program do
     Meeting.changeset(meeting, %{})
   end
 
-  def format_meeting(%Meeting{} = meeting, kind \\ :latex) when kind in ~w(latex markdown)a do
+  @doc """
+  Convert a meeting into a LaTeX or Markdown string.
+  """
+  def layout_meeting(%Meeting{} = meeting, kind \\ :latex) when kind in ~w(latex markdown)a do
     ProgramBuilder.Meeting.Layout.latex(meeting)
+  end
+
+  @doc """
+  Convert a meeting into a PDF.
+  """
+  @spec format_meeting(meeting :: Meeting.t()) :: {:ok, Path.t()} | {:error, String.t()}
+  def format_meeting(%Meeting{} = meeting) do
+    layout_meeting(meeting) |> ProgramBuilder.Utils.FormatLatex.format_string
+  end
+
+  def run_format(%Meeting{} = meeting) do
+    caller = self()
+    Task.Supervisor.start_child(LatexFormat.Supervisor, fn ->
+      resp = format_meeting(meeting)
+      send caller, {:formatter_finished, resp}
+    end)
   end
 
   alias ProgramBuilder.Program.Event

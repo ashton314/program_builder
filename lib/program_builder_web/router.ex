@@ -21,9 +21,11 @@ defmodule ProgramBuilderWeb.Router do
 
     live "/new-meeting", NewMeetingLive
     live "/meetings/:id/edit", MeetingEditorLive
+    live "/meetings/:id/format", MeetingFormatterLive
+
+    get "/download/:token", DownloadController, :download
 
     resources "/meetings", MeetingController, except: [:edit]
-    get "/meetings/:meeting_id/format", MeetingController, :formatter
     resources "/members", MemberController
   end
 

@@ -11,9 +11,10 @@ defmodule ProgramBuilder.Application do
       # Start the Ecto repository
       ProgramBuilder.Repo,
       # Start the endpoint when the application starts
-      ProgramBuilderWeb.Endpoint
+      ProgramBuilderWeb.Endpoint,
       # Starts a worker by calling: ProgramBuilder.Worker.start_link(arg)
       # {ProgramBuilder.Worker, arg},
+      {Task.Supervisor, name: LatexFormat.Supervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
