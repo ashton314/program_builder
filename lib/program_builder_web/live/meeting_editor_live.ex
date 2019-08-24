@@ -57,7 +57,7 @@ defmodule ProgramBuilderWeb.MeetingEditorLive do
       socket =
         socket
         |> put_flash(:info, "Meeting updated")
-        |> redirect(to: Routes.meeting_path(ProgramBuilderWeb.Endpoint, :show, updated_meeting))
+        |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingViewerLive, updated_meeting.id))
 
       {:noreply, socket}
     else

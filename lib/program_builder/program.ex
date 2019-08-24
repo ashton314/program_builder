@@ -5,8 +5,8 @@ defmodule ProgramBuilder.Program do
 
   import Ecto.Query, warn: false
   alias ProgramBuilder.Repo
-
   alias ProgramBuilder.Program.Meeting
+  require Logger
 
   @doc """
   Returns the list of meetings.
@@ -95,10 +95,12 @@ defmodule ProgramBuilder.Program do
 
   def run_format(%Meeting{} = meeting) do
     caller = self()
-    Task.Supervisor.start_child(LatexFormat.Supervisor, fn ->
-      resp = format_meeting(meeting)
-      send caller, {:formatter_finished, resp}
-    end)
+    DynamicSupervisor.start_child(LatexFormat.Supervisor,
+      {Task, fn ->
+        Logger.debug("in spawned task #{inspect self()}, formatting...")
+        resp = format_meeting(meeting)
+        send caller, {:formatter_finished, resp}
+      end})
   end
 
   alias ProgramBuilder.Program.Event

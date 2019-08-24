@@ -20,12 +20,13 @@ defmodule ProgramBuilderWeb.Router do
     get "/", PageController, :index
 
     live "/new-meeting", NewMeetingLive
+    live "/meetings/:id", MeetingViewerLive
     live "/meetings/:id/edit", MeetingEditorLive
     live "/meetings/:id/format", MeetingFormatterLive
 
     get "/download/:token", DownloadController, :download
 
-    resources "/meetings", MeetingController, except: [:edit]
+    resources "/meetings", MeetingController, except: [:edit, :show]
     resources "/members", MemberController
   end
 

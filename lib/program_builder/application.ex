@@ -14,7 +14,7 @@ defmodule ProgramBuilder.Application do
       ProgramBuilderWeb.Endpoint,
       # Starts a worker by calling: ProgramBuilder.Worker.start_link(arg)
       # {ProgramBuilder.Worker, arg},
-      {Task.Supervisor, name: LatexFormat.Supervisor}
+      {DynamicSupervisor, strategy: :one_for_one, name: LatexFormat.Supervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
