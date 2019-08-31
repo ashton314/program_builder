@@ -13,9 +13,9 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
   end
 
   def mount(_params, socket) do
-    meeting = %Meeting{date: next_sunday()} |> Repo.preload([:events])
+    meeting = %Meeting{date: next_sunday(), announcements: ["If you are new to the ward, please meet with a member of the bishopric in the foyer after the meeting."]} |> Repo.preload([:events])
     {:ok, sacrament_hymn} = Program.create_event(%{type: "music", title: "", order_idx: 0})
-    {:ok, sacrament} = Program.create_event(%{type: "generic", title: "Sacrament", order_idx: 1})
+    {:ok, sacrament} = Program.create_event(%{type: "generic", title: "Administration of the Sacrament", order_idx: 1})
     socket =
       socket
       |> assign(meeting: meeting, changeset: Meeting.changeset(meeting, %{}))
@@ -53,7 +53,7 @@ defmodule ProgramBuilderWeb.NewMeetingLive do
       socket =
         socket
         |> put_flash(:info, "New meeting created")
-        |> redirect(to: Routes.meeting_path(ProgramBuilderWeb.Endpoint, :show, meeting))
+        |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingViewerLive, meeting.id))
 
       {:noreply, socket}
     else

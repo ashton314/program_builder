@@ -5,8 +5,8 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Moved in</th>
-      <th>Moved out</th>
+      <!-- <th>Moved in</th> -->
+      <!-- <th>Moved out</th> -->
 
       <th></th>
     </tr>
@@ -16,8 +16,8 @@
     <tr>
       <td><%= member.id %></td>
       <td><%= member.name %></td>
-      <td><%= member.moved_in %></td>
-      <td><%= member.moved_out %></td>
+      <!-- <td><%= member.moved_in %></td> -->
+      <!-- <td><%= member.moved_out %></td> -->
 
       <td>
         <%= link "Show", to: Routes.member_path(@conn, :show, member), class: "btn btn-sm btn-outline-primary" %>

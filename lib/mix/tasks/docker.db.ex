@@ -17,8 +17,9 @@ defmodule Mix.Tasks.Docker.Db do
 
   @impl Mix.Task
   def run(["start"]) do
-    Mix.shell().info("Starting container named #{@project_sname}...")
     volume = "#{@project_sname}_volume"
+
+    Mix.shell().info("Starting container named #{@project_sname} with volume #{volume}...")
 
     System.cmd("docker", [
       "run",
@@ -29,7 +30,7 @@ defmodule Mix.Tasks.Docker.Db do
       "-p",
       "5432:5432",
       "--mount",
-      "type=volume,src=#{volume},dst=/var/lib/postgresql",
+      "type=volume,src=#{volume},dst=/var/lib/postgresql/data",
       "--name",
       @project_sname,
       "postgres"
