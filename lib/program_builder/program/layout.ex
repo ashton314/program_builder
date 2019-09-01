@@ -45,6 +45,8 @@ defmodule ProgramBuilder.Meeting.Layout do
   end
   def pretty_print(x), do: x
 
+  def escape(foo) when not is_binary(foo), do: escape(to_string(foo))
+
   def escape(""), do: ""
   def escape("\\" <> rest), do: "\\\\" <> escape(rest)
   def escape("{" <> rest), do: "\\{" <> escape(rest)

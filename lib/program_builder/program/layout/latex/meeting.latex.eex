@@ -57,7 +57,7 @@ Presiding: <%= disp(meeting.presiding) %>{\hfill}Conducting: <%= disp(meeting.co
 \end{center}
 
 Opening Hymn{\dotfill}<%= disp_hymn(meeting.opening_hymn) %>\\
-Invocation{\dotfill}<%= disp(meeting.invocation, underline: true) %>
+Invocation{\dotfill}<%= disp(member_name(meeting.invocation), underline: true) %>
 
 \vspace{\fill}
 
@@ -91,7 +91,7 @@ Invocation{\dotfill}<%= disp(meeting.invocation, underline: true) %>
 \vspace{\fill}
 
 Closing Hymn{\dotfill}<%= disp_hymn(meeting.closing_hymn) %>\\
-Benediction{\dotfill}<%= disp(meeting.benediction, underline: true) %>
+Benediction{\dotfill}<%= disp(member_name(meeting.benediction), underline: true) %>
 
 \vspace{\fill}
 
