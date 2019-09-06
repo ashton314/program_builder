@@ -63,7 +63,7 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
       assert redirected_to(conn) == Routes.meeting_path(conn, :index)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.meeting_path(conn, :show, meeting))
+        get(conn, Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingViewerLive, meeting.id))
       end
     end
   end

@@ -14,12 +14,29 @@ defmodule ProgramBuilderWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug ProgramBuilder.Auth.Pipeline
+  end
+
+  # We use ensure_auth to fail if there is no one logged in
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
   scope "/", ProgramBuilderWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
 
     get "/", PageController, :index
+    get "/login", AuthController, :new
+    post "/login", AuthController, :login
+    get "/logout", AuthController, :logout
 
     live "/new-meeting", NewMeetingLive
+  end
+
+  scope "/", ProgramBuilderWeb do
+    pipe_through [:browser, :auth, :ensure_auth]
+
     live "/meetings/:id", MeetingViewerLive
     live "/meetings/:id/edit", MeetingEditorLive
     live "/meetings/:id/format", MeetingFormatterLive

@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+config :program_builder, ProgramBuilder.Auth.Guardian,
+  issuer: "program_builder",
+  secret_key: "UTEghFSDPWeX7/NGJhLH31G1e1r2PB0XBzhZq2eWFB///VWPsEOBP5smkTtGha+K"
+
 config :program_builder,
   ecto_repos: [ProgramBuilder.Repo],
   format_dir: Path.absname("/tmp/program_builder")
