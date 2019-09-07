@@ -27,6 +27,12 @@
                           <%= link "Member Listing", to: Routes.member_path(ProgramBuilderWeb.Endpoint, :index), class: "nav-link" %>
                       </li>
                   </ul>
+
+                  <ul class="navbar-nav ml-auto">
+                      <li class="nav-item">
+                          <%= login_or_logout_link(@conn) %>
+                      </li>
+                  </ul>
               </div>
           </nav>
       </header>

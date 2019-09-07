@@ -23,7 +23,7 @@ defmodule ProgramBuilderWeb.AuthController do
 
   def logout(conn, _) do
     conn
-    |> Guardian.Plug.sign_out(Guardian)
+    |> Guardian.Plug.sign_out()
     |> redirect(to: "/login")
   end
 
