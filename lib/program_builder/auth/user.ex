@@ -1,12 +1,14 @@
 defmodule ProgramBuilder.Auth.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias ProgramBuilder.Auth
 
   schema "users" do
     field :email, :string
     field :password, :string
     field :username, :string
-    field :unit_id, :id
+
+    belongs_to(:unit, Auth.Unit)
 
     timestamps()
   end
@@ -14,7 +16,8 @@ defmodule ProgramBuilder.Auth.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :password, :email])
+    |> cast(attrs, [:username, :password, :email, :unit_id])
+    |> assoc_constraint(:unit)
     |> validate_required([:username, :password])
     |> put_password_hash()
   end
