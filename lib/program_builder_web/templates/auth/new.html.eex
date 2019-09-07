@@ -1,21 +1,27 @@
 <!-- -*- mode: web -*- -->
-<h2>Login Page</h2>
 
-<%= form_for @changeset, @action, fn f -> %>
+<div class="row justify-content-center">
+    <div class="card col col-md-6 col-lg-4">
+        <div class="card-body">
+            <h3 class="card-title">Login</h3>
+            <%= form_for @changeset, @action, fn f -> %>
 
-  <div class="form-group">
-    <%= label f, :username, class: "control-label" %>
-    <%= text_input f, :username, class: "form-control" %>
-    <%= error_tag f, :username %>
-  </div>
+                <div class="form-group">
+                    <%= label f, :username, class: "control-label" %>
+                    <%= text_input f, :username, class: "form-control", autofocus: true %>
+                    <%= error_tag f, :username %>
+                </div>
 
-  <div class="form-group">
-    <%= label f, :password, class: "control-label" %>
-    <%= password_input f, :password, class: "form-control" %>
-    <%= error_tag f, :password %>
-  </div>
+                <div class="form-group">
+                    <%= label f, :password, class: "control-label" %>
+                    <%= password_input f, :password, class: "form-control" %>
+                    <%= error_tag f, :password %>
+                </div>
 
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
-<% end %>
+                <div class="form-group">
+                    <%= submit "Log In", class: "btn btn-primary" %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

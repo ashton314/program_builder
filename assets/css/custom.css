@@ -22,10 +22,35 @@
     color: #000;
 }
 
+.alert {
+    opacity: 0.8 !important;
+}
+
+@media (prefers-color-scheme: light) {
+    .navbar {
+        background-color: #444;
+    }
+    .navbar-brand {
+        color: #eee !important;
+    }
+    .nav-link {
+        color: #eee !important;
+    }
+    .nav-link:hover {
+        color: #fff !important;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #333;
         color: #eee;
+    }
+    .card, .card-body {
+        background-color: #353535;
+        color: #eff;
+        border-color: #777;
+        border-radius: 5px;
     }
     .music-line {
         color: #07f;

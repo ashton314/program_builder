@@ -30,12 +30,12 @@ defmodule ProgramBuilderWeb.Router do
     get "/login", AuthController, :new
     post "/login", AuthController, :login
     get "/logout", AuthController, :logout
-
-    live "/new-meeting", NewMeetingLive
   end
 
   scope "/", ProgramBuilderWeb do
     pipe_through [:browser, :auth, :ensure_auth]
+
+    live "/new-meeting", NewMeetingLive
 
     live "/meetings/:id", MeetingViewerLive
     live "/meetings/:id/edit", MeetingEditorLive
