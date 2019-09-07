@@ -29,6 +29,14 @@
                   </ul>
 
                   <ul class="navbar-nav ml-auto">
+                      <%= if logged_in?(@conn) do %>
+                          <li class="nav-item">
+                              <span class="navbar-text">
+                                  <%= username(@conn) %>
+                              </span>
+                          </li>
+                          <li class="nav-item navbar-text">&nbsp;|</li>
+                      <% end %>
                       <li class="nav-item">
                           <%= login_or_logout_link(@conn) %>
                       </li>

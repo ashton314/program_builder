@@ -1,6 +1,11 @@
 defmodule ProgramBuilderWeb.LayoutView do
   use ProgramBuilderWeb, :view
 
+  def username(conn) do
+    user = Guardian.Plug.current_resource(conn)
+    user.username
+  end
+
   def logged_in?(conn) do
     Guardian.Plug.authenticated?(conn, [])    
   end
