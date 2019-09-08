@@ -21,6 +21,7 @@ defmodule ProgramBuilderWeb.Router do
   # We use ensure_auth to fail if there is no one logged in
   pipeline :ensure_auth do
     plug Guardian.Plug.EnsureAuthenticated
+    plug ProgramBuilder.Auth.PutUser
   end
 
   scope "/", ProgramBuilderWeb do
@@ -37,7 +38,7 @@ defmodule ProgramBuilderWeb.Router do
 
     live "/new-meeting", NewMeetingLive
 
-    live "/meetings/:id", MeetingViewerLive
+    live "/meetings/:id", MeetingViewerLive, session: [:user]
     live "/meetings/:id/edit", MeetingEditorLive
     live "/meetings/:id/format", MeetingFormatterLive
 

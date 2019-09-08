@@ -1,0 +1,190 @@
+\documentclass[12pt,letterpaper]{article}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1em}
+\pagenumbering{gobble}
+
+\usepackage{tabularx,graphicx,type1cm,hyperref,ulem,multicol,mdframed,marginnote}
+\usepackage[left=1cm,right=4cm,top=1cm,bottom=1cm,marginparwidth=3cm]{geometry}
+
+%% FORMAT ME WITH xelatex!!!
+\usepackage{fontspec}
+%\setmainfont{Hoefler Text}
+%\setmainfont{Cormorant Garamond}
+%\setmainfont{Baskerville}
+\defaultfontfeatures{Ligatures=TeX}
+
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%% Pretty section break
+\newcommand{\PRLsep}{\noindent\makebox[\linewidth]{\resizebox{0.3333\linewidth}{1pt}{$\bullet$}}\bigskip}
+
+%% Box with line on right side
+%\newmdenv[topline=true,bottomline=false,leftline=false]{rbox}
+\newmdenv[topline=false,bottomline=true,leftline=false]{rbox}
+%\newmdenv[topline=true,bottomline=true,leftline=false]{rbox}
+
+%% Used for making the \uline command work
+\makeatletter
+\def\UL@putbox{\ifx\UL@start\@empty \else % not inner
+  \vrule\@width\z@ \LA@penalty\@M
+  {\UL@skip\wd\UL@box \UL@leaders \kern-\UL@skip}%
+    \phantom{\box\UL@box}%
+  \fi}
+\makeatother
+
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE \textsc{Sacrament Meeting}}\\[1em]
+  {\large The Church of Jesus Christ of Latter-day Saints}\\
+  {\large <%= disp(unit.name) %>}\\[1em]
+  {<%= disp(meeting.date) %>}
+\end{center}
+
+\marginnote{\footnotesize Welcome; introduce person presiding.}[1em]
+\marginnote{\footnotesize Read Announcements; Announce opening hymn and invocation.}[12em]
+\begin{rbox}
+\subsection*{Welcome}
+``Welcome to the Church of Jesus Christ of Latter-day Saints.''
+
+Presiding: <%= disp(meeting.presiding) %>{\hfill}Visiting: <%= disp(meeting.visiting, underline: true) %>\\
+Conducting: <%= disp(meeting.conducting) %>
+
+\subsection*{Announcements}
+\begin{itemize}
+\tightlist
+<%= for item <- meeting.announcements do %>
+\item <%= disp(item) %>
+<% end %>
+\end{itemize}
+
+\subsection*{Program}
+Opening Hymn{\dotfill}<%= disp_hymn(meeting.opening_hymn) %>\\
+Invocation{\dotfill}<%= disp(member_name(meeting.invocation), underline: true) %>
+\end{rbox}
+
+\marginnote{\footnotesize Thank musicians; Run ward business; Turn over to sake officer.}[1em]
+\begin{rbox}
+Chorister: <%= disp(meeting.chorester, underline: true) %>{\hfill}Accompanist: <%= disp(meeting.accompanist, underline: true) %>
+
+\subsubsection*{Business (see back)}
+\end{rbox}
+
+%% FIXME: How do I handle ordinances? Maybe a checkbox on the editor
+%% and a flag in the DB?
+    
+\marginnote{\footnotesize ``We will now prepare for the Sacrament\ldots''}
+\begin{rbox}
+<% {first_events, rest_events} = Enum.sort(meeting.events, &(Map.get(&1, :order_idx, 99998) <= Map.get(&2, :order_idx, 99999))) |> Enum.split(2) %>
+<%= for event <- first_events do %>
+    <%= cond do %>
+    <% event.type == "talk" -> %>
+        Speaker{\dotfill}<%= if event.member_id, do: disp(member_name(event.member_id)), else: disp(event.raw_name) %>
+    <% event.type == "generic" && event.title =~ ~r/sacrament/i -> %>
+    \begin{center}
+      \textsc{<%= disp(event.title) %>}\\
+        <%= event.body %>
+    \end{center}
+    <% event.type == "generic" && ! (event.title =~ ~r/sacrament/i) -> %>
+    \begin{center}
+      <%= disp(event.title) %>\\
+      <%= event.body %>
+    \end{center}
+    <% event.type == "music" && event.hymn_number -> %>
+        Hymn{\dotfill}<%= disp_hymn(event.hymn_number) %>
+    <% event.type == "music" && ! event.hymn_number -> %>
+        Musical Number{\dotfill}<%= italic(event.title) %>{\dotfill}by <%= disp(event.raw_name) %>
+    <% event.type == "note" -> %>
+        <%= disp(event.title, filler_text: "Note") %>: <%= disp(event.body) %>
+    <% end %>
+<% end %>
+\end{rbox}
+
+\marginnote{\footnotesize Thank Priesthood bearers; Announce remainder of meeting including benediction.}[1em]
+\begin{rbox}
+<%= for event <- rest_events do %>
+    <%= cond do %>
+    <% event.type == "talk" -> %>
+        Speaker{\dotfill}<%= if event.member_id, do: disp(member_name(event.member_id)), else: disp(event.raw_name) %>
+    <% event.type == "generic" && event.title =~ ~r/sacrament/i -> %>
+    \begin{center}
+      \textsc{<%= disp(event.title) %>}\\
+        <%= event.body %>
+    \end{center}
+    <% event.type == "generic" && ! (event.title =~ ~r/sacrament/i) -> %>
+    \begin{center}
+      <%= disp(event.title) %>\\
+      <%= event.body %>
+    \end{center}
+    <% event.type == "music" && event.hymn_number -> %>
+        Hymn{\dotfill}<%= disp_hymn(event.hymn_number) %>
+    <% event.type == "music" && ! event.hymn_number -> %>
+        Musical Number{\dotfill}<%= italic(event.title) %>{\dotfill}by <%= disp(event.raw_name) %>
+    <% event.type == "note" -> %>
+        <%= disp(event.title, filler_text: "Note") %>: <%= disp(event.body) %>
+    <% end %>
+<% end %>
+
+\vspace{\fill}
+
+Closing Hymn{\dotfill}<%= disp_hymn(meeting.closing_hymn) %>\\
+Benediction{\dotfill}<%= disp(member_name(meeting.benediction), underline: true) %>
+
+\end{rbox}
+
+\vspace{\fill}
+
+\pagebreak
+
+\begin{center}
+  {\Large Business}
+\end{center}
+
+\begin{rbox}
+
+\subsection*{Releases}
+<%= if length(meeting.releases) > 0 do %>
+The following have been released from their callings and we propose they be given a vote of thanks.
+
+\begin{itemize}
+  <%= for i <- meeting.releases do %>
+  \item <%= disp(i) %>
+  <% end %>
+\end{itemize}
+
+All those who would like to thank these individuals for their service, please do so by raising the right hand.
+<% else %>
+\begin{center}
+  (No Releases)
+\end{center}
+<% end %>
+
+\subsection*{Sustainings}
+\marginnote{Don't forget to ask people to stand.}
+<%= if length(meeting.callings) > 0 do %>
+We have called the following to a position in the ward and propose they be sustained. As you are called, please stand and remain standing until the vote is taken.
+
+\begin{itemize}
+  <%= for i <- meeting.callings do %>
+  \item <%= disp(i) %>
+  <% end %>
+\end{itemize}
+
+All in favor, please manifest. All opposed, if any, by the same sign.
+<% else %>
+\begin{center}
+  (No Sustainings)
+\end{center}
+<% end %>
+\end{rbox}
+
+\PRLsep
+
+\begin{center}
+  Stake Business (~Y~/~N~) <%= disp(meeting.stake_business, underline: true) %>
+\end{center}
+
+\end{document}

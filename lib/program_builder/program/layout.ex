@@ -1,9 +1,10 @@
-defmodule ProgramBuilder.Meeting.Layout do
+defmodule ProgramBuilder.Program.Layout do
   require EEx
   require Logger
   import ProgramBuilder.Utils.Music
 
   EEx.function_from_file(:def, :latex, "lib/program_builder/program/layout/latex/meeting.latex.eex", [:meeting])
+  EEx.function_from_file(:def, :latex_conductor, "lib/program_builder/program/layout/latex/conductor_meeting.latex.eex", [:meeting, :unit])
 
   def italic(str, opts \\ []), do: "\\textit{#{disp(str, opts)}}"
 

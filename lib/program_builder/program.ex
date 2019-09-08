@@ -81,24 +81,27 @@ defmodule ProgramBuilder.Program do
   @doc """
   Convert a meeting into a LaTeX or Markdown string.
   """
-  def layout_meeting(%Meeting{} = meeting, kind \\ :latex) when kind in ~w(latex markdown)a do
-    ProgramBuilder.Meeting.Layout.latex(meeting)
+  def layout_meeting(%Meeting{} = meeting, kind \\ :latex, unit \\ %{}) when kind in ~w(latex markdown conductor)a do
+    case kind do
+      :latex -> ProgramBuilder.Program.Layout.latex(meeting)
+      :conductor -> ProgramBuilder.Program.Layout.latex_conductor(meeting, unit)
+    end
   end
 
   @doc """
   Convert a meeting into a PDF.
   """
-  @spec format_meeting(meeting :: Meeting.t()) :: {:ok, Path.t()} | {:error, String.t()}
-  def format_meeting(%Meeting{} = meeting) do
-    layout_meeting(meeting) |> ProgramBuilder.Utils.FormatLatex.format_string
+  @spec format_meeting(meeting :: Meeting.t(), unit :: %{}, kind :: atom()) :: {:ok, Path.t()} | {:error, String.t()}
+  def format_meeting(%Meeting{} = meeting, unit, kind \\ :latex) do
+    layout_meeting(meeting, kind) |> ProgramBuilder.Utils.FormatLatex.format_string
   end
 
-  def run_format(%Meeting{} = meeting) do
+  def run_format(%Meeting{} = meeting, unit \\ %{}, kind \\ :latex) do
     caller = self()
     DynamicSupervisor.start_child(LatexFormat.Supervisor,
       {Task, fn ->
         Logger.debug("in spawned task #{inspect self()}, formatting...")
-        resp = format_meeting(meeting)
+        resp = format_meeting(meeting, unit, kind)
         send caller, {:formatter_finished, resp}
       end})
   end

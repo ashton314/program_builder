@@ -10,9 +10,15 @@ defmodule ProgramBuilderWeb.MeetingViewerLive do
     ProgramBuilderWeb.MeetingView.render("show.html", assigns)
   end
 
-  def mount(%{path_params: %{"id" => id}}, socket) do
+  def mount(%{path_params: %{"id" => id}, user: user}, socket) do
+    IO.inspect(user, label: :user_in_mount)
     meeting = Program.get_meeting!(id) |> Repo.preload([:events])
-    {:ok, assign(socket, meeting: meeting, download_working: false)}
+    {:ok, assign(socket, meeting: meeting, download_working: false, user: user)}
+  end
+
+  def handle_event("download", _params, socket) do
+    Program.run_format(socket.assigns.meeting)
+    {:noreply, assign(socket, download_working: true)}
   end
 
   def handle_event("download", _params, socket) do
