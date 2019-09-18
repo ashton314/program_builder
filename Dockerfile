@@ -22,7 +22,7 @@ RUN apt-get install git build-essential erlang-dev --yes
 RUN mkdir /app
 WORKDIR /app
 
-COPY assets config deps lib mix.exs mix.lock priv test ./
+COPY assets config lib mix.exs mix.lock priv test ./
 RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get

@@ -4,7 +4,7 @@
 
 <section class="row">
   <article class="column">
-    <a href="/new-meeting">Create a new meeting</a>
+    <a href="/login" class="btn btn-outline-primary">Login</a>
   </article>
   <article class="column">
   </article>

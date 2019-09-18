@@ -5,8 +5,8 @@ defmodule ProgramBuilder.Auth.PutUser do
     opts
   end
 
-  def call(conn, opts \\ []) do
+  def call(conn, _opts \\ []) do
     conn
-    |> assign(:user, Guardian.Plug.current_resource(conn))
+    |> put_session(:user, Guardian.Plug.current_resource(conn))
   end
 end

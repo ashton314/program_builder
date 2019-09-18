@@ -81,10 +81,10 @@ defmodule ProgramBuilder.Program do
   @doc """
   Convert a meeting into a LaTeX or Markdown string.
   """
-  def layout_meeting(%Meeting{} = meeting, kind \\ :latex, unit \\ %{}) when kind in ~w(latex markdown conductor)a do
+  def layout_meeting(%Meeting{} = meeting, kind \\ :latex, unit \\ %{}) when kind in ~w(latex markdown latex_conductor)a do
     case kind do
       :latex -> ProgramBuilder.Program.Layout.latex(meeting)
-      :conductor -> ProgramBuilder.Program.Layout.latex_conductor(meeting, unit)
+      :latex_conductor -> ProgramBuilder.Program.Layout.latex_conductor(meeting, unit)
     end
   end
 
@@ -93,7 +93,7 @@ defmodule ProgramBuilder.Program do
   """
   @spec format_meeting(meeting :: Meeting.t(), unit :: %{}, kind :: atom()) :: {:ok, Path.t()} | {:error, String.t()}
   def format_meeting(%Meeting{} = meeting, unit, kind \\ :latex) do
-    layout_meeting(meeting, kind) |> ProgramBuilder.Utils.FormatLatex.format_string
+    layout_meeting(meeting, kind, unit) |> ProgramBuilder.Utils.FormatLatex.format_string
   end
 
   def run_format(%Meeting{} = meeting, unit \\ %{}, kind \\ :latex) do

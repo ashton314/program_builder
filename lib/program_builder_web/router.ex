@@ -38,7 +38,7 @@ defmodule ProgramBuilderWeb.Router do
 
     live "/new-meeting", NewMeetingLive
 
-    live "/meetings/:id", MeetingViewerLive, session: [:user]
+    live "/meetings/:id", MeetingViewerLive, session: [:path_params, :user]
     live "/meetings/:id/edit", MeetingEditorLive
     live "/meetings/:id/format", MeetingFormatterLive
 
