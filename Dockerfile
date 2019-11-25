@@ -16,15 +16,26 @@ RUN apt-get install gnupg --yes
 RUN wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && dpkg -i erlang-solutions_1.0_all.deb
 RUN apt-get update
 RUN apt-get install esl-erlang elixir --yes
-RUN apt-get install git build-essential erlang-dev --yes
+RUN apt-get install git build-essential erlang-dev erlang-parsetools --yes
 
 # 
 RUN mkdir /app
 WORKDIR /app
 
-COPY assets config lib mix.exs mix.lock priv test ./
+ENV MIX_ENV=prod
+
+COPY assets /app/assets/
+COPY config /app/config/
+COPY config/prod.secret.exs-example /app/config/prod.secret.exs
+COPY lib /app/lib/
+COPY mix.exs /app/
+COPY mix.lock /app/
+COPY priv /app/priv/
+COPY test /app/test/
+
 RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get
+RUN mix deps.compile
 
 CMD mix phx.server

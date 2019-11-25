@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
+
 config :program_builder, ProgramBuilder.Auth.Guardian,
   issuer: "program_builder",
   secret_key: "UTEghFSDPWeX7/NGJhLH31G1e1r2PB0XBzhZq2eWFB///VWPsEOBP5smkTtGha+K"
@@ -29,9 +32,6 @@ config :program_builder, ProgramBuilderWeb.Endpoint,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
-
-# Use Jason for JSON parsing in Phoenix
-config :phoenix, :json_library, Jason
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
