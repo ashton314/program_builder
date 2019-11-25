@@ -26,7 +26,7 @@ ENV MIX_ENV=prod
 
 COPY assets /app/assets/
 COPY config /app/config/
-COPY config/prod.secret.exs-example /app/config/prod.secret.exs
+COPY config/prod.secret.exs /app/config/prod.secret.exs
 COPY lib /app/lib/
 COPY mix.exs /app/
 COPY mix.lock /app/
