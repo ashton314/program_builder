@@ -1,1 +1,14 @@
 version: "3"
+services:
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    links:
+      - db
+  db:
+    image: postgres
+    volumes:
+      - program_builder_volume:/var/lib/postgresql/data
+volumes:
+  program_builder_volume: {}
