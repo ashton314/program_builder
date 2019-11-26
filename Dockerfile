@@ -24,18 +24,19 @@ WORKDIR /app
 
 ENV MIX_ENV=prod
 
-COPY assets /app/assets/
-COPY config /app/config/
-COPY config/prod.secret.exs /app/config/prod.secret.exs
-COPY lib /app/lib/
 COPY mix.exs /app/
 COPY mix.lock /app/
-COPY priv /app/priv/
-COPY test /app/test/
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get
 RUN mix deps.compile
 
-CMD mix phx.server
+COPY assets /app/assets/
+COPY config /app/config/
+COPY config/prod.secret.exs /app/config/prod.secret.exs
+COPY lib /app/lib/
+COPY priv /app/priv/
+COPY test /app/test/
+
+CMD mix ecto.create && mix ecto.migrate && mix phx.server

@@ -1,5 +1,8 @@
 TAG=ashton314/program_builder
 
+.PHONY: full-build
+full-build: npm-compile manifest docker-build
+
 # Build a Docker image
 .PHONY: docker-build
 docker-build:
