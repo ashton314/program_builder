@@ -1,7 +1,7 @@
 version: "3"
 services:
   app:
-    build: .
+    image: ashton314/program_builder
     ports:
       - "4000:4000"
     links:
@@ -10,5 +10,7 @@ services:
     image: postgres
     volumes:
       - program_builder_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: program_builder_prod
 volumes:
   program_builder_volume: {}
