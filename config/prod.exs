@@ -11,6 +11,7 @@ import Config
 # before starting your production server.
 config :program_builder, ProgramBuilderWeb.Endpoint,
   # http: [:inet6, port: System.get_env("PORT") || 4000],
+  force_ssl: [hsts: true],
   url: [host: "program-builder.wiersdorf.org", port: 443],
   https: [
     :inet6,
