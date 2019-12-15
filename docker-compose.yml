@@ -7,11 +7,15 @@ services:
       - "80:80"
     links:
       - db
+    environment:
+      - SECRET_BASE
+      - POSTGRES_PASSWORD
   db:
     image: postgres
     volumes:
       - program_builder_volume:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: program_builder_prod
+      - POSTGRES_DB=program_builder_prod
+      - POSTGRES_PASSWORD
 volumes:
   program_builder_volume: {}

@@ -44,3 +44,4 @@ npm-debug.log
 /config/*.secret.exs
 .DS_Store
 .elixir_ls
+.env
