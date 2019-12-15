@@ -3,7 +3,8 @@ services:
   app:
     image: ashton314/program_builder
     ports:
-      - "80:4000"
+      - "4000:4000"
+      - "80:80"
     links:
       - db
   db:
