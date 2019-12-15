@@ -10,8 +10,15 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :program_builder, ProgramBuilderWeb.Endpoint,
-  http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "program-builder.wiersdorf.org", port: 80],
+  # http: [:inet6, port: System.get_env("PORT") || 4000],
+  url: [host: "program-builder.wiersdorf.org", port: 443],
+  https: [
+    :inet6,
+    port: 443,
+    cipher_suite: :strong,
+    keyfile: System.get_env("SSL_KEY_PATH"),
+    certfile: System.get_env("SSL_CERT_PATH")
+  ],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
