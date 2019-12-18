@@ -131,7 +131,7 @@ defmodule ProgramBuilder.AuthTest do
     test "correct password" do
       user = user_fixture(%{password: "some random password"})
       id = user.id
-      assert {:ok, %{id: id}} = Auth.authenticate_user(user.username, "some random password")
+      assert {:ok, %{id: ^id}} = Auth.authenticate_user(user.username, "some random password")
       assert {:error, :invalid_credentials} = Auth.authenticate_user(user.username, "wrong")
     end    
   end

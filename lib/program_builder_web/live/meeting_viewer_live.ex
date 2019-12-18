@@ -13,7 +13,7 @@ defmodule ProgramBuilderWeb.MeetingViewerLive do
   end
 
   def mount(%{path_params: %{"id" => id}, user: user}, socket) do
-    IO.inspect(user, label: :user_in_mount)
+    # IO.inspect(user, label: :user_in_mount)
     meeting = Program.get_meeting!(id) |> Repo.preload([:events])
     {:ok, assign(socket, meeting: meeting, download_working: false, user: user, format_type: type_changeset(%{format_type: "latex"}))}
   end
