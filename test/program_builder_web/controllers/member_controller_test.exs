@@ -3,16 +3,23 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
 
   alias ProgramBuilder.People
 
-  @create_attrs %{moved_in: ~D[2010-04-17], moved_out: ~D[2010-04-17], name: "some name"}
-  @update_attrs %{moved_in: ~D[2011-05-18], moved_out: ~D[2011-05-18], name: "some updated name"}
-  @invalid_attrs %{moved_in: nil, moved_out: nil, name: nil}
+  @test_unit_attrs %{name: "test unit"}
+  @test_user_attrs %{unit_id: 0, username: "test", password: "test"}
 
-  def fixture(:member) do
-    {:ok, member} = People.create_member(@create_attrs)
+  @create_attrs %{moved_in: ~D[2010-04-17], moved_out: ~D[2010-04-17], name: "some name", unit_id: 0}
+  @update_attrs %{moved_in: ~D[2011-05-18], moved_out: ~D[2011-05-18], name: "some updated name", unit_id: 0}
+  @invalid_attrs %{moved_in: nil, moved_out: nil, name: nil, unit_id: 0}
+
+  def fixture(:member, unit) do
+    {:ok, member} = People.create_member(%{@create_attrs | unit_id: unit.id})
     member
   end
+  def fixture(:user, unit), do: ProgramBuilder.Auth.create_user!(%{@test_user_attrs | unit_id: unit.id})
+  def fixture(:unit), do: ProgramBuilder.Auth.create_unit!(@test_unit_attrs)
 
   describe "index" do
+    setup [:scaffold_auth]
+
     test "lists all members", %{conn: conn} do
       conn = get(conn, Routes.member_path(conn, :index))
       assert html_response(conn, 200) =~ "Member List"
@@ -20,6 +27,8 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   end
 
   describe "new member" do
+    setup [:scaffold_auth]
+
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.member_path(conn, :new))
       assert html_response(conn, 200) =~ "New Member"
@@ -27,6 +36,8 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   end
 
   describe "create member" do
+    setup [:scaffold_auth]
+
     test "redirects to show when data is valid", %{conn: conn} do
       conn = post(conn, Routes.member_path(conn, :create), member: @create_attrs)
 
@@ -44,7 +55,7 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   end
 
   describe "edit member" do
-    setup [:create_member]
+    setup [:scaffold_auth]
 
     test "renders form for editing chosen member", %{conn: conn, member: member} do
       conn = get(conn, Routes.member_path(conn, :edit, member))
@@ -53,7 +64,7 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   end
 
   describe "update member" do
-    setup [:create_member]
+    setup [:scaffold_auth]
 
     test "redirects when data is valid", %{conn: conn, member: member} do
       conn = put(conn, Routes.member_path(conn, :update, member), member: @update_attrs)
@@ -70,7 +81,7 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   end
 
   describe "delete member" do
-    setup [:create_member]
+    setup [:scaffold_auth]
 
     test "deletes chosen member", %{conn: conn, member: member} do
       conn = delete(conn, Routes.member_path(conn, :delete, member))
@@ -81,8 +92,17 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
     end
   end
 
-  defp create_member(_) do
-    member = fixture(:member)
-    {:ok, member: member}
+  defp scaffold_auth(%{conn: conn}) do
+    unit = fixture(:unit)
+    user = fixture(:user, unit)
+    member = fixture(:member, unit)
+
+    # Note: this step takes a long time
+    {:ok, token, _} = ProgramBuilder.Auth.Guardian.encode_and_sign(user, %{}, token_type: :access)
+    conn =
+      conn
+      |> put_req_header("authorization", "bearer: " <> token)
+
+    {:ok, conn: conn, member: member, unit: unit, user: user}
   end
 end

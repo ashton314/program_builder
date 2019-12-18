@@ -29,7 +29,7 @@ defmodule ProgramBuilderWeb.AuthController do
 
   defp login_reply({:ok, user}, conn) do
     conn
-    |> put_flash(:info, "Welcome back!")
+    # |> put_flash(:info, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
     |> redirect(to: "/meetings")
   end

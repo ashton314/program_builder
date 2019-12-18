@@ -55,6 +55,12 @@ defmodule ProgramBuilder.Auth do
     |> Repo.insert()
   end
 
+  def create_unit!(attrs \\ %{}) do
+    %Unit{}
+    |> Unit.changeset(attrs)
+    |> Repo.insert!()
+  end
+
   @doc """
   Updates a unit.
 
@@ -151,6 +157,15 @@ defmodule ProgramBuilder.Auth do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Create a user and die on error.
+  """
+  def create_user!(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert!()
   end
 
   @doc """
