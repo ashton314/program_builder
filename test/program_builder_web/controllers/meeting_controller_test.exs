@@ -81,25 +81,27 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
   describe "unit containment" do
     setup [:two_users]
 
-    test "build meeting for user 1—user2 can't access", %{user1: user1, user2: user2} do
+    test "build meeting for user1—user2 can't access", %{user1: user1, unit1: unit1, user2: user2} do
+      conn = build_conn()
+      conn =
+	conn
+	|> signin_user(user1)
+	|> post(Routes.meeting_path(conn, :create, date: "2019-01-01", topic: "Test 1"))
+
+      assert html_response(conn, 204) =~ "Created"
+      
+    end
+
+    test "listing meetings doesn't get other one's meetings", %{user1: _user1, user2: _user2} do
       assert true == false
     end
 
-    test "listing meetings doesn't get other one's meetings", %{user1: user1, user2: user2} do
-      assert true == false
-    end
-
-    test "trying to get other unit's meetings is 404", %{user1: user1, user2: user2} do
+    test "trying to get other unit's meetings is 404", %{user1: _user1, user2: _user2} do
       assert true == false
     end
 
     test "other unit's member list is not visible" do
       # FIXME: move this into the member_controller_test.exs
-      assert true == false
-    end
-
-    test "unit_id is an integer" do
-      # FIXME: remove this *after* creating a migration to change the unit id column into an integer
       assert true == false
     end
   end
@@ -112,16 +114,17 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
     {:ok, unit1: unit1, user1: user1, unit2: unit2, user2: user2}
   end
 
+  # Take a conn and return one that has the given user signed in
+  defp signin_user(conn, user) do
+    {:ok, token, _} = ProgramBuilder.Auth.Guardian.encode_and_sign(user, %{}, token_type: :access)
+    put_req_header(conn, "authorization", "bearer: " <> token)
+  end
+
   defp scaffold_auth(%{conn: conn}) do
     unit = fixture(:unit)
     user = fixture(:user, unit)
     meeting = fixture(:meeting, unit)
-
-    # Note: this step takes a long time
-    {:ok, token, _} = ProgramBuilder.Auth.Guardian.encode_and_sign(user, %{}, token_type: :access)
-    conn =
-      conn
-      |> put_req_header("authorization", "bearer: " <> token)
+    conn = signin_user(conn, user)
 
     {:ok, conn: conn, meeting: meeting, unit: unit, user: user}
   end

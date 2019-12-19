@@ -7,8 +7,6 @@ defmodule ProgramBuilder.Program.Meeting do
   @type t :: __MODULE__
 
   schema "meetings" do
-    # belongs_to :unit, ProgramBuilder.Unit
-
     field :date, :date
     field :topic, :string
 

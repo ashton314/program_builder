@@ -27,7 +27,7 @@ defmodule ProgramBuilder.People do
       [%Member{}, ...]
 
   """
-  def list_members_all do
+  def list_all_members do
     Repo.all(Member)
   end
 

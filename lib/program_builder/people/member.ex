@@ -4,7 +4,7 @@ defmodule ProgramBuilder.People.Member do
   alias __MODULE__
 
   schema "members" do
-    # belongs_to :unit, ProgramBuilder.Unit
+    belongs_to :unit, ProgramBuilder.Auth.Unit
 
     field :name, :string
     has_one :spouse, Member

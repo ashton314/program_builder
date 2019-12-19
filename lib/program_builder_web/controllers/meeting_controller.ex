@@ -2,14 +2,22 @@ defmodule ProgramBuilderWeb.MeetingController do
   use ProgramBuilderWeb, :controller
 
   alias ProgramBuilder.Program
-  # alias ProgramBuilder.Program.Meeting
 
   def index(conn, _params) do
-    meetings = Program.list_meetings()
+    user = Guardian.Plug.current_resource(conn)
+    meetings = Program.list_meetings(user.unit_id)
 
     render(put_layout(conn, {ProgramBuilderWeb.LayoutView, "app_wide.html"}), "index.html",
       meetings: meetings
     )
+  end
+
+  def create(conn, meeting) do
+    user = Guardian.Plug.current_resource(conn)
+    {:ok, _new_meeting} = Program.create_meeting(Map.put(meeting, "unit_id", user.unit_id))
+
+    conn
+    |> put_status(204)
   end
 
   def delete(conn, %{"id" => id}) do

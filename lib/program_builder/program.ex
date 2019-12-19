@@ -9,7 +9,17 @@ defmodule ProgramBuilder.Program do
   require Logger
 
   @doc """
-  Returns the list of meetings.
+  Returns all meetings given the unit_id.
+  """
+  @spec list_meetings(unit_id :: integer()) :: [Meeting]
+  def list_meetings(unit_id) do
+    q = from m in Meeting,
+      where: m.unit_id == ^unit_id
+    Repo.all(q)
+  end
+
+  @doc """
+  Returns the list of meetings. Don't use. Only for admins
 
   ## Examples
 
@@ -17,7 +27,7 @@ defmodule ProgramBuilder.Program do
       [%Meeting{}, ...]
 
   """
-  def list_meetings do
+  def list_all_meetings do
     Repo.all(Meeting)
   end
 

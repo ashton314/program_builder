@@ -108,7 +108,7 @@ defmodule ProgramBuilder.ProgramTest do
 
     test "list_meetings/0 returns all meetings" do
       meeting = meeting_fixture()
-      assert Program.list_meetings() |> Repo.preload([:events]) == [meeting]
+      assert Program.list_all_meetings() |> Repo.preload([:events]) == [meeting]
     end
 
     test "get_meeting!/1 returns the meeting with given id" do

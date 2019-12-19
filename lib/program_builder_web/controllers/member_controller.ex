@@ -5,7 +5,8 @@ defmodule ProgramBuilderWeb.MemberController do
   alias ProgramBuilder.People.Member
 
   def index(conn, _params) do
-    members = People.list_members()
+    user = Guardian.Plug.current_resource(conn)
+    members = People.list_members(user.unit_id)
     render(conn, "index.html", members: members)
   end
 
