@@ -21,7 +21,8 @@ defmodule ProgramBuilder.People.Member do
   @doc false
   def changeset(member, attrs) do
     member
-    |> cast(attrs, [:name, :moved_in, :moved_out, :speak, :pray])
+    |> cast(attrs, [:name, :moved_in, :moved_out, :speak, :pray, :unit_id])
+    |> assoc_constraint(:unit)
     |> cast_assoc(:spouse, with: &Member.changeset/2)
     |> validate_required([:name, :moved_in, :moved_out])
   end

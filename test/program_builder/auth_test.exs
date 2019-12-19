@@ -63,7 +63,6 @@ defmodule ProgramBuilder.AuthTest do
   end
 
   describe "users" do
-    @describetag :skip
     alias ProgramBuilder.Auth.User
 
     @valid_attrs %{email: "some email", password: "some password", username: "some username"}

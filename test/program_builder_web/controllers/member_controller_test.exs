@@ -38,8 +38,8 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   describe "create member" do
     setup [:scaffold_auth]
 
-    test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.member_path(conn, :create), member: @create_attrs)
+    test "redirects to show when data is valid", %{conn: conn, unit: unit} do
+      conn = post(conn, Routes.member_path(conn, :create), member: Map.put(@create_attrs, :unit_id, unit.id))
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.member_path(conn, :show, id)
@@ -66,8 +66,8 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   describe "update member" do
     setup [:scaffold_auth]
 
-    test "redirects when data is valid", %{conn: conn, member: member} do
-      conn = put(conn, Routes.member_path(conn, :update, member), member: @update_attrs)
+    test "redirects when data is valid", %{conn: conn, member: member, unit: unit} do
+      conn = put(conn, Routes.member_path(conn, :update, member), member: Map.put(@update_attrs, :unit_id, unit.id))
       assert redirected_to(conn) == Routes.member_path(conn, :show, member)
 
       conn = get(conn, Routes.member_path(conn, :show, member))
