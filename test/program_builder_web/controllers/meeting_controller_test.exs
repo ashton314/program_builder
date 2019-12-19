@@ -78,42 +78,6 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
     end
   end
 
-  describe "unit containment" do
-    setup [:two_users]
-
-    test "build meeting for user1—user2 can't access", %{user1: user1, unit1: unit1, user2: user2} do
-      conn = build_conn()
-      conn =
-	conn
-	|> signin_user(user1)
-	|> post(Routes.meeting_path(conn, :create, date: "2019-01-01", topic: "Test 1"))
-
-      assert html_response(conn, 204) =~ "Created"
-      
-    end
-
-    test "listing meetings doesn't get other one's meetings", %{user1: _user1, user2: _user2} do
-      assert true == false
-    end
-
-    test "trying to get other unit's meetings is 404", %{user1: _user1, user2: _user2} do
-      assert true == false
-    end
-
-    test "other unit's member list is not visible" do
-      # FIXME: move this into the member_controller_test.exs
-      assert true == false
-    end
-  end
-
-  defp two_users(_) do
-    unit1 = fixture(:unit, %{name: "test unit 1"})
-    user1 = fixture(:user, unit1)
-    unit2 = fixture(:unit, %{name: "test unit 2"})
-    user2 = fixture(:user, unit2)
-    {:ok, unit1: unit1, user1: user1, unit2: unit2, user2: user2}
-  end
-
   # Take a conn and return one that has the given user signed in
   defp signin_user(conn, user) do
     {:ok, token, _} = ProgramBuilder.Auth.Guardian.encode_and_sign(user, %{}, token_type: :access)
