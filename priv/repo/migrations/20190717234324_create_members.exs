@@ -3,7 +3,7 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMembers do
 
   def change do
     create table(:members) do
-      add :unit_id, :string
+      add :unit_id, references(:units, on_delete: :nothing)
 
       add :name, :string
       add :spouse, references(:members, on_delete: :nothing)

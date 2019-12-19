@@ -8,5 +8,6 @@ defmodule ProgramBuilder.Repo.Migrations.CreateUnits do
       timestamps()
     end
 
+    create index(:units, [:id])
   end
 end

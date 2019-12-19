@@ -9,7 +9,17 @@ defmodule ProgramBuilder.People do
   alias ProgramBuilder.People.Member
 
   @doc """
-  Returns the list of members.
+  All members matching the given unit_id.
+  """
+  @spec list_members(unit_id :: integer()) :: [Member]
+  def list_members(unit_id) do
+    q = from m in Member,
+      where: m.unit_id == ^unit_id
+    Repo.all(q)
+  end
+
+  @doc """
+  Returns the list of all members. This is not intended for normal user use. 
 
   ## Examples
 
@@ -17,7 +27,7 @@ defmodule ProgramBuilder.People do
       [%Member{}, ...]
 
   """
-  def list_members do
+  def list_members_all do
     Repo.all(Member)
   end
 

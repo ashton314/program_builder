@@ -3,7 +3,7 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMeetings do
 
   def change do
     create table(:meetings) do
-      add :unit_id, :string
+      add :unit_id, references(:units, on_delete: :nothing)
 
       add :date, :date
       add :topic, :string

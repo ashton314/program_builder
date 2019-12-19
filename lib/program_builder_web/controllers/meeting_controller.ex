@@ -2,7 +2,7 @@ defmodule ProgramBuilderWeb.MeetingController do
   use ProgramBuilderWeb, :controller
 
   alias ProgramBuilder.Program
-  alias ProgramBuilder.Program.Meeting
+  # alias ProgramBuilder.Program.Meeting
 
   def index(conn, _params) do
     meetings = Program.list_meetings()

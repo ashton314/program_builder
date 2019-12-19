@@ -11,6 +11,6 @@ defmodule ProgramBuilder.Repo.Migrations.CreateUsers do
       timestamps()
     end
 
-    create index(:users, [:unit_id])
+    create index(:users, [:id, :unit_id])
   end
 end

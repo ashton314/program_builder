@@ -1,6 +1,7 @@
 defmodule ProgramBuilder.Program.Meeting do
   use Ecto.Schema
   alias ProgramBuilder.Program
+  alias ProgramBuilder.Auth
   import Ecto.Changeset
 
   @type t :: __MODULE__
@@ -28,6 +29,7 @@ defmodule ProgramBuilder.Program.Meeting do
     field :stake_business, :string, default: ""
 
     has_many :events, Program.Event, on_replace: :delete
+    belongs_to(:unit, Auth.Unit)
 
     timestamps()
   end
@@ -50,9 +52,11 @@ defmodule ProgramBuilder.Program.Meeting do
       :releases,
       :stake_business,
       :invocation,
-      :benediction
+      :benediction,
+      :unit_id
     ])
     |> validate_required([:date])
+    |> assoc_constraint(:unit)
     |> validate_number(:opening_hymn, greater_than_or_equal_to: 1, less_than_or_equal_to: 341)
     |> cast_assoc(:events, with: &Program.Event.changeset/2)
   end
