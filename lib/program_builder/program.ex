@@ -6,6 +6,8 @@ defmodule ProgramBuilder.Program do
   import Ecto.Query, warn: false
   alias ProgramBuilder.Repo
   alias ProgramBuilder.Program.Meeting
+  alias ProgramBuilder.Auth
+  alias ProgramBuilder.Auth.User
   require Logger
 
   @doc """
@@ -46,6 +48,24 @@ defmodule ProgramBuilder.Program do
 
   """
   def get_meeting!(id), do: Repo.get!(Meeting, id) |> Repo.preload([:events])
+
+  @doc """
+  Get a meeting, but check if the user is allowed to view.
+  """
+  def get_meeting(id, user) when is_integer(user) do
+    case ProgramBuilder.Auth.get_user(user) do
+      nil -> {:error, :unauthorized}
+      %User{} = usr -> get_meeting(id, usr)
+    end
+  end
+  def get_meeting(id, %User{} = user) do
+    with meeting when not is_nil(meeting) <- Repo.get(Meeting, id),
+         true <- Auth.Permissions.can_access?(user, meeting) do
+      {:ok, meeting}
+    else
+      _ -> {:error, :not_found}
+    end
+  end
 
   @doc """
   Creates a meeting.

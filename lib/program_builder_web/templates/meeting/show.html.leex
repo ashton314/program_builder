@@ -4,7 +4,7 @@
         <%= link "< Back", to: Routes.meeting_path(ProgramBuilderWeb.Endpoint, :index), class: "btn btn-link" %>
     </div>
     <div class="col-auto ml-auto">
-        <%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingEditorLive, @meeting.id), class: "btn btn-outline-success" %>
+        <%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.EditMeetingLive, @meeting.id), class: "btn btn-outline-success" %>
     </div>
     <div class="col-auto">
         <%= f = form_for @format_type, "#", [as: :format_type, phx_change: :validate_type, class: "form form-inline"] %>

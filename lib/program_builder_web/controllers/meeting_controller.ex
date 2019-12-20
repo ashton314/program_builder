@@ -12,6 +12,19 @@ defmodule ProgramBuilderWeb.MeetingController do
     )
   end
 
+  @doc """
+  Create a new meeting and return a redirect to edit it
+  """
+  def create(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+
+    # Create a new meeting
+    {:ok, meeting} = Program.create_meeting(%{unit_id: user.id, date: Timex.today()})
+    conn
+    |> put_flash(:info, "New meeting created")
+    |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.EditMeetingLive, meeting.id))
+  end
+
   def delete(conn, %{"id" => id}) do
     meeting = Program.get_meeting!(id)
     {:ok, _meeting} = Program.delete_meeting(meeting)
