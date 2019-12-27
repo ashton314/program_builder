@@ -13,7 +13,7 @@ defmodule ProgramBuilder.Repo.Migrations.CreateMeetings do
       add :visiting, :string
 
       add :accompanist, :string
-      add :chorester, :string
+      add :chorister, :string
       add :opening_hymn, :integer
       add :closing_hymn, :integer
       add :invocation, references(:members, on_delete: :nothing)

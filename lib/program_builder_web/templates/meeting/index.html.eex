@@ -12,7 +12,7 @@
                 <th>Conducting</th>
                 <th>Visiting</th>
                 <th>Accompanist</th>
-                <th>Chorester</th>
+                <th>Chorister</th>
                 <th>Opening hymn</th>
                 <th>Events</th>
                 <th>Closing hymn</th>
@@ -33,7 +33,7 @@
                     <td><%= meeting.conducting %></td>
                     <td><%= meeting.visiting %></td>
                     <td><%= meeting.accompanist %></td>
-                    <td><%= meeting.chorester %></td>
+                    <td><%= meeting.chorister %></td>
                     <td><%= meeting.opening_hymn %>
                       <i><%= just_hymn_name(meeting.opening_hymn) %></i></td>
                     </td>

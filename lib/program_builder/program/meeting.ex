@@ -15,7 +15,7 @@ defmodule ProgramBuilder.Program.Meeting do
     field :visiting, :string
 
     field :accompanist, :string
-    field :chorester, :string
+    field :chorister, :string
     field :opening_hymn, :integer
     field :closing_hymn, :integer
     field :invocation, :id
@@ -41,7 +41,7 @@ defmodule ProgramBuilder.Program.Meeting do
       :conducting,
       :visiting,
       :accompanist,
-      :chorester,
+      :chorister,
       :opening_hymn,
       :closing_hymn,
       :topic,

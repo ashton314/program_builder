@@ -4,7 +4,7 @@ defmodule ProgramBuilderWeb.Helpers.EditMeetingForm do
 
   embedded_schema do
     field :accompanist, :string
-    field :chorester, :string
+    field :chorister, :string
     field :closing_hymn, :integer
     field :conducting, :string
     field :date, :date
@@ -27,7 +27,7 @@ defmodule ProgramBuilderWeb.Helpers.EditMeetingForm do
       :conducting,
       :visiting,
       :accompanist,
-      :chorester,
+      :chorister,
       :opening_hymn,
       :sacrament_hymn,
       :closing_hymn,

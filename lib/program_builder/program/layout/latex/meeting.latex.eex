@@ -39,7 +39,7 @@
 
 Presiding: <%= disp(meeting.presiding) %>{\hfill}Conducting: <%= disp(meeting.conducting) %>{\hfill}Visiting: <%= disp(meeting.visiting, underline: true) %>
 
-{\hfill}Chorister: <%= disp(meeting.chorester, underline: true) %>{\hspace{\stretch{2}}Accompanist: <%= disp(meeting.accompanist, underline: true) %>{\hfill}
+{\hfill}Chorister: <%= disp(meeting.chorister, underline: true) %>{\hspace{\stretch{2}}Accompanist: <%= disp(meeting.accompanist, underline: true) %>{\hfill}
 
 \begin{center}
   {\Large Announcements}

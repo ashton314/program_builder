@@ -68,7 +68,7 @@ Invocation{\dotfill}<%= disp(member_name(meeting.invocation), underline: true) %
 
 \marginnote{\footnotesize Thank musicians; Run ward business; Turn over to sake officer.}[1em]
 \begin{rbox}
-Chorister: <%= disp(meeting.chorester, underline: true) %>{\hfill}Accompanist: <%= disp(meeting.accompanist, underline: true) %>
+Chorister: <%= disp(meeting.chorister, underline: true) %>{\hfill}Accompanist: <%= disp(meeting.accompanist, underline: true) %>
 
 \subsubsection*{Business (see back)}
 \end{rbox}

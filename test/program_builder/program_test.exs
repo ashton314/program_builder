@@ -57,7 +57,7 @@ defmodule ProgramBuilder.ProgramTest do
 
     @valid_attrs %{
       accompanist: "some accompanist",
-      chorester: "some chorester",
+      chorister: "some chorister",
       closing_hymn: 42,
       conducting: "some conducting",
       date: ~D[2010-04-17],
@@ -74,7 +74,7 @@ defmodule ProgramBuilder.ProgramTest do
     }
     @update_attrs %{
       accompanist: "some updated accompanist",
-      chorester: "some updated chorester",
+      chorister: "some updated chorister",
       closing_hymn: 43,
       conducting: "some updated conducting",
       date: ~D[2011-05-18],
@@ -86,7 +86,7 @@ defmodule ProgramBuilder.ProgramTest do
     }
     @invalid_attrs %{
       accompanist: nil,
-      chorester: nil,
+      chorister: nil,
       closing_hymn: nil,
       conducting: nil,
       date: nil,
@@ -121,7 +121,7 @@ defmodule ProgramBuilder.ProgramTest do
     test "create_meeting/1 with valid data creates a meeting" do
       assert {:ok, %Meeting{} = meeting} = Program.create_meeting(@valid_attrs)
       assert meeting.accompanist == "some accompanist"
-      assert meeting.chorester == "some chorester"
+      assert meeting.chorister == "some chorister"
       assert meeting.closing_hymn == 42
       assert meeting.conducting == "some conducting"
       assert meeting.date == ~D[2010-04-17]
@@ -151,7 +151,7 @@ defmodule ProgramBuilder.ProgramTest do
       updates = Map.put(@update_attrs, :events, [%{type: "talk", raw_name: "Joe Schmoe III"}])
       assert {:ok, %Meeting{} = meeting} = Program.update_meeting(meeting, updates)
       assert meeting.accompanist == "some updated accompanist"
-      assert meeting.chorester == "some updated chorester"
+      assert meeting.chorister == "some updated chorister"
       assert meeting.closing_hymn == 43
       assert meeting.conducting == "some updated conducting"
       assert meeting.date == ~D[2011-05-18]

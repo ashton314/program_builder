@@ -20,7 +20,7 @@ defmodule ProgramBuilder.Program.Layout.Text.Base do
       Presiding: <%= meet.presiding %>
       Visiting: <%= meet.visiting %>
 
-      Chorester: <%= meet.chorester %>
+      Chorister: <%= meet.chorister %>
       Accompanist: <%= meet.accompanist %>
 
       Announcements

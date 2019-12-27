@@ -5,7 +5,7 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
 
   @create_attrs %{
     accompanist: "some accompanist",
-    chorester: "some chorester",
+    chorister: "some chorister",
     closing_hymn: 42,
     conducting: "some conducting",
     date: ~D[2010-04-17],
@@ -19,7 +19,7 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
   }
   # @update_attrs %{
   #   accompanist: "some updated accompanist",
-  #   chorester: "some updated chorester",
+  #   chorister: "some updated chorister",
   #   closing_hymn: 43,
   #   conducting: "some updated conducting",
   #   date: ~D[2011-05-18],
@@ -33,7 +33,7 @@ defmodule ProgramBuilderWeb.MeetingControllerTest do
   # }
   # @invalid_attrs %{
   #   accompanist: nil,
-  #   chorester: nil,
+  #   chorister: nil,
   #   closing_hymn: nil,
   #   conducting: nil,
   #   date: nil,

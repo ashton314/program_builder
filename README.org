@@ -26,11 +26,11 @@ Start up server with =mix phx.server=.
  - [X] Add an =events= attribute: an array of =Event= id's
    Consider just blowing it all away/trying to overwrite. Original command was:
 
-       mix phx.gen.html Program Meeting meetings date:date presiding:string conducting:string visiting:string invocation:references:members benediction:references:members accompanist:string chorester:string opening_hymn:integer sacrament_hymn:integer closing_hymn:integer
+       mix phx.gen.html Program Meeting meetings date:date presiding:string conducting:string visiting:string invocation:references:members benediction:references:members accompanist:string chorister:string opening_hymn:integer sacrament_hymn:integer closing_hymn:integer
 
    Modified command:
 
-       mix phx.gen.html Program Meeting meetings date:date presiding:string conducting:string visiting:string invocation:references:members benediction:references:members accompanist:string chorester:string opening_hymn:integer sacrament_hymn:integer closing_hymn:integer topic:string events:array:integer
+       mix phx.gen.html Program Meeting meetings date:date presiding:string conducting:string visiting:string invocation:references:members benediction:references:members accompanist:string chorister:string opening_hymn:integer sacrament_hymn:integer closing_hymn:integer topic:string events:array:integer
 
  - [X] Add a =topic= attribute
 *** TODO Consider baby blessings
