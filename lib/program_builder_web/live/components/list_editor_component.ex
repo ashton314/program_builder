@@ -8,7 +8,7 @@ defmodule ProgramBuilderWeb.Components.ListEditorComponent do
     <div>
         <ul>
             <%= for {elem, idx} <- Stream.with_index(@lst) do %>
-                <li><%= idx %>: <%= elem %> TODO: a delete button here</li>
+                <li><%= idx %>: <%= elem %> <button type="button" class="btn btn-outline-danger btn-sm" phx-click="remove_item" phx-value-idx="<%= idx %>">Remove</button></li>
             <% end %>
         </ul>
         <%= g = form_for @cs, "#", [as: :add, phx_change: :validate, class: "form"] %>
@@ -30,6 +30,12 @@ defmodule ProgramBuilderWeb.Components.ListEditorComponent do
   def update(%{key: key, lst: lst} = _assigns, socket) do
     socket = assign(socket, lst: lst, key: key)
     {:ok, socket}
+  end
+
+  def handle_event("remove_item", %{"idx" => idx}, socket) do
+    new_list = List.delete_at(socket.assigns.lst, String.to_integer(idx))
+    send self(), {:update_field, socket.assigns.key, new_list}
+    {:noreply, socket}
   end
 
   def handle_event("add_item", _val, socket) do

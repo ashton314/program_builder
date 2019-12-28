@@ -38,12 +38,12 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
   end
 
   def handle_info({:update_field, keyword, new_val}, socket) do
-    IO.inspect(socket.assigns.changeset, label: :changeset_before)
-    IO.inspect({keyword, new_val}, label: :keyword_new_val)
+    # IO.inspect(socket.assigns.changeset, label: :changeset_before)
+    # IO.inspect({keyword, new_val}, label: :keyword_new_val)
     socket =
       socket
       |> assign(changeset: Meeting.changeset(socket.assigns.changeset, %{keyword => new_val}))
-    IO.inspect(socket.assigns.changeset, label: :changeset_after)
+    # IO.inspect(socket.assigns.changeset, label: :changeset_after)
     {:noreply, socket}
   end
 end
