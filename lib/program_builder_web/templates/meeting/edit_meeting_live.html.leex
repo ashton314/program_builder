@@ -51,6 +51,12 @@
 
 <h3>General Announcements</h3>
 
+<!-- This component is not emitting a <form> tag no matter what I tell it. (Even if I hand-write a <form> tag in it!). My guess is Phoenix.HTML doesn't accept nested form elements. I think what I might have to do is close the first form and create a second form modifying the same changeset (is that possible? I think so) for when I want to put the benediction, etc. down there. -->
+
+<!-- There is a form tag between this line -->
+<form>
+<!-- And this line -->
+
 <%= live_component @socket, ListEditorComponent, lst: input_value(f, :announcements), key: :announcements, id: :announcement_list %>
 
 <h3>Releases</h3>

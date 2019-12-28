@@ -8,12 +8,12 @@ defmodule ProgramBuilderWeb.Components.ListEditorComponent do
     <div>
         <ul>
             <%= for {elem, idx} <- Stream.with_index(@lst) do %>
-                <li><%= idx %>: <%= elem %> <button type="button" class="btn btn-outline-danger btn-sm" phx-click="remove_item" phx-value-idx="<%= idx %>">Remove</button></li>
+                <li><%= elem %> <button type="button" class="btn btn-outline-danger btn-sm" phx-click="remove_item" phx-value-idx="<%= idx %>">Remove</button></li>
             <% end %>
         </ul>
-        <%= g = form_for @cs, "#", [as: :add, phx_change: :validate, class: "form"] %>
-            <%= text_input g, :to_add, placeholder: "New Item" %>
-            <button type="button" class="btn btn-outline-success btn-sm" phx-click="add_item">Add</button>
+        <%= f = form_for @cs, "#", [as: :add, phx_change: :validate, class: "form-inline"] %>
+            <%= text_input f, :to_add, placeholder: "New Item", class: "form-control" %>
+            <button type="button" class="btn btn-outline-success ml-1" phx-click="add_item">Add</button>
         </form>
     </div>
     """
