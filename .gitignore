@@ -45,3 +45,4 @@ npm-debug.log
 .DS_Store
 .elixir_ls
 .env
+.emacs*
