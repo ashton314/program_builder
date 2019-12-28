@@ -19,13 +19,16 @@ defmodule ProgramBuilderWeb.MeetingController do
     user = Guardian.Plug.current_resource(conn)
 
     # Create a new meeting
-    {:ok, meeting} = Program.create_meeting(%{unit_id: user.id, date: Timex.today()})
+    {:ok, meeting} = Program.create_meeting(%{unit_id: user.unit_id, date: Timex.today()})
     conn
     |> put_flash(:info, "New meeting created")
     |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.EditMeetingLive, meeting.id))
   end
 
   def delete(conn, %{"id" => id}) do
+    # TODO: This function deliberately left unused.
+    user = Guardian.Plug.current_resource(conn)
+
     meeting = Program.get_meeting!(id)
     {:ok, _meeting} = Program.delete_meeting(meeting)
 

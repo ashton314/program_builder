@@ -7,7 +7,7 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
   alias ProgramBuilder.Repo
 
   def render(assigns) do
-    IO.inspect(assigns.meeting, label: :assigns_meeting)
+    # IO.inspect(assigns.meeting, label: :assigns_meeting)
     Phoenix.View.render(ProgramBuilderWeb.MeetingView, "edit_meeting_live.html", assigns)
   end
 
@@ -34,6 +34,16 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
 
   def handle_event("save", val, socket) do
     IO.inspect(val, label: :val_from_save)
+    {:noreply, socket}
+  end
+
+  def handle_info({:update_field, keyword, new_val}, socket) do
+    IO.inspect(socket.assigns.changeset, label: :changeset_before)
+    IO.inspect({keyword, new_val}, label: :keyword_new_val)
+    socket =
+      socket
+      |> assign(changeset: Meeting.changeset(socket.assigns.changeset, %{keyword => new_val}))
+    IO.inspect(socket.assigns.changeset, label: :changeset_after)
     {:noreply, socket}
   end
 end
