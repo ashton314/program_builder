@@ -27,23 +27,35 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     end
   end
 
-  def handle_event("validate", val, socket) do
-    IO.inspect(val, label: :val_from_validate)
-    {:noreply, socket}
+  def handle_event("validate", %{"meeting" => params}, socket) do
+    cs =
+      socket.assigns.changeset
+      |> Meeting.changeset(params)
+      |> Map.put(:action, :update)
+
+    {:noreply, assign(socket, :changeset, cs)}
   end
 
-  def handle_event("save", val, socket) do
-    IO.inspect(val, label: :val_from_save)
-    {:noreply, socket}
+  def handle_event("save", _val, socket) do
+    # Will this break when I'm editing an exisiting meeting?
+    cs = socket.assigns.changeset
+
+    if cs.valid? do
+      {:ok, _updated_meeting} = Program.update_meeting(socket.assigns.meeting, cs.changes)
+      socket =
+        socket
+        |> put_flash(:info, "Meeting updated")
+#        |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingViewerLive, updated_meeting.id))
+      {:noreply, socket}
+    else
+      {:noreply, assign(socket, changeset: cs)}
+    end
   end
 
   def handle_info({:update_field, keyword, new_val}, socket) do
-    # IO.inspect(socket.assigns.changeset, label: :changeset_before)
-    # IO.inspect({keyword, new_val}, label: :keyword_new_val)
     socket =
       socket
       |> assign(changeset: Meeting.changeset(socket.assigns.changeset, %{keyword => new_val}))
-    # IO.inspect(socket.assigns.changeset, label: :changeset_after)
     {:noreply, socket}
   end
 end
