@@ -26,6 +26,14 @@
     opacity: 0.8 !important;
 }
 
+h1, h2, h3 {
+    margin-bottom: 1em;
+}
+
+h2, h3 {
+    margin-top: 1em;
+}
+
 @media (prefers-color-scheme: light) {
     .navbar {
         background-color: #444;
