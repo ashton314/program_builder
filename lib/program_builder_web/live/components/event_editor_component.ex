@@ -2,7 +2,6 @@ defmodule ProgramBuilderWeb.Components.EventEditorComponent do
   use Phoenix.LiveComponent
 
   alias ProgramBuilder.Program.Event
-  import Ecto.Changeset
 
   def render(assigns) do
     Phoenix.View.render(ProgramBuilderWeb.MeetingView, "event_editor_component.html", assigns)
@@ -16,7 +15,8 @@ defmodule ProgramBuilderWeb.Components.EventEditorComponent do
     {:ok, socket}
   end
 
-  def update(_assigns, socket) do
+  def update(%{event: event}, socket) do
+    socket = assign(socket, event: event, cs: Event.changeset(event, %{}))
     {:ok, socket}
   end
 end

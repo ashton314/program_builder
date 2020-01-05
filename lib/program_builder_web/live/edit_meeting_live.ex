@@ -3,7 +3,8 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
   require Logger
 
   alias ProgramBuilder.Program
-  alias ProgramBuilder.Program.Meeting
+  alias Program.Meeting
+  alias Program.Event
   alias ProgramBuilder.Repo
 
   def render(assigns) do
@@ -36,6 +37,17 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     {:noreply, assign(socket, :changeset, cs)}
   end
 
+  def handle_event("validate_event", %{"event" => %{"id" => id} = event_params}, socket) do
+    # FIXME: optimize by storing events in socket maybe
+    ev = Program.get_event!(String.to_integer(id))
+    socket = 
+      case Program.update_event(ev, event_params) do
+        {:ok, _updated_event} -> reload_events(socket)
+        _ -> socket
+      end
+    {:noreply, socket}
+  end
+
   def handle_event("save", _val, socket) do
     # Will this break when I'm editing an exisiting meeting?
     cs = socket.assigns.changeset
@@ -54,7 +66,7 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
 
   def handle_event("add_event", _val, socket) do
     {:ok, _event} = Program.push_event!(socket.assigns.meeting)
-    socket = assign(socket, meeting: Repo.preload(socket.assigns.meeting, [:events], force: true))
+    socket = assign(socket, meeting: reload_events(socket))
     {:noreply, socket}
   end
 
@@ -63,5 +75,9 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
       socket
       |> assign(changeset: Meeting.changeset(socket.assigns.changeset, %{keyword => new_val}))
     {:noreply, socket}
+  end
+
+  def reload_events(socket) do
+    assign(socket, meeting: Repo.preload(socket.assigns.meeting, [:events], force: true))
   end
 end

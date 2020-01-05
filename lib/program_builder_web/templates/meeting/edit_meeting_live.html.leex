@@ -109,7 +109,7 @@
 <h3>Meeting Events</h3>
 
 <%= for event <- Enum.sort(@meeting.events, &(&1.order_idx < &2.order_idx)) do %>
-    <%= live_component @socket, EventEditorComponent, event: event, id: event.id %>
+    <%= live_component @socket, EventEditorComponent, event: event %>
 <% end %>
 
 <button type="button" class="btn btn-outline-success" phx-click="add_event">Add Event</button>
