@@ -139,6 +139,22 @@ defmodule ProgramBuilder.Program do
   alias ProgramBuilder.Program.Event
 
   @doc """
+  Push a new event into a meeting and return the event
+  """
+  def push_event!(%Meeting{} = meeting, attrs \\ %{}) do
+    get_events = & &1.events
+    # FIXME: this will break when you delete any event other than the
+    # last one and try inserting a new event; it will be placed
+    # somewhere in the middle of the list.
+    count =
+      meeting
+      |> Repo.preload([:events])
+      |> get_events.()
+      |> Enum.count
+    Map.merge(%{meeting_id: meeting.id, order_idx: count}, attrs) |> create_event()
+  end
+
+  @doc """
   Gets a single event.
 
   Raises `Ecto.NoResultsError` if the Event does not exist.

@@ -52,6 +52,12 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     end
   end
 
+  def handle_event("add_event", _val, socket) do
+    {:ok, _event} = Program.push_event!(socket.assigns.meeting)
+    socket = assign(socket, meeting: Repo.preload(socket.assigns.meeting, [:events], force: true))
+    {:noreply, socket}
+  end
+
   def handle_info({:update_field, keyword, new_val}, socket) do
     socket =
       socket

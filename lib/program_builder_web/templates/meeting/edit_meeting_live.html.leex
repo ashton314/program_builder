@@ -10,13 +10,13 @@
         <div class="form-group">
             <%= label f, :date %>
             <%= date_input f, :date, class: "form-control" %>
-            <%= error_tag f, :date %><br/>
+            <%= error_tag f, :date %>
         </div>
 
         <div class="form-group">
             <%= label f, :topic %>
             <%= text_input f, :topic, class: "form-control" %>
-            <%= error_tag f, :topic %><br/>
+            <%= error_tag f, :topic %>
         </div>
 
     </div>
@@ -27,19 +27,19 @@
         <div class="form-group">
             <%= label f, :conducting %>
             <%= text_input f, :conducting, class: "form-control" %>
-            <%= error_tag f, :conducting %><br/>
+            <%= error_tag f, :conducting %>
         </div>
 
         <div class="form-group">
             <%= label f, :presiding %>
             <%= text_input f, :presiding, class: "form-control" %>
-            <%= error_tag f, :presiding %><br/>
+            <%= error_tag f, :presiding %>
         </div>
 
         <div class="form-group">
             <%= label f, :stake_business %>
             <%= text_input f, :stake_business, class: "form-control" %>
-            <%= error_tag f, :stake_business %><br/>
+            <%= error_tag f, :stake_business %>
         </div>
 
     </div>
@@ -50,13 +50,13 @@
         <div class="form-group">
             <%= label f, :accompanist %>
             <%= text_input f, :accompanist, class: "form-control" %>
-            <%= error_tag f, :accompanist %><br/>
+            <%= error_tag f, :accompanist %>
         </div>
 
         <div class="form-group">
             <%= label f, :chorister %>
             <%= text_input f, :chorister, class: "form-control" %>
-            <%= error_tag f, :chorister %><br/>
+            <%= error_tag f, :chorister %>
         </div>
 
     </div>
@@ -95,17 +95,25 @@
 <div class="form-group">
     <%= label f, :invocation %>
     <%= text_input f, :invocation, class: "form-control" %>
-    <%= error_tag f, :invocation %><br/>
+    <%= error_tag f, :invocation %>
 </div>
 
 <div class="form-group">
     <%= label f, :benediction %>
     <%= text_input f, :benediction, class: "form-control" %>
-    <%= error_tag f, :benediction %><br/>
+    <%= error_tag f, :benediction %>
 </div>
 
 </form>
 
-<!-- Rest of program goes here -->
+<h3>Meeting Events</h3>
+
+<%= for event <- Enum.sort(@meeting.events, &(&1.order_idx < &2.order_idx)) do %>
+    <%= live_component @socket, EventEditorComponent, event: event, id: event.id %>
+<% end %>
+
+<button type="button" class="btn btn-outline-success" phx-click="add_event">Add Event</button>
+
+<hr>
 
 <button type="button" class="btn btn-outline-primary" phx-click="save">Save</button>
