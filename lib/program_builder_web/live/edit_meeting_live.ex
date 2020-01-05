@@ -48,6 +48,12 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     {:noreply, socket}
   end
 
+  def handle_event("del_event", %{"id" => id}, socket) do
+    ev = Program.get_event!(String.to_integer(id))
+    Program.delete_event(ev)
+    {:noreply, reload_events(socket)}
+  end
+
   def handle_event("save", _val, socket) do
     # Will this break when I'm editing an exisiting meeting?
     cs = socket.assigns.changeset
@@ -66,8 +72,7 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
 
   def handle_event("add_event", _val, socket) do
     {:ok, _event} = Program.push_event!(socket.assigns.meeting)
-    socket = assign(socket, meeting: reload_events(socket))
-    {:noreply, socket}
+    {:noreply, reload_events(socket)}
   end
 
   def handle_info({:update_field, keyword, new_val}, socket) do

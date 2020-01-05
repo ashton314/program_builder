@@ -1,7 +1,7 @@
 <!-- -*- mode: web -*- -->
 <%= f = form_for @cs, "#", [phx_change: "validate_event", class: "row my-3 w-100", id: "event-#{@event.id}"] %>
 
-    <%# This is here so that the :validate knows which changeset to update %>
+    <%# This is here so that the :validate_event knows which changeset to update %>
     <%= hidden_input f, :id %>
 
     <div class="col-3">
@@ -53,7 +53,7 @@
     </div>
 
     <div class="col-auto">
-        <button type="button" class="btn btn-danger" phx-click="del_event" phx-value="<%= @event.id %>">Remove</button>
+        <button type="button" class="btn btn-danger" phx-click="del_event" phx-value-id="<%= @event.id %>">Remove</button>
     </div>
     
 </form>
