@@ -1,55 +1,58 @@
 <!-- -*- mode: web -*- -->
-<div class="row">
-    <div class="col-3">
-        Type: <%= @event.type %>
-    </div>
+<div class="card w-100 mb-1" phx-hook="has_feather">
+    <div class="card-body p-3">
+        <%= if @event.type == "talk" do %>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <h4 class="card-title">Talk</h4>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-just-ico" phx-click="del_event" phx-value-id="<%= @event.id %>"><i data-feather="minus-circle"></i></button>
+                </div>
+            </div>
+            By <%= @event.raw_name %> on <%= @event.body %>
+        <% end %>
 
-    <%= if @event.type == "talk" do %>
-        <div class="col">
-            <%= @event.body %>
-        </div>
-        <div class="col">
+        <%= if @event.type == "music" do %>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <h4 class="card-title">Music <%= @event.title %></h4>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-just-ico" phx-click="del_event" phx-value-id="<%= @event.id %>"><i data-feather="minus-circle"></i></button>
+                </div>
+            </div>
+            <%= just_hymn_name(@event.hymn_number) %>&nbsp;(<%= @event.hymn_number %>)
             <%= @event.raw_name %>
-        </div>
-    <% end %>
+        <% end %>
 
-    <%= if @event.type == "music" do %>
-        <div class="col">
-            <%= @event.hymn_number %>
-            <small class="form-text"><%= just_hymn_name(@event.hymn_number) %></small>
-        </div>
-        <div class="col">
-            <%= @event.title %>
-        </div>
-        <div class="col">
-            <%= @event.raw_name %>
-        </div>
-    <% end %>
-
-    <%= if @event.type == "generic" do %>
-        <div class="col">
-            <%= @event.title %>
-        </div>
-        <div class="col">
+        <%= if @event.type == "generic" do %>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <h4 class="card-title">Special Event: <%= @event.title %></h4>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-just-ico" phx-click="del_event" phx-value-id="<%= @event.id %>"><i data-feather="minus-circle"></i></button>
+                </div>
+            </div>
             <%= @event.body %>
-        </div>
-    <% end %>
+        <% end %>
 
-    <%= if @event.type == "note" do %>
-        <div class="col">
-            <%= @event.title %>
-        </div>
-        <div class="col">
+        <%= if @event.type == "note" do %>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <h4 class="card-title">Note: <%= @event.title %></h4>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-just-ico" phx-click="del_event" phx-value-id="<%= @event.id %>"><i data-feather="minus-circle"></i></button>
+                </div>
+            </div>
             <%= @event.body %>
+        <% end %>
+
+        <div class="col-auto">
+            
         </div>
-    <% end %>
-
-    <div class="col-auto">
-        <%= @event.order_idx %>
-    </div>
-
-    <div class="col-auto">
-        <button type="button" class="btn btn-danger" phx-click="del_event" phx-value-id="<%= @event.id %>">Remove</button>
     </div>
 </div>
 

@@ -5,15 +5,21 @@ defmodule ProgramBuilderWeb.Components.ListEditorComponent do
 
   def render(assigns) do
     ~L"""
-    <div>
+    <div phx-hook="has_feather">
         <ul>
             <%= for {elem, idx} <- Stream.with_index(@lst) do %>
-                <li><%= elem %> <button type="button" class="btn btn-outline-danger btn-sm" phx-click="remove_item" phx-value-idx="<%= idx %>">Remove</button></li>
+                <li><%= elem %> <button type="button" class="btn btn-outline-danger btn-just-ico btn-sm" phx-click="remove_item" phx-value-idx="<%= idx %>"><i data-feather="minus-circle"></i></button></li>
             <% end %>
         </ul>
-        <%= f = form_for @cs, "#", [as: :add, phx_change: :validate, class: "form-inline"] %>
-            <%= text_input f, :to_add, placeholder: "New Item", class: "form-control" %>
-            <button type="button" class="btn btn-outline-success ml-1" phx-click="add_item">Add</button>
+        <%= f = form_for @cs, "#", [as: :add, phx_submit: "add_item", phx_change: :validate] %>
+            <div class="row px-3">
+                <div class="col p-0">
+                    <%= text_input f, :to_add, placeholder: "New Item", class: "form-control w-100" %>
+                </div>
+                <div class="col-auto p-0 pt-1">
+                    <button type="button" class="btn btn-outline-success btn-just-ico ml-1" phx-click="add_item"><i data-feather="plus-circle"></i></button>
+                </div>
+            </div>
         </form>
     </div>
     """
@@ -42,7 +48,7 @@ defmodule ProgramBuilderWeb.Components.ListEditorComponent do
     new_element = Changeset.apply_changes(socket.assigns.cs).to_add
     new_list = socket.assigns.lst ++ [new_element]
     send self(), {:update_field, socket.assigns.key, new_list}
-    {:noreply, socket}
+    {:noreply, assign(socket, cs: add_changeset())}
   end
 
   def handle_event("validate", val, socket) do

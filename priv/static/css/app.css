@@ -112,6 +112,19 @@ h2, h3 {
     margin-top: 1em;
 }
 
+/* For buttons with an icon */
+.btn-ico {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.btn-just-ico {
+    border: none;
+    padding: 0;
+}
+
 @media (prefers-color-scheme: light) {
     .navbar {
         background-color: #444;

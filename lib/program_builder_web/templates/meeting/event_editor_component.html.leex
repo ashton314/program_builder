@@ -1,52 +1,61 @@
-<!-- -*- mode: web -*- -->
-<%= f = form_for @cs, "#", [phx_submit: "add_event", phx_change: "validate_event", class: "row my-3 w-100"] %>
+<div class="card my-3" phx-hook="has_feather"><!-- -*- mode: web -*- -->
+    <div class="card-body p-3">
+        <%= f = form_for @cs, "#", [phx_submit: "add_event", phx_change: "validate_event"] %> 
+        <div class="row justify-content-between mb-2">
+            <div class="col-auto">
+                <h4 class="card-title">Add Event</h4>
+            </div>
+            <div class="col-auto mr-1">
+                <%= select f, :type, ["Talk": "talk", "Musical Number": "music", "Generic": "generic", "Note": "note"], class: "form-control" %>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-outline-success btn-just-ico"><i data-feather="plus-circle"></i></button>
+            </div>
+        </div>
 
-    <div class="col-3">
-        <%= select f, :type, ["Talk": "talk", "Musical Number": "music", "Generic": "generic", "Note": "note"], class: "form-control" %>
+        <div class="row">
+            <%= if input_value(f, :type) == "talk" do %>
+                <div class="col">
+                    <%= text_input f, :body, placeholder: "Subtopic", class: "form-control", phx_debounce: 300 %>
+                </div>
+                <div class="col">
+                    <%= text_input f, :raw_name, placeholder: "Visitor Name", class: "form-control", phx_debounce: 300 %>
+                </div>
+            <% end %>
+
+            <%= if input_value(f, :type) == "music" do %>
+                <div class="col">
+                    <%= number_input f, :hymn_number, placeholder: "Hymn Number", class: "form-control" %>
+                    <small class="form-text"><%= just_hymn_name(input_value(f, :hymn_number)) %></small>
+                </div>
+                <div class="col">
+                    <%= text_input f, :title, placeholder: "Title", class: "form-control", phx_debounce: 300 %>
+                </div>
+                <div class="col">
+                    <%= text_input f, :raw_name, placeholder: "Performer", class: "form-control", phx_debounce: 300 %>
+                </div>
+            <% end %>
+
+            <%= if input_value(f, :type) == "generic" do %>
+                <div class="col">
+                    <%= text_input f, :title, placeholder: "Title", class: "form-control", phx_debounce: 300 %>
+                </div>
+                <div class="col">
+                    <%= text_input f, :body, placeholder: "Subtitle", class: "form-control", phx_debounce: 300 %>
+                </div>
+            <% end %>
+
+            <%= if input_value(f, :type) == "note" do %>
+                <div class="col">
+                    <%= text_input f, :title, placeholder: "Title", class: "form-control", phx_debounce: 300 %>
+                </div>
+                <div class="col">
+                    <%= text_input f, :body, placeholder: "Body", class: "form-control", phx_debounce: 300 %>
+                </div>
+            <% end %>
+
+        </div>
+        </form>
     </div>
-
-    <%= if input_value(f, :type) == "talk" do %>
-        <div class="col">
-            <%= text_input f, :body, placeholder: "Subtopic", class: "form-control", phx_debounce: 300 %>
-        </div>
-        <div class="col">
-            <%= text_input f, :raw_name, placeholder: "Visitor Name", class: "form-control", phx_debounce: 300 %>
-        </div>
-    <% end %>
-
-    <%= if input_value(f, :type) == "music" do %>
-        <div class="col">
-            <%= number_input f, :hymn_number, placeholder: "Hymn Number", class: "form-control" %>
-            <small class="form-text"><%= just_hymn_name(input_value(f, :hymn_number)) %></small>
-        </div>
-        <div class="col">
-            <%= text_input f, :title, placeholder: "Title", class: "form-control", phx_debounce: 300 %>
-        </div>
-        <div class="col">
-            <%= text_input f, :raw_name, placeholder: "Performer", class: "form-control", phx_debounce: 300 %>
-        </div>
-    <% end %>
-
-    <%= if input_value(f, :type) == "generic" do %>
-        <div class="col">
-            <%= text_input f, :title, placeholder: "Title", class: "form-control", phx_debounce: 300 %>
-        </div>
-        <div class="col">
-            <%= text_input f, :body, placeholder: "Subtitle", class: "form-control", phx_debounce: 300 %>
-        </div>
-    <% end %>
-
-    <%= if input_value(f, :type) == "note" do %>
-        <div class="col">
-            <%= text_input f, :title, placeholder: "Title", class: "form-control", phx_debounce: 300 %>
-        </div>
-        <div class="col">
-            <%= text_input f, :body, placeholder: "Body", class: "form-control", phx_debounce: 300 %>
-        </div>
-    <% end %>
-
-    <div class="col-auto">
-        <%= submit "Add", class: "btn btn-success" %>
-    </div>
-</form>
+</div>
 
