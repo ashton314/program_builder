@@ -3,6 +3,7 @@ defmodule ProgramBuilderWeb.MeetingView do
   alias ProgramBuilder.Utils.Music
   alias ProgramBuilder.People
   alias ProgramBuilderWeb.Components.ListEditorComponent
+  alias ProgramBuilderWeb.Components.EventDisplayComponent
   alias ProgramBuilderWeb.Components.EventEditorComponent
 
   def just_hymn_name(nil), do: "(None Given)"

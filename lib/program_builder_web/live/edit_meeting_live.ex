@@ -37,16 +37,15 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     {:noreply, assign(socket, :changeset, cs)}
   end
 
-  def handle_event("validate_event", %{"event" => %{"id" => id} = event_params}, socket) do
-    # FIXME: optimize by storing events in socket maybe
-    ev = Program.get_event!(String.to_integer(id))
-    socket = 
-      case Program.update_event(ev, event_params) do
-        {:ok, _updated_event} -> reload_events(socket)
-        _ -> socket
-      end
-    {:noreply, socket}
-  end
+  # def handle_event("validate_event", %{"event" => event_params}, socket) do
+  #   # FIXME: optimize by storing events in socket maybe
+  #   socket = 
+  #     case Program.update_event(ev, event_params) do
+  #       {:ok, _updated_event} -> reload_events(socket)
+  #       _ -> socket
+  #     end
+  #   {:noreply, socket}
+  # end
 
   def handle_event("del_event", %{"id" => id}, socket) do
     ev = Program.get_event!(String.to_integer(id))
@@ -72,6 +71,11 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
 
   def handle_event("add_event", _val, socket) do
     {:ok, _event} = Program.push_event!(socket.assigns.meeting)
+    {:noreply, reload_events(socket)}
+  end
+
+  def handle_info({:add_event, new_event}, socket) do
+    Program.associate_event!(socket.assigns.meeting, new_event)
     {:noreply, reload_events(socket)}
   end
 

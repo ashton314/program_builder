@@ -155,6 +155,21 @@ defmodule ProgramBuilder.Program do
   end
 
   @doc """
+  Associates an event with a meeting. Event should not already have a meeting_id set
+  """
+  def associate_event!(%Meeting{} = meeting, %Event{meeting_id: m_id} = event) when is_nil m_id do
+    get_events = & &1.events
+    count =
+      meeting
+      |> Repo.preload([:events])
+      |> get_events.()
+      |> Enum.map(fn e -> e.order_idx end)
+      |> Enum.max(fn -> 0 end)
+    IO.inspect(count, label: :count)
+    %{event | meeting_id: meeting.id, order_idx: count + 1} |> Repo.insert!()
+  end
+
+  @doc """
   Gets a single event.
 
   Raises `Ecto.NoResultsError` if the Event does not exist.

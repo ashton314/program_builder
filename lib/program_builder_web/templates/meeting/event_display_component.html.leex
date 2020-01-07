@@ -1,0 +1,55 @@
+<!-- -*- mode: web -*- -->
+<div class="row">
+    <div class="col-3">
+        Type: <%= @event.type %>
+    </div>
+
+    <%= if @event.type == "talk" do %>
+        <div class="col">
+            <%= @event.body %>
+        </div>
+        <div class="col">
+            <%= @event.raw_name %>
+        </div>
+    <% end %>
+
+    <%= if @event.type == "music" do %>
+        <div class="col">
+            <%= @event.hymn_number %>
+            <small class="form-text"><%= just_hymn_name(@event.hymn_number) %></small>
+        </div>
+        <div class="col">
+            <%= @event.title %>
+        </div>
+        <div class="col">
+            <%= @event.raw_name %>
+        </div>
+    <% end %>
+
+    <%= if @event.type == "generic" do %>
+        <div class="col">
+            <%= @event.title %>
+        </div>
+        <div class="col">
+            <%= @event.body %>
+        </div>
+    <% end %>
+
+    <%= if @event.type == "note" do %>
+        <div class="col">
+            <%= @event.title %>
+        </div>
+        <div class="col">
+            <%= @event.body %>
+        </div>
+    <% end %>
+
+    <div class="col-auto">
+        <%= @event.order_idx %>
+    </div>
+
+    <div class="col-auto">
+        <button type="button" class="btn btn-danger" phx-click="del_event" phx-value-id="<%= @event.id %>">Remove</button>
+    </div>
+</div>
+

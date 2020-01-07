@@ -5,60 +5,69 @@
 
 <div class="row">
     <div class="col-12 col-md-4">
-        <h3>Meta</h3>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Meta</h3>
 
-        <div class="form-group">
-            <%= label f, :date %>
-            <%= date_input f, :date, class: "form-control" %>
-            <%= error_tag f, :date %>
+                <div class="form-group">
+                    <%= label f, :date %>
+                    <%= date_input f, :date, class: "form-control" %>
+                    <%= error_tag f, :date %>
+                </div>
+
+                <div class="form-group">
+                    <%= label f, :topic %>
+                    <%= text_input f, :topic, class: "form-control" %>
+                    <%= error_tag f, :topic %>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <%= label f, :topic %>
-            <%= text_input f, :topic, class: "form-control" %>
-            <%= error_tag f, :topic %>
-        </div>
-
     </div>
 
     <div class="col-12 col-md-4">
-        <h3>Leadership</h3>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Leadership</h3>
 
-        <div class="form-group">
-            <%= label f, :conducting %>
-            <%= text_input f, :conducting, class: "form-control" %>
-            <%= error_tag f, :conducting %>
+                <div class="form-group">
+                    <%= label f, :conducting %>
+                    <%= text_input f, :conducting, class: "form-control" %>
+                    <%= error_tag f, :conducting %>
+                </div>
+
+                <div class="form-group">
+                    <%= label f, :presiding %>
+                    <%= text_input f, :presiding, class: "form-control" %>
+                    <%= error_tag f, :presiding %>
+                </div>
+
+                <div class="form-group">
+                    <%= label f, :stake_business %>
+                    <%= text_input f, :stake_business, class: "form-control" %>
+                    <%= error_tag f, :stake_business %>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <%= label f, :presiding %>
-            <%= text_input f, :presiding, class: "form-control" %>
-            <%= error_tag f, :presiding %>
-        </div>
-
-        <div class="form-group">
-            <%= label f, :stake_business %>
-            <%= text_input f, :stake_business, class: "form-control" %>
-            <%= error_tag f, :stake_business %>
-        </div>
-
     </div>
 
     <div class="col-12 col-md-4">
-        <h3>Music</h3>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Music</h3>
 
-        <div class="form-group">
-            <%= label f, :accompanist %>
-            <%= text_input f, :accompanist, class: "form-control" %>
-            <%= error_tag f, :accompanist %>
+                <div class="form-group">
+                    <%= label f, :accompanist %>
+                    <%= text_input f, :accompanist, class: "form-control" %>
+                    <%= error_tag f, :accompanist %>
+                </div>
+
+                <div class="form-group">
+                    <%= label f, :chorister %>
+                    <%= text_input f, :chorister, class: "form-control" %>
+                    <%= error_tag f, :chorister %>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <%= label f, :chorister %>
-            <%= text_input f, :chorister, class: "form-control" %>
-            <%= error_tag f, :chorister %>
-        </div>
-
     </div>
 
 </div>
@@ -69,21 +78,32 @@
 <div class="row">
 
     <div class="col-12 col-md-4">
-        <h3>General Announcements</h3>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">General Announcements</h3>
 
-        <%= live_component @socket, ListEditorComponent, lst: input_value(f, :announcements), key: :announcements, id: :announcement_list %>
+                <%= live_component @socket, ListEditorComponent, lst: input_value(f, :announcements), key: :announcements, id: :announcement_list %>
+            </div>
+        </div>
     </div>
 
     <div class="col-12 col-md-4">
-        <h3>Releases</h3>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Releases</h3>
 
-        <%= live_component @socket, ListEditorComponent, lst: input_value(f, :releases), key: :releases, id: :releases_list %>
+                <%= live_component @socket, ListEditorComponent, lst: input_value(f, :releases), key: :releases, id: :releases_list %>
+            </div>
+        </div>
     </div>
 
     <div class="col-12 col-md-4">
-        <h3>Callings</h3>
-
-        <%= live_component @socket, ListEditorComponent, lst: input_value(f, :callings), key: :callings, id: :callings_list %>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Callings</h3>
+                <%= live_component @socket, ListEditorComponent, lst: input_value(f, :callings), key: :callings, id: :callings_list %>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -109,10 +129,10 @@
 <h3>Meeting Events</h3>
 
 <%= for event <- Enum.sort(@meeting.events, &(&1.order_idx < &2.order_idx)) do %>
-    <%= live_component @socket, EventEditorComponent, event: event %>
+    <%= live_component @socket, EventDisplayComponent, event: event %>
 <% end %>
 
-<button type="button" class="btn btn-outline-success" phx-click="add_event">Add Event</button>
+<%= live_component @socket, EventEditorComponent, id: :new_event %>
 
 <hr>
 

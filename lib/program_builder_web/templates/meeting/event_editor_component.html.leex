@@ -1,8 +1,5 @@
 <!-- -*- mode: web -*- -->
-<%= f = form_for @cs, "#", [phx_change: "validate_event", class: "row my-3 w-100", id: "event-#{@event.id}"] %>
-
-    <%# This is here so that the :validate_event knows which changeset to update %>
-    <%= hidden_input f, :id %>
+<%= f = form_for @cs, "#", [phx_submit: "add_event", phx_change: "validate_event", class: "row my-3 w-100"] %>
 
     <div class="col-3">
         <%= select f, :type, ["Talk": "talk", "Musical Number": "music", "Generic": "generic", "Note": "note"], class: "form-control" %>
@@ -49,12 +46,7 @@
     <% end %>
 
     <div class="col-auto">
-        <%= number_input f, :order_idx, placeholder: "Order", class: "form-control", style: "width: 10ch" %>
+        <%= submit "Add", class: "btn btn-success" %>
     </div>
-
-    <div class="col-auto">
-        <button type="button" class="btn btn-danger" phx-click="del_event" phx-value-id="<%= @event.id %>">Remove</button>
-    </div>
-    
 </form>
 
