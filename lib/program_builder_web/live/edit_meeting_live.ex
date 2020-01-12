@@ -37,16 +37,6 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     {:noreply, assign(socket, :changeset, cs)}
   end
 
-  # def handle_event("validate_event", %{"event" => event_params}, socket) do
-  #   # FIXME: optimize by storing events in socket maybe
-  #   socket = 
-  #     case Program.update_event(ev, event_params) do
-  #       {:ok, _updated_event} -> reload_events(socket)
-  #       _ -> socket
-  #     end
-  #   {:noreply, socket}
-  # end
-
   def handle_event("del_event", %{"id" => id}, socket) do
     ev = Program.get_event!(String.to_integer(id))
     Program.delete_event(ev)
