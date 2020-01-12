@@ -54,12 +54,14 @@ Presiding: <%= disp(meeting.presiding) %>{\hfill}Visiting: <%= disp(meeting.visi
 Conducting: <%= disp(meeting.conducting) %>
 
 \subsection*{Announcements}
+<%= if length(meeting.announcements) > 0 do %>
 \begin{itemize}
 \tightlist
 <%= for item <- meeting.announcements do %>
 \item <%= disp(item) %>
 <% end %>
 \end{itemize}
+<% end %>
 
 \subsection*{Program}
 Opening Hymn{\dotfill}<%= disp_hymn(meeting.opening_hymn) %>\\

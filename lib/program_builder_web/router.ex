@@ -40,8 +40,7 @@ defmodule ProgramBuilderWeb.Router do
     live "/meetings/:id/edit", EditMeetingLive, session: [:user]
     live "/new-meeting", NewMeetingLive
 
-    live "/meetings/:id", MeetingViewerLive, session: [:path_params, :user]
-    # live "/meetings/:id/edit", MeetingEditorLive
+    live "/meetings/:id", MeetingViewerLive, session: [:user]
     live "/meetings/:id/format", MeetingFormatterLive
 
     get "/download/:token", DownloadController, :download

@@ -69,11 +69,6 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     end
   end
 
-  def handle_event("add_event", _val, socket) do
-    {:ok, _event} = Program.push_event!(socket.assigns.meeting)
-    {:noreply, reload_events(socket)}
-  end
-
   def handle_info({:add_event, new_event}, socket) do
     Program.associate_event!(socket.assigns.meeting, new_event)
     {:noreply, reload_events(socket)}

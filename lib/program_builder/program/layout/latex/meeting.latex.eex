@@ -33,7 +33,7 @@
 \begin{center}
   {\LARGE \textsc{Sacrament Meeting}}\\[1em]
   {\large The Church of Jesus Christ of Latter-day Saints}\\
-  {\large Provo Student Married 11\textsuperscript{th} Ward}\\[1em]
+  {\large <%= disp(unit.name) %>}\\[1em]
   {<%= disp(meeting.date) %>}
 \end{center}
 
@@ -45,11 +45,13 @@ Presiding: <%= disp(meeting.presiding) %>{\hfill}Conducting: <%= disp(meeting.co
   {\Large Announcements}
 \end{center}
 
+<%= if length(meeting.announcements) > 0 do %>
 \begin{itemize}
 <%= for item <- meeting.announcements do %>
 \item <%= disp(item) %>
 <% end %>
 \end{itemize}
+<% end %>
 
 \begin{center}
   {\Large Program}\\[1em]

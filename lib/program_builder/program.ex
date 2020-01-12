@@ -37,15 +37,6 @@ defmodule ProgramBuilder.Program do
   Gets a single meeting.
 
   Raises `Ecto.NoResultsError` if the Meeting does not exist.
-
-  ## Examples
-
-      iex> get_meeting!(123)
-      %Meeting{}
-
-      iex> get_meeting!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_meeting!(id), do: Repo.get!(Meeting, id) |> Repo.preload([:events])
 
@@ -113,7 +104,7 @@ defmodule ProgramBuilder.Program do
   """
   def layout_meeting(%Meeting{} = meeting, kind \\ :latex, unit \\ %{}) when kind in ~w(latex markdown latex_conductor)a do
     case kind do
-      :latex -> ProgramBuilder.Program.Layout.latex(meeting)
+      :latex -> ProgramBuilder.Program.Layout.latex(meeting, unit)
       :latex_conductor -> ProgramBuilder.Program.Layout.latex_conductor(meeting, unit)
     end
   end
@@ -137,22 +128,6 @@ defmodule ProgramBuilder.Program do
   end
 
   alias ProgramBuilder.Program.Event
-
-  @doc """
-  Push a new event into a meeting and return the event
-  """
-  def push_event!(%Meeting{} = meeting, attrs \\ %{}) do
-    get_events = & &1.events
-    # FIXME: this will break when you delete any event other than the
-    # last one and try inserting a new event; it will be placed
-    # somewhere in the middle of the list.
-    count =
-      meeting
-      |> Repo.preload([:events])
-      |> get_events.()
-      |> Enum.count
-    Map.merge(%{meeting_id: meeting.id, order_idx: count}, attrs) |> create_event()
-  end
 
   @doc """
   Associates an event with a meeting. Event should not already have a meeting_id set

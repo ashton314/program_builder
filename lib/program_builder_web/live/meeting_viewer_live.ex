@@ -4,6 +4,7 @@ defmodule ProgramBuilderWeb.MeetingViewerLive do
   alias ProgramBuilder.Auth
   alias ProgramBuilder.Repo
   alias ProgramBuilder.Program
+  alias ProgramBuilder.Program.Meeting
   alias ProgramBuilderWeb.Router.Helpers, as: Routes
   import Ecto.Changeset
   require Logger
@@ -12,10 +13,13 @@ defmodule ProgramBuilderWeb.MeetingViewerLive do
     ProgramBuilderWeb.MeetingView.render("show.html", assigns)
   end
 
-  def mount(%{path_params: %{"id" => id}, user: user}, socket) do
-    # IO.inspect(user, label: :user_in_mount)
+  def mount(%{user: user}, socket) do
+    {:ok, assign(socket, meeting: %Meeting{}, download_working: false, user: user, format_type: type_changeset(%{format_type: "latex"}))}
+  end
+
+  def handle_params(%{"id" => id}, _uri, socket) do
     meeting = Program.get_meeting!(id) |> Repo.preload([:events])
-    {:ok, assign(socket, meeting: meeting, download_working: false, user: user, format_type: type_changeset(%{format_type: "latex"}))}
+    {:noreply, assign(socket, meeting: meeting)}
   end
 
   def handle_event("download", _params, socket) do
