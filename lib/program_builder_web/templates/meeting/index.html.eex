@@ -52,5 +52,4 @@
     </form>
     <!-- <form action="/meeting" method="POST">
          </form> -->
-  <%#= link "New Meeting", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.NewMeetingLive), class: "btn btn-outline-success" %>
 </div>

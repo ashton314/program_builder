@@ -5,6 +5,8 @@ defmodule ProgramBuilder.People do
 
   import Ecto.Query, warn: false
   alias ProgramBuilder.Repo
+  alias ProgramBuilder.Auth
+  alias ProgramBuilder.Auth.User
 
   alias ProgramBuilder.People.Member
 
@@ -50,21 +52,27 @@ defmodule ProgramBuilder.People do
   def get_member(id), do: Repo.get(Member, id)
 
   @doc """
-  Creates a member.
-
-  ## Examples
-
-      iex> create_member(%{field: value})
-      {:ok, %Member{}}
-
-      iex> create_member(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Creates a member. Don't use this. It doesn't do auth.
   """
-  def create_member(attrs \\ %{}) do
+  def create_member!(attrs \\ %{}) do
     %Member{}
     |> Member.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Creates a member if the user has permissions to do so
+  """
+  def create_member(attrs, %User{} = user) do
+    user = Repo.preload(user, [:unit])
+    if Auth.Permissions.can_create?(user, user.unit) do
+      %Member{}
+      |> Member.changeset(attrs)
+      |> Member.changeset(%{unit_id: user.unit_id})
+      |> Repo.insert()
+    else
+      {:error, :permission_denied}
+    end
   end
 
   @doc """
@@ -86,19 +94,18 @@ defmodule ProgramBuilder.People do
   end
 
   @doc """
-  Deletes a Member.
-
-  ## Examples
-
-      iex> delete_member(member)
-      {:ok, %Member{}}
-
-      iex> delete_member(member)
-      {:error, %Ecto.Changeset{}}
-
+  Deletes a Member. Don't use.
   """
-  def delete_member(%Member{} = member) do
+  def delete_member!(%Member{} = member) do
     Repo.delete(member)
+  end
+
+  def delete_member(%Member{} = member, %User{} = user) do
+    if Auth.Permissions.can_delete?(user, member) do
+      Repo.delete(member)
+    else
+      {:error, :permission_denied}
+    end
   end
 
   @doc """

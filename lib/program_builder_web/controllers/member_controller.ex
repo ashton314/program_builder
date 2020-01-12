@@ -16,11 +16,18 @@ defmodule ProgramBuilderWeb.MemberController do
   end
 
   def create(conn, %{"member" => member_params}) do
-    case People.create_member(member_params) do
+    user = Guardian.Plug.current_resource(conn)
+
+    case People.create_member(member_params, user) do
       {:ok, member} ->
         conn
         |> put_flash(:info, "Member created successfully.")
         |> redirect(to: Routes.member_path(conn, :show, member))
+
+      {:error, :permission_denied} ->
+        conn
+        |> put_flash(:error, "You do not have permissions to create member records.")
+        |> redirect(to: Routes.member_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -54,10 +61,18 @@ defmodule ProgramBuilderWeb.MemberController do
 
   def delete(conn, %{"id" => id}) do
     member = People.get_member!(id)
-    {:ok, _member} = People.delete_member(member)
+    user = Guardian.Plug.current_resource(conn)
 
-    conn
-    |> put_flash(:info, "Member deleted successfully.")
-    |> redirect(to: Routes.member_path(conn, :index))
+    case People.delete_member(member, user) do
+      {:ok, _member} ->
+        conn
+        |> put_flash(:info, "Member deleted successfully.")
+        |> redirect(to: Routes.member_path(conn, :index))
+
+      {:error, :permission_denied} ->
+        conn
+        |> put_flash(:error, "You don't have permission to delete member records.")
+        |> redirect(to: Routes.member_path(conn, :index))
+    end
   end
 end

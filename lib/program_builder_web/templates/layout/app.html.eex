@@ -19,7 +19,6 @@
                   <%= if logged_in?(@conn) do %>
                       <ul class="navbar-nav mr-auto">
                           <li class="nav-item">
-                              <%= link "New Meeting", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.NewMeetingLive), class: "nav-link" %>
                           </li>
                           <li class="nav-item">
                               <%= link "Meeting Listing", to: Routes.meeting_path(ProgramBuilderWeb.Endpoint, :index), class: "nav-link" %>

@@ -19,7 +19,7 @@ defmodule ProgramBuilder.PeopleTest do
       {:ok, member} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> People.create_member()
+        |> People.create_member!()
 
       member
     end
@@ -31,6 +31,17 @@ defmodule ProgramBuilder.PeopleTest do
         |> ProgramBuilder.Auth.create_unit()
 
       unit
+    end
+
+    def user_fixture(%ProgramBuilder.Auth.Unit{} = unit, attrs \\ %{}) do
+      alias ProgramBuilder.Auth.User
+      {:ok, user} =
+        %User{}
+        |> User.changeset(attrs)
+        |> User.changeset(%{unit_id: unit.id})
+        |> ProgramBuilder.Repo.insert()
+
+      user
     end
 
     test "list_members/1 returns all members for a unit" do
@@ -51,14 +62,14 @@ defmodule ProgramBuilder.PeopleTest do
 
     test "create_member/1 with valid data creates a member" do
       unit = unit_fixture()
-      assert {:ok, %Member{} = member} = People.create_member(Map.put(@valid_attrs, :unit_id, unit.id))
+      assert {:ok, %Member{} = member} = People.create_member!(Map.put(@valid_attrs, :unit_id, unit.id))
       assert member.moved_in == ~D[2010-04-17]
       assert member.moved_out == ~D[2010-04-17]
       assert member.name == "some name"
     end
 
     test "create_member/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = People.create_member(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = People.create_member!(@invalid_attrs)
     end
 
     test "update_member/2 with valid data updates the member" do
@@ -79,8 +90,9 @@ defmodule ProgramBuilder.PeopleTest do
 
     test "delete_member/1 deletes the member" do
       unit = unit_fixture()
+      user = user_fixture(unit, %{username: "test", password: "test"})
       member = member_fixture(%{unit_id: unit.id})
-      assert {:ok, %Member{}} = People.delete_member(member)
+      assert {:ok, %Member{}} = People.delete_member(member, user)
       assert_raise Ecto.NoResultsError, fn -> People.get_member!(member.id) end
     end
 

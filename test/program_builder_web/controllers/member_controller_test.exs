@@ -11,7 +11,7 @@ defmodule ProgramBuilderWeb.MemberControllerTest do
   @invalid_attrs %{moved_in: nil, moved_out: nil, name: nil, unit_id: 0}
 
   def fixture(:member, unit) do
-    {:ok, member} = People.create_member(%{@create_attrs | unit_id: unit.id})
+    {:ok, member} = People.create_member!(%{@create_attrs | unit_id: unit.id})
     member
   end
   def fixture(:user, unit), do: ProgramBuilder.Auth.create_user!(%{@test_user_attrs | unit_id: unit.id})
