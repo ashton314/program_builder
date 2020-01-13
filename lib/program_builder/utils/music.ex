@@ -1,6 +1,9 @@
 defmodule ProgramBuilder.Utils.Music do
   def hymn_name(number) when is_binary(number) do
-    hymn_name(String.to_integer(number))
+    case Integer.parse(number) do
+      :error -> "Invalid"
+      {num, _rest} -> hymn_name(num)
+    end
   end
 
   def hymn_name(number) when is_integer(number) do
