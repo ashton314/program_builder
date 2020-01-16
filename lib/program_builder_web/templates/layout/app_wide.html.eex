@@ -53,5 +53,16 @@
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+     (function() {
+	 window.counter = 'https://church_program_builder.goatcounter.com/count'
+
+	 var script = document.createElement('script');
+	 script.async = 1;
+	 script.src = '//gc.zgo.at/count.js';
+	 var ins = document.getElementsByTagName('script')[0];
+	 ins.parentNode.insertBefore(script, ins)
+     })();
+    </script>
   </body>
 </html>

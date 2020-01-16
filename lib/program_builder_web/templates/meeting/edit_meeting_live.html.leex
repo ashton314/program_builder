@@ -148,11 +148,11 @@
 
 <%= live_component @socket, EventEditorComponent, id: :new_event %>
 
-<%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save, class: "form"] %>
+<%= g = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save, class: "form"] %>
   <div class="form-group">
-      <%= label f, :closing_hymn %>
-      <%= number_input f, :closing_hymn, class: "form-control", placeholder: "Ex: 42" %>
-      <%= error_tag f, :closing_hymn %>
-      <%= hymn_name(input_value(f, :closing_hymn)) %>
+      <%= label g, :closing_hymn %>
+      <%= number_input g, :closing_hymn, class: "form-control", placeholder: "Ex: 42" %>
+      <%= error_tag g, :closing_hymn %>
+      <%= hymn_name(input_value(g, :closing_hymn)) %>
   </div>
 </form>
