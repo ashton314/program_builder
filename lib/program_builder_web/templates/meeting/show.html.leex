@@ -1,19 +1,16 @@
 <!-- -*- mode: web -*- -->
 <div class="row justify-content-between">
-    <div class="col-auto mr-auto">
-        <%= link "< Back", to: Routes.meeting_path(ProgramBuilderWeb.Endpoint, :index), class: "btn btn-link" %>
-    </div>
-    <div class="col-auto ml-auto">
-        <%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.EditMeetingLive, @meeting.id), class: "btn btn-outline-success" %>
-    </div>
     <div class="col-auto">
         <%= f = form_for @format_type, "#", [as: :format_type, phx_change: :validate_type, class: "form form-inline"] %>
         <%= label f, :format_type %>:
         <%= select f, :format_type, ["Bulletin Handout": "latex", "Conductor Optimized": "latex_conductor"], class: "form-control custom-select mx-2" %>
     </div>
-    <div class="col-auto">
+    <div class="col-auto mr-auto">
         <button type="button" class="btn btn-outline-info" phx-click="download" <%= if @download_working, do: "disabled" %>><%= if @download_working, do: "Rendering...", else: "Download as PDF" %></button>
         </form>
+    </div>
+    <div class="col-auto">
+        <%= link "Edit", to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.EditMeetingLive, @meeting.id), class: "btn btn-lg btn-success" %>
     </div>
 </div>
 

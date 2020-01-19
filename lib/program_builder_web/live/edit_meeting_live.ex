@@ -4,8 +4,8 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
 
   alias ProgramBuilder.Program
   alias Program.Meeting
-  alias Program.Event
   alias ProgramBuilder.Repo
+  alias ProgramBuilderWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
     # IO.inspect(assigns.meeting, label: :assigns_meeting)
@@ -48,11 +48,11 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     cs = socket.assigns.changeset
 
     if cs.valid? do
-      {:ok, _updated_meeting} = Program.update_meeting(socket.assigns.meeting, cs.changes)
+      {:ok, updated_meeting} = Program.update_meeting(socket.assigns.meeting, cs.changes)
       socket =
         socket
         |> put_flash(:info, "Meeting updated")
-#        |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingViewerLive, updated_meeting.id))
+        |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingViewerLive, updated_meeting.id))
       {:noreply, socket}
     else
       {:noreply, assign(socket, changeset: cs)}
