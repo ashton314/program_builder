@@ -26,7 +26,7 @@ config :program_builder, ProgramBuilderWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "sbyYSDRde5LWDLBqnfcTjjMsJUB88VMwf0MEtTp6v9wRo7CJ+ZJ6DEYr+vi7Lr5F",
   render_errors: [view: ProgramBuilderWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: ProgramBuilder.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: ProgramBuilder.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,

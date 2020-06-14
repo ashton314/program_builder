@@ -43,10 +43,23 @@ defmodule ProgramBuilderWeb do
       import ProgramBuilderWeb.ErrorHelpers
       import ProgramBuilderWeb.Gettext
       alias ProgramBuilderWeb.Router.Helpers, as: Routes
-      import Phoenix.LiveView
-      import Phoenix.LiveView.Helpers
-      # only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2,
-      #        live_component: 2, live_component: 3, live_component: 4]
+    end
+  end
+
+  def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {ProgramBuilderWeb.LayoutView, "live.html"}
+
+      unquote(view_helpers())
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
+      unquote(view_helpers())
     end
   end
 
@@ -63,6 +76,24 @@ defmodule ProgramBuilderWeb do
     quote do
       use Phoenix.Channel
       import ProgramBuilderWeb.Gettext
+    end
+  end
+
+  defp view_helpers do
+    quote do
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+
+      # Import LiveView helpers (live_render, live_component, live_patch, etc)
+      import Phoenix.LiveView.Helpers
+      import ProgramBuilderWeb.LiveHelpers
+
+      # Import basic rendering functionality (render, render_layout, etc)
+      import Phoenix.View
+
+      import ProgramBuilderWeb.ErrorHelpers
+      import ProgramBuilderWeb.Gettext
+      alias ProgramBuilderWeb.Router.Helpers, as: Routes
     end
   end
 

@@ -12,6 +12,7 @@ defmodule ProgramBuilder.Application do
       ProgramBuilder.Repo,
       # Start the endpoint when the application starts
       ProgramBuilderWeb.Endpoint,
+      {Phoenix.PubSub, [name: ProgramBuilder.PubSub, adapter: Phoenix.PubSub.PG2]},
       # Starts a worker by calling: ProgramBuilder.Worker.start_link(arg)
       # {ProgramBuilder.Worker, arg},
       {DynamicSupervisor, strategy: :one_for_one, name: LatexFormat.Supervisor}

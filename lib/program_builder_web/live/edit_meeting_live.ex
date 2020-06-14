@@ -1,5 +1,5 @@
 defmodule ProgramBuilderWeb.EditMeetingLive do
-  use Phoenix.LiveView
+  use ProgramBuilderWeb, :live_view
   require Logger
 
   alias ProgramBuilder.Program
@@ -23,8 +23,16 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
 
   def handle_params(%{"id" => meeting_id}, _url, socket) do
     case Program.get_meeting(meeting_id, socket.assigns.user) do
-      {:ok, meeting} -> {:noreply, assign(socket, meeting: Repo.preload(meeting, [:events]), meeting_id: meeting.id, changeset: Meeting.changeset(meeting, %{}))}
-      {:error, :not_found} -> {:noreply, redirect(put_flash(socket, :error, "Meeting not found"), to: "/login" )}
+      {:ok, meeting} ->
+        {:noreply,
+         assign(socket,
+           meeting: Repo.preload(meeting, [:events]),
+           meeting_id: meeting.id,
+           changeset: Meeting.changeset(meeting, %{})
+         )}
+
+      {:error, :not_found} ->
+        {:noreply, redirect(put_flash(socket, :error, "Meeting not found"), to: "/login")}
     end
   end
 
@@ -49,10 +57,19 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
 
     if cs.valid? do
       {:ok, updated_meeting} = Program.update_meeting(socket.assigns.meeting, cs.changes)
+
       socket =
         socket
         |> put_flash(:info, "Meeting updated")
-        |> redirect(to: Routes.live_path(ProgramBuilderWeb.Endpoint, ProgramBuilderWeb.MeetingViewerLive, updated_meeting.id))
+        |> redirect(
+          to:
+            Routes.live_path(
+              ProgramBuilderWeb.Endpoint,
+              ProgramBuilderWeb.MeetingViewerLive,
+              updated_meeting.id
+            )
+        )
+
       {:noreply, socket}
     else
       {:noreply, assign(socket, changeset: cs)}
@@ -68,6 +85,7 @@ defmodule ProgramBuilderWeb.EditMeetingLive do
     socket =
       socket
       |> assign(changeset: Meeting.changeset(socket.assigns.changeset, %{keyword => new_val}))
+
     {:noreply, socket}
   end
 
